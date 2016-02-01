@@ -14,14 +14,12 @@
         <param-name>MONGODB_PORT</param-name>
         <param-value>27017</param-value>
     </context-param>
-
     <servlet>
-        <servlet-name>MyServlet</servlet-name>
-        <servlet-class>MyServlet</servlet-class>
+        <servlet-name>javaAngularJS</servlet-name>
+        <servlet-class>com.controller.AngularJsServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
-        <servlet-name>MyServlet</servlet-name>
-        <url-pattern>/MyServlet</url-pattern>
+        <servlet-name>javaAngularJS</servlet-name>
+        <url-pattern>/javaAngularJS</url-pattern>
     </servlet-mapping>
 </web-app>
