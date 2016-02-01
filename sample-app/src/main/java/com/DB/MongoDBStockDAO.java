@@ -1,12 +1,12 @@
+package com.DB;
+
+import com.model.Stock;
+import com.model.StockConvertor;
+import com.mongodb.*;
+import org.bson.types.ObjectId;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.bson.types.ObjectId;
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
 
 //DAO class for different MongoDB CRUD operations
 //take special note of "id" String to ObjectId conversion and vice versa
@@ -16,7 +16,7 @@ public class MongoDBStockDAO {
     private DBCollection col;
 
     public MongoDBStockDAO(MongoClient mongo) {
-        this.col = mongo.getDB("ADTM").getCollection("MAOF");
+        this.col = mongo.getDB("ADTMDB").getCollection("MAOF");
     }
 
     public Stock createStock(Stock stock) {

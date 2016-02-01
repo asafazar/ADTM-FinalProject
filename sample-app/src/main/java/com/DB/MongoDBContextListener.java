@@ -1,11 +1,11 @@
-import java.net.UnknownHostException;
+package com.DB;
+
+import com.mongodb.MongoClient;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-
-import com.mongodb.MongoClient;
 
 @WebListener
 public class MongoDBContextListener implements ServletContextListener {

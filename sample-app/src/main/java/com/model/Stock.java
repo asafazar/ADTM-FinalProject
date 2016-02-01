@@ -1,3 +1,5 @@
+package com.model;
+
 import java.sql.Time;
 import java.util.Date;
 

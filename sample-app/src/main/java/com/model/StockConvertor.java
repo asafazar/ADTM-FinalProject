@@ -1,3 +1,5 @@
+package com.model;
+
 import org.bson.types.ObjectId;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
