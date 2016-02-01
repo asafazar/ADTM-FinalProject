@@ -18,7 +18,7 @@ public class StockConvertor {
                 .append("ContractNumber", stock.getContractNumber()).append("Amount", stock.getAmount())
                 .append("AssetCode", stock.getAssetCode()).append("BuyCodeNumber", stock.getBuyCodeNumber())
                 .append("SellCodeNumber", stock.getSellCodeNumber()).append("AssetName", stock.getAssetName())
-                .append("Time", stock.getTime()).append("TradeNumber", stock.getTradeNumber())
+                .append("Time", stock.getTime()).append("TradeNum", stock.getTradeNumber())
                 .append("TradeStatus", stock.isTradeStatus()).append("ParticipateCode", stock.isParticipateCode())
                 .append("MatchingTradeDeal", stock.isMatchingTradeDeal()).append("Price", stock.getPrice())
                 .append("Date", stock.getDate());
@@ -38,13 +38,19 @@ public class StockConvertor {
         stock.setBuyCodeNumber((String) doc.get("BuyCodeNumber"));
         stock.setSellCodeNumber((String) doc.get("SellCodeNumber"));
         stock.setAssetName((String) doc.get("AssetName"));
-        stock.setTime((Time) doc.get("Time"));
-        stock.setTradeNumber((String) doc.get("TradeNumber"));
+        Time time = new Time(Integer.valueOf(doc.get("Time").toString().substring(0,1)),
+                Integer.valueOf(doc.get("Time").toString().substring(2,3)),
+                Integer.valueOf(doc.get("Time").toString().substring(4,5)));
+        stock.setTime(time);
+        stock.setTradeNumber((String) doc.get("TradeNum"));
         stock.setTradeStatus(Boolean.parseBoolean((String) doc.get("TradeStatus")));
         stock.setParticipateCode(Boolean.parseBoolean((String) doc.get("ParticipateCode")));
         stock.setMatchingTradeDeal(Boolean.parseBoolean((String) doc.get("MatchingTradeDeal")));
         stock.setPrice(Double.parseDouble((String) doc.get("Price")));
-        stock.setDate((Date) doc.get("Date"));
+        Date date = new Date(Integer.valueOf(doc.get("Date").toString().substring(0,3)),
+                Integer.valueOf(doc.get("Date").toString().substring(4,5)),
+                Integer.valueOf(doc.get("Date").toString().substring(5,6)));
+        stock.setDate(date);
         ObjectId id = (ObjectId) doc.get("_id");
         stock.setID(id.toString());
         return stock;

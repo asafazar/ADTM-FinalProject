@@ -16,10 +16,23 @@
     </context-param>
     <servlet>
         <servlet-name>javaAngularJS</servlet-name>
-        <servlet-class>com.controller.AngularJsServlet</servlet-class>
+        <servlet-class>com.controller.GetStocksServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>javaAngularJS</servlet-name>
         <url-pattern>/javaAngularJS</url-pattern>
     </servlet-mapping>
+    <context-param>
+        <param-name>DB_IP</param-name>
+        <param-value>192.168.1.100</param-value>
+    </context-param>
+    <context-param>
+        <param-name>DB_PORT</param-name>
+        <param-value>27017</param-value>
+    </context-param>
+    <listener>
+        <listener-class>
+            com.DB.MongoDBContextListener
+        </listener-class>
+    </listener>
 </web-app>
