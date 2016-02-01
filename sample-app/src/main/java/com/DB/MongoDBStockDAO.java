@@ -16,7 +16,7 @@ public class MongoDBStockDAO {
     private DBCollection col;
 
     public MongoDBStockDAO(MongoClient mongo) {
-        this.col = mongo.getDB("ADTMDB").getCollection("MAOF");
+        this.col = mongo.getDB("adtmdb").getCollection("maof");
     }
 
     public Stock createStock(Stock stock) {
