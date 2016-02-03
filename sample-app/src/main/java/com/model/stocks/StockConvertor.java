@@ -1,4 +1,4 @@
-package com.model;
+package com.model.stocks;
 
 import org.bson.types.ObjectId;
 import com.mongodb.BasicDBObjectBuilder;

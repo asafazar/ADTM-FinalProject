@@ -1,4 +1,4 @@
-package com.model;
+package com.model.stocks;
 
 import java.sql.Time;
 import java.util.Date;

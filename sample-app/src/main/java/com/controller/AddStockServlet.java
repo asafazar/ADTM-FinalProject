@@ -1,7 +1,7 @@
 package com.controller;
 
 import com.DB.MongoDBStockDAO;
-import com.model.Stock;
+import com.model.stocks.Stock;
 import com.mongodb.MongoClient;
 
 import javax.servlet.RequestDispatcher;

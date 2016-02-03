@@ -1,7 +1,7 @@
 package com.DB;
 
-import com.model.Stock;
-import com.model.StockConvertor;
+import com.model.stocks.Stock;
+import com.model.stocks.StockConvertor;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
 

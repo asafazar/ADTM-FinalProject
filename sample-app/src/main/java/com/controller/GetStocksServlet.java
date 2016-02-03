@@ -2,7 +2,7 @@ package com.controller;
 
 import com.DB.MongoDBStockDAO;
 import com.google.gson.Gson;
-import com.model.Stock;
+import com.model.stocks.Stock;
 import com.mongodb.MongoClient;
 
 import javax.servlet.ServletException;
