@@ -56,4 +56,20 @@ public class MongoDBStockDAO {
         DBObject data = this.col.findOne(query);
         return StockConvertor.toStock(data);
     }
+
+    public List<Stock> getStockByRange(String fromDate, String toDate)
+    {
+        List<Stock> stocksRange = new ArrayList<Stock>();
+
+        BasicDBObject query = new BasicDBObject();
+        query.put("Date", new BasicDBObject("$gt", fromDate).append("$lt", toDate));
+        DBCursor cursor = col.find(query);
+
+        while (cursor.hasNext()) {
+            DBObject doc = cursor.next();
+            Stock stock = StockConvertor.toStock(doc);
+            stocksRange.add(stock);
+        }
+        return stocksRange;
+    }
 }
