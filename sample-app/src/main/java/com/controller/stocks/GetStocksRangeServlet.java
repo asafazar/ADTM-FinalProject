@@ -1,4 +1,4 @@
-package com.controller;
+package com.controller.stocks;
 
 import com.DB.MongoDBStockDAO;
 import com.google.gson.Gson;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class GetStocksRangeServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 4L;
 
     public GetStocksRangeServlet() {
         super();

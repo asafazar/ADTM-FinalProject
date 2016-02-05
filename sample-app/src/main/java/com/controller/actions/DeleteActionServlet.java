@@ -1,10 +1,10 @@
-package com.controller;
+package com.controller.actions;
 
-import com.DB.MongoDBStockDAO;
-import com.model.stocks.Stock;
+import com.DB.MongoDBActionDAO;
+import com.google.gson.Gson;
+import com.model.actions.AbstractAction;
 import com.mongodb.MongoClient;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/deleteStock")
-public class DeleteStockServlet extends HttpServlet {
+@WebServlet("/deleteAction")
+public class DeleteActionServlet extends HttpServlet {
 
-    private static final long serialVersionUID = 6798036766148281767L;
+    private static final long serialVersionUID = 3L;
 
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
@@ -26,18 +26,17 @@ public class DeleteStockServlet extends HttpServlet {
         }
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
-        MongoDBStockDAO stockDAO = new MongoDBStockDAO(mongo);
-        Stock stock = new Stock();
-        stock.setID(id);
-        stockDAO.deleteStock(stock);
-        System.out.println("Stock deleted successfully with id=" + id);
+        MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
+        AbstractAction action = actionDAO.readAction(id);
+        actionDAO.deleteAction(action);
+        System.out.println("Action deleted successfully with id = " + id);
         request.setAttribute("success", "Stock deleted successfully");
-        List<Stock> stocks = stockDAO.readAllStocks();
-        request.setAttribute("stocks", stocks);
+        List<AbstractAction> actions = actionDAO.readAllActions();
+        request.setAttribute("actions", actions);
 
-        RequestDispatcher rd = getServletContext().getRequestDispatcher(
-                "/stocks.jsp");
-        rd.forward(request, response);
+        String json = new Gson().toJson(actions);
+        response.setContentType("application/json");
+        response.getWriter().write(json);
     }
 
 }

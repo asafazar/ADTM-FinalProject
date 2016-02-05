@@ -1,10 +1,10 @@
-package com.controller;
+package com.controller.stocks;
 
 import com.DB.MongoDBStockDAO;
+import com.google.gson.Gson;
 import com.model.stocks.Stock;
 import com.mongodb.MongoClient;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,9 +37,9 @@ public class EditStockServlet extends HttpServlet {
         List<Stock> stocks = stockDAO.readAllStocks();
         request.setAttribute("stocks", stocks);
 
-        RequestDispatcher rd = getServletContext().getRequestDispatcher(
-                "/stocks.jsp");
-        rd.forward(request, response);
+        String json = new Gson().toJson(stocks);
+        response.setContentType("application/json");
+        response.getWriter().write(json);
     }
 
     protected void doPost(HttpServletRequest request,
@@ -48,6 +48,7 @@ public class EditStockServlet extends HttpServlet {
         if (id == null || "".equals(id)) {
             throw new ServletException("id missing for edit operation");
         }
+
         int contractNumber = Integer.parseInt(request.getParameter("ContractNumber"));
         int amount = Integer.parseInt(request.getParameter("Amount"));
         String assetCode = request.getParameter("AssetCode");
@@ -67,32 +68,7 @@ public class EditStockServlet extends HttpServlet {
         if ((assetCode == null || assetCode.equals(""))
                 || (assetName == null || assetName.equals("")))
         {
-            request.setAttribute("error", "Mandatory Parameters Missing");
-            MongoClient mongo = (MongoClient) request.getServletContext()
-                    .getAttribute("MONGO_CLIENT");
-            MongoDBStockDAO stockDAO = new MongoDBStockDAO(mongo);
-            Stock stock = new Stock();
-            stock.setID(id);
-            stock.setContractNumber(contractNumber);
-            stock.setAmount(amount);
-            stock.setAssetCode(assetCode);
-            stock.setBuyCodeNumber(buyCodeNumber);
-            stock.setSellCodeNumber(sellCodeNumber);
-            stock.setAssetName(assetName);
-            stock.setTime(time);
-            stock.setTradeNumber(tradeNumber);
-            stock.setTradeStatus(tradeStatus);
-            stock.setParticipateCode(participateCode);
-            stock.setMatchingTradeDeal(matchingTradeDeal);
-            stock.setPrice(price);
-            stock.setDate(date);
-            request.setAttribute("stock", stock);
-            List<Stock> stocks = stockDAO.readAllStocks();
-            request.setAttribute("stocks", stocks);
-
-            RequestDispatcher rd = getServletContext().getRequestDispatcher(
-                    "/stocks.jsp");
-            rd.forward(request, response);
+            throw new ServletException("id missing for edit action operation");
         } else {
             MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
@@ -118,10 +94,9 @@ public class EditStockServlet extends HttpServlet {
             List<Stock> stocks = stockDAO.readAllStocks();
             request.setAttribute("stocks", stocks);
 
-            RequestDispatcher rd = getServletContext().getRequestDispatcher(
-                    "/persons.jsp");
-            rd.forward(request, response);
-
+            String json = new Gson().toJson(stocks);
+            response.setContentType("application/json");
+            response.getWriter().write(json);
         }
     }
 

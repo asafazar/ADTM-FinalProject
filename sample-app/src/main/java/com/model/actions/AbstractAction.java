@@ -9,7 +9,7 @@ import java.util.Date;
 public abstract class AbstractAction {
     private String id;
     private String contractName;
-    public int action;
+    public int actionNumber;
     private int maofValue;
     private int actionValue;
     private String name;
@@ -19,6 +19,10 @@ public abstract class AbstractAction {
     private int optionType;
     private Time time;
     private Date date;
+    private boolean isExecuted;
+    private String strategyId;
+    private int actionExecutingPrice;
+    private int totalExecutingPrice;
 
     public String getId() {
         return id;
@@ -28,7 +32,7 @@ public abstract class AbstractAction {
         this.id = id;
     }
 
-    public String setContractName() {
+    public String getContractName() {
         return contractName;
     }
 
@@ -60,12 +64,12 @@ public abstract class AbstractAction {
         this.name = name;
     }
 
-    public int getAction() {
-        return action;
+    public int getActionNumber() {
+        return actionNumber;
     }
 
-    public void setAction(int action) {
-        this.action = action;
+    public void setActionNumber(int actionNumber) {
+        this.actionNumber = actionNumber;
     }
 
     public int getMaofValue() {
@@ -117,5 +121,44 @@ public abstract class AbstractAction {
         this.date = date;
     }
 
-    public abstract void setAction();
+    public boolean getIsExecuted(){
+        return isExecuted;
+    }
+
+    public void setIsExecuted(boolean isExecuted)
+    {
+        this.isExecuted = isExecuted;
+    }
+
+    public String getStrategyId()
+    {
+        return this.strategyId;
+    }
+
+    public void setStrategyId(String strategyId)
+    {
+        this.strategyId = strategyId;
+    }
+
+    public int getActionExecutingPrice()
+    {
+        return this.actionExecutingPrice;
+    }
+
+    public void setActionExecutingPrice(int executingPrice)
+    {
+        this.actionExecutingPrice = executingPrice;
+    }
+
+    public int getTotalExecutingPrice()
+    {
+        return this.totalExecutingPrice;
+    }
+
+    public void setTotalExecutingPrice(int totalExecutingPrice)
+    {
+        this.totalExecutingPrice = totalExecutingPrice;
+    }
+
+    public abstract void setActionNumber();
 }

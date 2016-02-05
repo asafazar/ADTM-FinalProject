@@ -16,7 +16,7 @@
     </context-param>
     <servlet>
         <servlet-name>javaAngularJS</servlet-name>
-        <servlet-class>com.controller.GetStocksServlet</servlet-class>
+        <servlet-class>com.controller.stocks.GetStocksServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>javaAngularJS</servlet-name>
