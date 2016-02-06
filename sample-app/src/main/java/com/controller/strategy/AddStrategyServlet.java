@@ -6,7 +6,6 @@ import com.model.strategy.Strategy;
 import com.mongodb.MongoClient;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet("/addStrategy")
 public class AddStrategyServlet extends HttpServlet {
 
     private static final long serialVersionUID = 6L;
@@ -37,7 +35,7 @@ public class AddStrategyServlet extends HttpServlet {
                 .getAttribute("MONGO_CLIENT");
         MongoDBStrategyDAO strategyDAO = new MongoDBStrategyDAO(mongo);
         strategyDAO.createStrategy(strategy);
-        System.out.println("Strategy added requested with description = " + description);
+        System.out.println("strategy added requested with description = " + description);
         request.setAttribute("strategy", strategy);
         List<Strategy> strategies = strategyDAO.readAllStrategies();
         request.setAttribute("strategies", strategies);

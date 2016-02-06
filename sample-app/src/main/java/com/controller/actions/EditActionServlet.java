@@ -19,7 +19,6 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet("/editAction")
 public class EditActionServlet extends HttpServlet {
 
     private static final long serialVersionUID = -6554920927964049383L;

@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/deleteAction")
 public class DeleteStrategyServlet extends HttpServlet {
 
     private static final long serialVersionUID = 7L;
@@ -30,8 +29,8 @@ public class DeleteStrategyServlet extends HttpServlet {
         Strategy strategy = new Strategy();
         strategy.setId(id);
         strategyDAO.deleteStrategy(strategyDAO.readStrategy(strategy));
-        System.out.println("Strategy deleted successfully with id = " + id);
-        request.setAttribute("success", "Strategy deleted successfully");
+        System.out.println("strategy deleted successfully with id = " + id);
+        request.setAttribute("success", "strategy deleted successfully");
         List<Strategy> strategies = strategyDAO.readAllStrategies();
         request.setAttribute("strategies", strategies);
 

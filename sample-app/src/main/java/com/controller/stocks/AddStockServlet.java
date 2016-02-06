@@ -7,7 +7,6 @@ import com.mongodb.MongoClient;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +15,6 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet("/addStock")
 public class AddStockServlet extends HttpServlet {
 
     private static final long serialVersionUID = -7060758261496829905L;

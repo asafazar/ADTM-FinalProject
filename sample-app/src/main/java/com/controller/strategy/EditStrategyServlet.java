@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet("/editStrategy")
 public class EditStrategyServlet extends HttpServlet {
 
     private static final long serialVersionUID = -6554920927964049383L;
@@ -25,7 +24,7 @@ public class EditStrategyServlet extends HttpServlet {
         if (id == null || "".equals(id)) {
             throw new ServletException("id missing for edit action operation");
         }
-        System.out.println("Strategy edit requested with id = " + id);
+        System.out.println("strategy edit requested with id = " + id);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBStrategyDAO strategyDAO = new MongoDBStrategyDAO(mongo);
@@ -63,8 +62,8 @@ public class EditStrategyServlet extends HttpServlet {
                 .getAttribute("MONGO_CLIENT");
         MongoDBStrategyDAO strategyDAO = new MongoDBStrategyDAO(mongo);
         strategyDAO.updateStrategy(strategy);
-        System.out.println("Strategy edited Successfully with id = "+strategy.getId());
-        request.setAttribute("success", "Strategy edited Successfully");
+        System.out.println("strategy edited Successfully with id = "+strategy.getId());
+        request.setAttribute("success", "strategy edited Successfully");
         List<Strategy> strategies = strategyDAO.readAllStrategies();
         request.setAttribute("strategies", strategies);
 

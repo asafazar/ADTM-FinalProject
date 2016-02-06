@@ -14,14 +14,110 @@
         <param-name>MONGODB_PORT</param-name>
         <param-value>27017</param-value>
     </context-param>
+
+    <!-- Servlets -->
+    <!-- Stocks -->
     <servlet>
-        <servlet-name>javaAngularJS</servlet-name>
+        <servlet-name>getStocks</servlet-name>
         <servlet-class>com.controller.stocks.GetStocksServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>javaAngularJS</servlet-name>
-        <url-pattern>/javaAngularJS</url-pattern>
+        <servlet-name>getStocks</servlet-name>
+        <url-pattern>/getStocks</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getStocksRange</servlet-name>
+        <servlet-class>com.controller.stocks.GetStocksRangeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getStocksRange</servlet-name>
+        <url-pattern>/getStocksRange</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>javaEditStock</servlet-name>
+        <servlet-class>com.controller.stocks.EditStockServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>javaEditStock</servlet-name>
+        <url-pattern>/javaEditStock</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>javaDeleteStock</servlet-name>
+        <servlet-class>com.controller.stocks.DeleteStockServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>javaDeleteStock</servlet-name>
+        <url-pattern>/javaDeleteStock</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>javaAddStock</servlet-name>
+        <servlet-class>com.controller.stocks.AddStockServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>javaAddStock</servlet-name>
+        <url-pattern>/javaAddStock</url-pattern>
+    </servlet-mapping>
+
+    <!-- Actions -->
+    <servlet>
+        <servlet-name>addAction</servlet-name>
+        <servlet-class>com.controller.actions.AddActionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addAction</servlet-name>
+        <url-pattern>/addAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>deleteAction</servlet-name>
+        <servlet-class>com.controller.actions.DeleteActionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteAction</servlet-name>
+        <url-pattern>/deleteAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>editAction</servlet-name>
+        <servlet-class>com.controller.actions.EditActionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>editAction</servlet-name>
+        <url-pattern>/editAction</url-pattern>
+    </servlet-mapping>
+
+    <!-- Strategy -->
+    <servlet>
+        <servlet-name>addStrategy</servlet-name>
+        <servlet-class>com.controller.strategy.AddStrategyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addStrategy</servlet-name>
+        <url-pattern>/addStrategy</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>deleteStrategy</servlet-name>
+        <servlet-class>com.controller.strategy.DeleteStrategyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteStrategy</servlet-name>
+        <url-pattern>/deleteStrategy</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>editStrategy</servlet-name>
+        <servlet-class>com.controller.strategy.EditStrategyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>editStrategy</servlet-name>
+        <url-pattern>/editStrategy</url-pattern>
+    </servlet-mapping>
+
     <context-param>
         <param-name>DB_IP</param-name>
         <param-value>192.168.1.100</param-value>
