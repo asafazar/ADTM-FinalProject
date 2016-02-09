@@ -52,7 +52,7 @@ public class EditActionServlet extends HttpServlet {
         }
 
         String contractName = request.getParameter("contractName");
-        int actionNumber = Integer.valueOf((String)request.getParameter("actionNumber"));
+        Constants.ACTION_NUMBER actionNumber = Constants.ACTION_NUMBER.getValue(Integer.valueOf((String)request.getParameter("actionNumber")));
         int maofValue = Integer.valueOf((String)request.getParameter("maofValue"));
         int actionValue = Integer.valueOf((String)request.getParameter("actionValue"));
         String name = request.getParameter("name");
@@ -77,19 +77,18 @@ public class EditActionServlet extends HttpServlet {
                     .getAttribute("MONGO_CLIENT");
             MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
             AbstractAction action;
-
             switch (actionNumber)
             {
-                case (Constants.ACTION_CALL_OPTION):
+                case ACTION_CALL_OPTION:
                     action = new ActionCallOption();
                     break;
-                case (Constants.ACTION_CALL_WRITE):
+                case ACTION_CALL_WRITE:
                     action = new ActionCallWrite();
                     break;
-                case (Constants.ACTION_PUT_OPTION):
+                case ACTION_PUT_OPTION:
                     action = new ActionPutOption();
                     break;
-                case (Constants.ACTION_PUT_WRITE):
+                case ACTION_PUT_WRITE:
                     action = new ActionCallWrite();
                     break;
                 default:
@@ -97,7 +96,7 @@ public class EditActionServlet extends HttpServlet {
             }
 
             action.setContractName(contractName);
-            action.setActionNumber(actionNumber);
+            action.setActionNumber();
             action.setMaofValue(maofValue);
             action.setActionValue(actionValue);
             action.setName(name);

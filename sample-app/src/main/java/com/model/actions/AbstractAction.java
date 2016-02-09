@@ -1,5 +1,6 @@
 package com.model.actions;
 
+import com.model.utils.Constants;
 import com.model.utils.TimeCalculator;
 
 import java.sql.Time;
@@ -11,7 +12,7 @@ import java.util.Date;
 public abstract class AbstractAction {
     private String id;
     private String contractName;
-    public int actionNumber;
+    public Constants.ACTION_NUMBER actionNumber;
     private int maofValue;
     private int actionValue;
     private String name;
@@ -67,12 +68,8 @@ public abstract class AbstractAction {
         this.name = name;
     }
 
-    public int getActionNumber() {
+    public Constants.ACTION_NUMBER getActionNumber() {
         return actionNumber;
-    }
-
-    public void setActionNumber(int actionNumber) {
-        this.actionNumber = actionNumber;
     }
 
     public int getMaofValue() {

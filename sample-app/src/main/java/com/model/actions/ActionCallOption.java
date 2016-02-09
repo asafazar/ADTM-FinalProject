@@ -7,14 +7,14 @@ import com.model.utils.Constants;
  */
 public class ActionCallOption extends AbstractAction {
 
-    public int getActionNumber()
+    public Constants.ACTION_NUMBER getActionNumber()
     {
-        return Constants.ACTION_CALL_OPTION;
+        return Constants.ACTION_NUMBER.ACTION_CALL_OPTION;
     }
 
     @Override
     public void setActionNumber()
     {
-        this.actionNumber = Constants.ACTION_CALL_OPTION;
+        this.actionNumber = Constants.ACTION_NUMBER.ACTION_CALL_OPTION;
     }
 }

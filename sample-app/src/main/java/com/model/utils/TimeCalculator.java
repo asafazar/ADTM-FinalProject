@@ -39,13 +39,13 @@ public class TimeCalculator {
         return actionDate;
     }
 
-    public int getDaysNumUntillExpiration(Date actionDate, int optionType)
+    public int getDaysNumUntillExpiration(Date actionDate, boolean isWeekly)
     {
         int days;
         calendar = Calendar.getInstance();
         Date expirationDate;
 
-        if (optionType == Constants.OPTION_TYPE_WEEKLY)
+        if (isWeekly)
         {
             expirationDate = getWeeklyExpirationDate(actionDate);
         }

@@ -16,21 +16,22 @@ public class ActionConvertor {
     public static DBObject toDBObject(AbstractAction action) {
         BasicDBObjectBuilder builder = BasicDBObjectBuilder.start()
                 .append("ContractName", action.getContractName());
-        if (action instanceof ActionCallOption)
+        Constants.ACTION_NUMBER actionEnum = action.getActionNumber();
+        switch (actionEnum)
         {
-            builder.append("ActionNumber", ((ActionCallOption)action).getActionNumber());
-        }
-        else if(action instanceof ActionCallWrite)
-        {
-            builder.append("ActionNumber", ((ActionCallWrite)action).getActionNumber());
-        }
-        else if(action instanceof ActionPutOption)
-        {
-            builder.append("ActionNumber", ((ActionPutOption)action).getActionNumber());
-        }
-        else if (action instanceof ActionPutWrite)
-        {
-            builder.append("ActionNumber", ((ActionPutWrite)action).getActionNumber());
+            case ACTION_CALL_OPTION:
+                builder.append("ActionNumber", (Constants.ACTION_NUMBER.ACTION_CALL_OPTION));
+                break;
+            case ACTION_CALL_WRITE:
+                builder.append("ActionNumber", (Constants.ACTION_NUMBER.ACTION_CALL_WRITE));
+                break;
+            case ACTION_PUT_OPTION:
+                builder.append("ActionNumber", (Constants.ACTION_NUMBER.ACTION_PUT_OPTION));
+                break;
+            case ACTION_PUT_WRITE:
+                builder.append("ActionNumber", (Constants.ACTION_NUMBER.ACTION_PUT_WRITE));
+                break;
+            default:
         }
 
         builder.append("MaofValue", action.getMaofValue())
@@ -57,19 +58,19 @@ public class ActionConvertor {
     public static AbstractAction toAction(DBObject doc)
     {
         AbstractAction action ;
-
-        switch (Integer.parseInt((String)doc.get("ActionNumber")))
+        Constants.ACTION_NUMBER actionEnum = Constants.ACTION_NUMBER.getValue((Integer.parseInt((String)doc.get("ActionNumber"))));
+        switch (actionEnum)
         {
-            case Constants.ACTION_CALL_OPTION:
+            case ACTION_CALL_OPTION:
                 action = new ActionCallOption();
                 break;
-            case Constants.ACTION_CALL_WRITE:
+            case ACTION_CALL_WRITE:
                 action = new ActionCallWrite();
                 break;
-            case Constants.ACTION_PUT_OPTION:
+            case ACTION_PUT_OPTION:
                 action = new ActionPutOption();
                 break;
-            case Constants.ACTION_PUT_WRITE:
+            case ACTION_PUT_WRITE:
                 action = new ActionPutWrite();
                 break;
             default:
@@ -77,7 +78,7 @@ public class ActionConvertor {
         }
 
         action.setContractName((String)doc.get("ContractName"));
-        action.setActionNumber(Integer.parseInt((String) doc.get("ActionNumber")));
+        action.setActionNumber();
         action.setMaofValue(Integer.parseInt((String) doc.get("MaofValue")));
         action.setActionValue(Integer.parseInt((String) doc.get("ActionValue")));
         action.setName((String)doc.get("Name"));

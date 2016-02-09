@@ -7,14 +7,14 @@ import com.model.utils.Constants;
  */
 public class ActionPutWrite extends AbstractAction {
 
-    public int getActionNumber()
+    public Constants.ACTION_NUMBER getActionNumber()
     {
-        return Constants.ACTION_PUT_WRITE;
+        return Constants.ACTION_NUMBER.ACTION_PUT_WRITE;
     }
 
     @Override
     public void setActionNumber()
     {
-        this.actionNumber = Constants.ACTION_PUT_WRITE;
+        this.actionNumber = Constants.ACTION_NUMBER.ACTION_PUT_WRITE;
     }
 }
