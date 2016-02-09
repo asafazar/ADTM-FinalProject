@@ -17,10 +17,11 @@ public class StrategyConvertor {
     // take special note of converting id String to ObjectId
     public static DBObject toDBObject(Strategy strategy) {
         BasicDBObjectBuilder builder = new BasicDBObjectBuilder();
-        builder.append("isWeekly", strategy.isWeekly())
+        builder.append("IsWeekly", strategy.isWeekly())
                 .append("Description", strategy.getDescription())
                 .append("Comment", strategy.getComment())
-                .append("Date", strategy.getDate());
+                .append("Date", strategy.getDate())
+                .append("ExpirationDate", strategy.getDate());
         if (strategy.getId() != null)
             builder = builder.append("_id", new ObjectId(strategy.getId()));
         return builder.get();
@@ -35,7 +36,7 @@ public class StrategyConvertor {
         MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
         List<AbstractAction> actions = actionDAO.getActionsByStrategyId
                 (((ObjectId) doc.get("_id")).toString());
-        strategy.setWeekly(((String)doc.get("isWeekly")).equals("1"));
+        strategy.setWeekly(((String)doc.get("IsWeekly")).equals("1"));
         strategy.setDescription((String) doc.get("Description"));
         strategy.setComment((String)doc.get("Comment"));
         Date date = new Date(Integer.valueOf(doc.get("Date").toString().substring(0,3)),

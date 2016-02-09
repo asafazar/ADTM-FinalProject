@@ -52,8 +52,6 @@ public class MongoDBActionDAO {
     public AbstractAction readAction(String actionId) {
 
         AbstractAction action;
-        //= new ArrayList<AbstractAction>();
-
         BasicDBObject query = new BasicDBObject();
         query.put("_id", new BasicDBObject("$eq", actionId));
         DBCursor cursor = (DBCursor) col.findOne(query);
@@ -68,6 +66,23 @@ public class MongoDBActionDAO {
 
         BasicDBObject query = new BasicDBObject();
         query.put("StraegyId", new BasicDBObject("$eq", strategyId));
+        DBCursor cursor = col.find(query);
+
+        while (cursor.hasNext()) {
+            DBObject doc = cursor.next();
+            actions.add(ActionConvertor.toAction(doc));
+        }
+        return actions;
+    }
+
+    public List<AbstractAction> getActionsByActionNumAndValue(int actionNum, int value)
+    {
+        List<AbstractAction> actions = new ArrayList<AbstractAction>();
+        BasicDBObject query = new BasicDBObject();
+        List<BasicDBObject> queriesList = new ArrayList<BasicDBObject>();
+        queriesList.add(new BasicDBObject("actionNumber", actionNum));
+        queriesList.add(new BasicDBObject("actionValue", value));
+        query.put("$and", queriesList);
         DBCursor cursor = col.find(query);
 
         while (cursor.hasNext()) {

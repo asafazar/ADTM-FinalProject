@@ -39,13 +39,14 @@ public class ActionConvertor {
                 .append("Amount", action.getAmount())
                 .append("ActionPrice", action.getActionPrice())
                 .append("TotalPrice", action.getTotalPrice())
-                .append("OptionType", action.getOptionType())
+                .append("OptionType", action.isWeekly())
                 .append("Time", action.getTime())
                 .append("Date", action.getDate())
                 .append("IsExecuted", action.getIsExecuted())
                 .append("StrategyId", action.getStrategyId())
                 .append("ActionExecutingPrice", action.getActionExecutingPrice())
-                .append("TotalExecutingPrice", action.getTotalExecutingPrice());
+                .append("TotalExecutingPrice", action.getTotalExecutingPrice())
+                .append("ExpirationDate", action.getExpirationDate());
         if (action.getId() != null)
             builder = builder.append("_id", new ObjectId(action.getId()));
         return builder.get();
@@ -83,7 +84,7 @@ public class ActionConvertor {
         action.setAmount(Integer.parseInt((String) doc.get("Amount")));
         action.setActionPrice(Integer.parseInt((String) doc.get("ActionPrice")));
         action.setTotalPrice(Integer.parseInt((String) doc.get("TotalPrice")));
-        action.setOptionType(Integer.parseInt((String) doc.get("OptionType")));
+        action.setWeekly(((String) doc.get("OptionType")).equals("1"));
         Time time = new Time(Integer.valueOf(doc.get("Time").toString().substring(0,1)),
                 Integer.valueOf(doc.get("Time").toString().substring(2,3)),
                 Integer.valueOf(doc.get("Time").toString().substring(4,5)));

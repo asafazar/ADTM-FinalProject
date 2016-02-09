@@ -1,5 +1,7 @@
 package com.model.actions;
 
+import com.model.utils.TimeCalculator;
+
 import java.sql.Time;
 import java.util.Date;
 
@@ -16,13 +18,14 @@ public abstract class AbstractAction {
     private int amount;
     private int actionPrice;
     private int totalPrice;
-    private int optionType;
+    private boolean isWeekly;
     private Time time;
     private Date date;
     private boolean isExecuted;
     private String strategyId;
     private int actionExecutingPrice;
     private int totalExecutingPrice;
+    private Date expirationDate;
 
     public String getId() {
         return id;
@@ -97,12 +100,14 @@ public abstract class AbstractAction {
         this.actionPrice = actionPrice;
     }
 
-    public int getOptionType() {
-        return optionType;
+    public boolean isWeekly()
+    {
+        return this.isWeekly;
     }
 
-    public void setOptionType(int optionType) {
-        this.optionType = optionType;
+    public void setWeekly(boolean isWeekly)
+    {
+        this.isWeekly = isWeekly;
     }
 
     public Time getTime() {
@@ -119,6 +124,7 @@ public abstract class AbstractAction {
 
     public void setDate(Date date) {
         this.date = date;
+        setExpirationDate(date);
     }
 
     public boolean getIsExecuted(){
@@ -158,6 +164,21 @@ public abstract class AbstractAction {
     public void setTotalExecutingPrice(int totalExecutingPrice)
     {
         this.totalExecutingPrice = totalExecutingPrice;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    protected void setExpirationDate(Date date) {
+        if (isWeekly)
+        {
+            this.expirationDate = new TimeCalculator().getWeeklyExpirationDate(date);
+        }
+        else
+        {
+            this.expirationDate = new TimeCalculator().getMonthlyExpirationDate(date);
+        }
     }
 
     public abstract void setActionNumber();
