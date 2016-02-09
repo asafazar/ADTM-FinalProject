@@ -33,7 +33,7 @@ public class AddActionServlet extends HttpServlet {
         int amount = Integer.valueOf((String)request.getParameter("amount"));
         int actionPrice = Integer.valueOf((String)request.getParameter("actionPrice"));
         int totalPrice = amount * actionPrice;
-        int optionType = Integer.valueOf((String)request.getParameter("optionType"));
+        boolean isWeekly = ((String)request.getParameter("optionType")).equals("1");
         Time time = Time.valueOf(request.getParameter("Time"));;
         String dateStr = request.getParameter("Date");
         Date date = new Date(Integer.valueOf(dateStr.substring(0,3)),
@@ -75,7 +75,7 @@ public class AddActionServlet extends HttpServlet {
             action.setAmount(amount);
             action.setActionPrice(actionPrice);
             action.setTotalPrice(totalPrice);
-            action.setOptionType(optionType);
+            action.setWeekly(isWeekly);
             action.setTime(time);
             action.setDate(date);
             action.setIsExecuted(isExecuted);
