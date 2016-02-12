@@ -49,6 +49,7 @@ public class StrategyConvertor {
         MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
         List<AbstractAction> actions = actionDAO.getActionsByStrategyId
                 (((ObjectId) doc.get("_id")).toString());
+        strategy.setActions(actions);
         strategy.setWeekly(((String)doc.get("IsWeekly")).equals("1"));
         strategy.setDescription((String) doc.get("Description"));
         strategy.setComment((String)doc.get("Comment"));
