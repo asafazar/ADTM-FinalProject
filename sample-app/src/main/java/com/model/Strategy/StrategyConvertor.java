@@ -7,6 +7,9 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import org.bson.types.ObjectId;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.util.Date;
 import java.util.List;
 
@@ -31,8 +34,18 @@ public class StrategyConvertor {
     // take special note of converting ObjectId to String
     public static Strategy toStrategy(DBObject doc)
     {
+        Context env = null;
+        String dbHost = "";
+        int dbPort = 0;
+        try {
+            env = (Context)new InitialContext().lookup("java:comp/env");
+            dbHost = (String)env.lookup("DB_IP");
+            dbPort = Integer.parseInt((String)env.lookup("DB_PORT"));
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
         Strategy strategy = new Strategy();
-        MongoClient mongo = new MongoClient("192.168.1.100", 27017);
+        MongoClient mongo = new MongoClient(dbHost, dbPort);
         MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
         List<AbstractAction> actions = actionDAO.getActionsByStrategyId
                 (((ObjectId) doc.get("_id")).toString());
