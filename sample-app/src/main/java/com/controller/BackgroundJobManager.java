@@ -47,10 +47,6 @@ public class BackgroundJobManager implements ServletContextListener {
                         columnNumbers.add(31);
                         columnNumbers.add(33);
 
-                        String[] columnNames = new String[]{"ContractNumber", "", "", "", "", "", "", "", ""
-                                , "", "", "", "", "PutTheoreticalValue", "", "PutAsk", "PutTotalAsk","PutBid",
-                                "PutTotalBid", "", "", "", "", "StrikePrice", "", "", "", "", "CallAsk",
-                                "CallTotalAsk", "CallBid","CallTotalBid", "", "CallTheoreticalValue"};
 
                         try {
                             FileInputStream file = new FileInputStream(new File("C:/Book2.xlsx"));
@@ -77,47 +73,56 @@ public class BackgroundJobManager implements ServletContextListener {
                                 jsonObj = new JSONObject();
                                 Row row = rowIterator.next();
                                 //For each row, iterate through all the columns
-                                for (Integer currColumn : columnNumbers)
+                                Iterator<Cell> cellIterator = row.cellIterator();
+
+                                while (cellIterator.hasNext())
                                 {
-                                    Cell cell = row.getCell(currColumn);
-                                    switch (cell.getCellType())
+                                    Cell cell = cellIterator.next();
+                                    //Check the cell type and format accordingly
+                                    if (columnNumbers.contains(cell.getColumnIndex()))
                                     {
-                                        case Cell.CELL_TYPE_NUMERIC:
-                                            if (currColumn == 0)
-                                            {
-                                                jsonObj.put(columnNames[currColumn],(long) cell.getNumericCellValue());
-                                            }
-                                            else
-                                            {
-                                                jsonObj.put(columnNames[currColumn], cell.getNumericCellValue());
-                                            }
-                                            break;
-                                        case Cell.CELL_TYPE_STRING:
-                                            jsonObj.put(columnNames[currColumn],cell.getStringCellValue());
-                                            break;
-                                        case Cell.CELL_TYPE_FORMULA:
-                                            switch(cell.getCachedFormulaResultType()) {
-                                                case Cell.CELL_TYPE_NUMERIC:
-                                                    if (currColumn == 0)
-                                                    {
-                                                        jsonObj.put(columnNames[currColumn],(long) cell.getNumericCellValue());
-                                                    }
-                                                    else
-                                                    {
-                                                        jsonObj.put(columnNames[currColumn],cell.getNumericCellValue());
-                                                    }
-                                                    break;
-                                                case Cell.CELL_TYPE_STRING:
-                                                    jsonObj.put(columnNames[currColumn],cell.getRichStringCellValue());
-                                                    break;
-                                                case Cell.CELL_TYPE_ERROR:
-                                                    jsonObj.put(columnNames[currColumn],0);
-                                                    break;
-                                            }
-                                            break;
-                                        case Cell.CELL_TYPE_BLANK:
-                                            jsonObj.put(columnNames[currColumn],0);
-                                            break;
+                                        switch (cell.getCellType())
+                                        {
+                                            case Cell.CELL_TYPE_NUMERIC:
+                                                if (cell.getColumnIndex() == 0)
+                                                {
+                                                    jsonObj.put(Integer.toString(cell.getColumnIndex()),(long) cell.getNumericCellValue());
+                                                }
+                                                else
+                                                {
+                                                    jsonObj.put(Integer.toString(cell.getColumnIndex()), cell.getNumericCellValue());
+                                                }
+                                                break;
+                                            case Cell.CELL_TYPE_STRING:
+                                                jsonObj.put(Integer.toString(cell.getColumnIndex()),cell.getStringCellValue());
+                                                break;
+                                            case Cell.CELL_TYPE_FORMULA:
+                                                switch(cell.getCachedFormulaResultType()) {
+                                                    case Cell.CELL_TYPE_NUMERIC:
+                                                        if (cell.getColumnIndex() == 0)
+                                                        {
+                                                            jsonObj.put(Integer.toString(cell.getColumnIndex()),(long) cell.getNumericCellValue());
+                                                        }
+                                                        else
+                                                        {
+                                                            jsonObj.put(Integer.toString(cell.getColumnIndex()),cell.getNumericCellValue());
+                                                        }
+                                                        break;
+                                                    case Cell.CELL_TYPE_STRING:
+                                                        jsonObj.put(Integer.toString(cell.getColumnIndex()),cell.getRichStringCellValue());
+                                                        break;
+                                                    case Cell.CELL_TYPE_ERROR:
+                                                        jsonObj.put(Integer.toString(cell.getColumnIndex()),0);
+                                                        break;
+                                                }
+                                                break;
+                                            case Cell.CELL_TYPE_BLANK:
+                                                jsonObj.put(Integer.toString(cell.getColumnIndex()),0);
+                                                break;
+                                            case Cell.CELL_TYPE_ERROR:
+                                                jsonObj.put(Integer.toString(cell.getColumnIndex()),0);
+                                                break;
+                                        }
                                     }
                                 }
                                 jsonList.add(jsonObj);
@@ -131,9 +136,14 @@ public class BackgroundJobManager implements ServletContextListener {
 
                         Pusher pusher = new Pusher("185377", "6ddefb4dd81db7c72a0d", "3f69261d7626161b410e");
 
-                        for (JSONObject currJson : jsonList)
+                        try {
+                            for (JSONObject currJson : jsonList) {
+                                pusher.trigger("test_channel", "my_event", currJson.toString());
+                            }
+                        }
+                        catch (Exception e)
                         {
-                            pusher.trigger("test_channel", "my_event", currJson);
+                            e.printStackTrace();
                         }
                     }
                 },

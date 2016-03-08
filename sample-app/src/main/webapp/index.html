@@ -17,10 +17,9 @@
 
         var channel = pusher.subscribe('test_channel');
         channel.bind('my_event', function(data) {
-            for (var key in data) {
-                var item = data[key];
-                for (var key2 in item) {
-                }
+            var json = JSON.parse(data);
+            for (var key in json) {
+                var item = json[key];
             }
         });
     </script>
