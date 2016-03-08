@@ -118,9 +118,31 @@
         <url-pattern>/editStrategy</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>ExcelReaderServlet</servlet-name>
+        <servlet-class>com.controller.ExcelReaderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ExcelReaderServlet</servlet-name>
+        <url-pattern>/ExcelReaderServlet</url-pattern>
+    </servlet-mapping>
+
+    <context-param>
+        <param-name>PUSHER_APP_ID</param-name>
+        <param-value>185377</param-value>
+    </context-param>
+    <context-param>
+        <param-name>PUSHER_KEY</param-name>
+        <param-value>6ddefb4dd81db7c72a0d</param-value>
+    </context-param>
+    <context-param>
+        <param-name>PUSHER_SECRET</param-name>
+        <param-value>3f69261d7626161b410e</param-value>
+    </context-param>
     <context-param>
         <param-name>DB_IP</param-name>
-        <param-value>192.168.1.100</param-value>
+        <param-value>193.106.55.42</param-value>
     </context-param>
     <context-param>
         <param-name>DB_PORT</param-name>
