@@ -8,61 +8,90 @@
     <link rel="stylesheet" href="css/tabs.css">
     <link rel="stylesheet" href="libraries/bootstrap-3.3.6-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link rel="styleSheet" href="css/ui-grid.min.css"/>
+    <link rel="styleSheet" href="tabs/market/market.css"/>
+
+    <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
 </head>
 <body>
-<div ng-controller="AppCtrl" ng-cloak="" class="tabsdemoStaticTabs" ng-app="MyApp">
-    <md-content class="md-padding">
-        <md-tabs class="md-accent" md-selected="data.selectedIndex" md-align-tabs="{{data.bottom ? 'bottom' : 'top'}}">
-            <md-tab id="tab1">
-                <md-tab-label>Stocks</md-tab-label>
+    <div ng-controller="AppCtrl" ng-cloak="" class="tabsdemoStaticTabs" ng-app="MyApp">
+        <md-content class="md-padding">
+            <md-tabs class="md-accent" md-selected="data.selectedIndex" md-align-tabs="{{data.bottom ? 'bottom' : 'top'}}">
+                <md-tab id="tab1">
+                    <md-tab-label>Stocks</md-tab-label>
+                        <md-tab-body>
+                            <div ng-controller="stockController" ng-cloak>
+                                <button ng-click="getStockDataFromServer()">Fetch data from server</button>
+                                <button ng-click="getStockRangeDataFromServer()">Fetch data date from server</button>
+                                <md-content>
+                                    <md-list>
+                                        <uib-accordion close-others="oneAtATime">
+                                            <uib-accordion-group is-open="status.open" ng-repeat="item in stocks">
+                                                <md-list-item class="md-line">
+                                                    <div class="md-list-item-text" layout="column">
+                                                        <uib-accordion-heading>
+                                                            <p>{{item.assetName}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></p>
+                                                            <p> amount:{{item.amount}} price:{{item.price}} </p>
+                                                            <p>  {{item.date}} {{item.time}}</p>
+                                                        </uib-accordion-heading>
+                                                        <p> {{item.contractNumber}} </p>
+                                                    </div>
+                                                </md-list-item>
+                                            </uib-accordion-group>
+                                        </uib-accordion>
+                                    </md-list>
+                                </md-content>
+                            </div>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab id="tab2">
+                    <md-tab-label>Actions</md-tab-label>
                     <md-tab-body>
-                        <div ng-controller="stockController" ng-cloak>
-                            <button ng-click="getStockDataFromServer()">Fetch data from server</button>
-                            <button ng-click="getStockRangeDataFromServer()">Fetch data date from server</button>
-                            <md-content>
-                                <md-list>
-                                    <uib-accordion close-others="oneAtATime">
-                                        <uib-accordion-group is-open="status.open" ng-repeat="item in stocks">
-                                            <md-list-item class="md-line">
-                                                <div class="md-list-item-text" layout="column">
-                                                    <uib-accordion-heading>
-                                                        <p>{{item.assetName}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></p>
-                                                        <p> amount:{{item.amount}} price:{{item.price}} </p>
-                                                        <p>  {{item.date}} {{item.time}}</p>
-                                                    </uib-accordion-heading>
-                                                    <p> {{item.contractNumber}} </p>
-                                                </div>
-                                            </md-list-item>
-                                        </uib-accordion-group>
-                                    </uib-accordion>
-                                </md-list>
-                            </md-content>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab id="tab3">
+                    <md-tab-label>  בורסת ת"א - אופציות ת"א 25</md-tab-label>
+                    <md-tab-body>
+                        <div ng-controller="market">
+                            <div id="grid1" ui-grid="{ data: myData }" class="myGrid" dir="rtl" ui-grid-pinning ui-grid-resize-columns></div>
                         </div>
-                </md-tab-body>
-            </md-tab>
-            <md-tab id="tab2">
-                <md-tab-label>Actions</md-tab-label>
-                <md-tab-body>
-                </md-tab-body>
-            </md-tab>
-        </md-tabs>
-    </md-content>
-</div>
+                    </md-tab-body>
+                </md-tab>
 
-<!-- Angular Material requires Angular.js Libraries -->
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+                <md-tab id="tab4">
+                    <md-tab-label>  בורסת ת"א - אופציות ת"א 25</md-tab-label>
+                    <md-tab-body>
+                        <div ng-controller="MainCtrl">
 
-<!-- Angular Material Library -->
-<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+                            <button id='toggleFiltering' ng-click="toggleFiltering()" class="btn btn-success">Toggle Filtering</button>
+                            <div id="grid2" ui-grid="gridOptions" class="grid" dir="rtl" ui-grid-pinning ui-grid-resize-columns></div>
 
-<script src="libraries/jquery-1.12.0.min.js"></script>
-<script src="libraries/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
-<script src="libraries/ui-bootstrap-tpls-1.1.2.min.js"></script>
-<script type="text/javascript" src="js/tabs.js"></script>
-<script src="js/controllers/stockController.js"></script>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+    </div>
+
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-touch.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+    <script src="libraries/jquery-1.12.0.min.js"></script>
+    <script src="libraries/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+    <script src="libraries/ui-bootstrap-tpls-1.1.2.min.js"></script>
+    <script src="libraries/ui-grid/ui-grid.min.js"></script>
+
+    <script type="text/javascript" src="js/tabs.js"></script>
+    <script type="text/javascript" src="tabs/market/market.js"></script>
 
     </body>
 </html>

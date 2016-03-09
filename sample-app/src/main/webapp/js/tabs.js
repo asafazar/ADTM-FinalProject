@@ -5,7 +5,95 @@
     'use strict';
 
     angular
-        .module('MyApp',['ngMaterial', 'ngMessages', 'ui.bootstrap'])
+        .module('MyApp',['ngMaterial', 'ngMessages', 'ui.bootstrap','ngTouch', 'ui.grid'])
+
+        .controller('MainCtrl', ['$scope', '$http', 'uiGridConstants', function ($scope, $http, uiGridConstants) {
+
+            $scope.highlightFilteredHeader = function( row, rowRenderIndex, col, colRenderIndex ) {
+                if( col.filters[0].term ){
+                    return 'header-filtered';
+                } else {
+                    return '';
+                }
+            };
+
+            $scope.gridOptions = {
+                enableFiltering: true,
+                onRegisterApi: function(gridApi){
+                    $scope.gridApi = gridApi;
+                },
+                columnDefs: [
+                    // default
+                    { field: 'P כמות ביקוש', headerCellClass: $scope.highlightFilteredHeader },
+                    { field: 'P מחיר ביקוש', headerCellClass: $scope.highlightFilteredHeader },
+                    { field: 'P מחיר תיאורטי', headerCellClass: $scope.highlightFilteredHeader },
+                    { field: 'P מחיר היצע', headerCellClass: $scope.highlightFilteredHeader },
+                    { field: 'P כמות היצע', headerCellClass: $scope.highlightFilteredHeader },
+                    { field: 'מחיר מימוש', headerCellClass: $scope.highlightFilteredHeader },
+                    { field: 'C כמות היצע', headerCellClass: $scope.highlightFilteredHeader },
+                    { field: 'C מחיר היצע', headerCellClass: $scope.highlightFilteredHeader },
+                    { field: 'C מחיר תיאורטי', headerCellClass: $scope.highlightFilteredHeader },
+                    { field: 'C מחיר ביקוש', headerCellClass: $scope.highlightFilteredHeader },
+                    { field: 'C כמות ביקוש', headerCellClass: $scope.highlightFilteredHeader }
+                ]
+            };
+
+            $http.get('/webapp/tabs/market/market.json')
+                .success(function(data) {
+                    $scope.gridOptions.data = data;
+
+                });
+
+            $scope.toggleFiltering = function(){
+                $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
+                $scope.gridApi.core.notifyDataChange( uiGridConstants.dataChange.COLUMN );
+            };
+        }])
+
+        .controller('market', ['$scope', function ($scope) {
+
+        $scope.myData = [
+            {
+                "P כמות ביקוש":"16",
+                "P מחיר ביקוש": "80",
+                "P מחיר תיאורטי": "82",
+                "P מחיר היצע": "84",
+                "P כמות היצע": "2",
+                "מחיר מימוש": "001 WK2",
+                "C כמות היצע":"1",
+                "C מחיר היצע": "5600",
+                "C מחיר תיאורטי": "5301",
+                "C מחיר ביקוש": "4390",
+                "C כמות ביקוש": "3"
+            },
+            {
+                "P כמות ביקוש":"16",
+                "P מחיר ביקוש": "80",
+                "P מחיר תיאורטי": "82",
+                "P מחיר היצע": "84",
+                "P כמות היצע": "2",
+                "מחיר מימוש": "001 WK2",
+                "C כמות היצע":"1",
+                "C מחיר היצע": "5600",
+                "C מחיר תיאורטי": "5301",
+                "C מחיר ביקוש": "4390",
+                "C כמות ביקוש": "3"
+            },
+            {
+                "P כמות ביקוש":"16",
+                "P מחיר ביקוש": "80",
+                "P מחיר תיאורטי": "82",
+                "P מחיר היצע": "84",
+                "P כמות היצע": "2",
+                "מחיר מימוש": "001 WK2",
+                "C כמות היצע":"1",
+                "C מחיר היצע": "5600",
+                "C מחיר תיאורטי": "5301",
+                "C מחיר ביקוש": "4390",
+                "C כמות ביקוש": "3"
+            }
+        ];
+    }])
         .controller('AppCtrl', AppCtrl).controller('AppCtrl', function($scope) {
         $scope.myDate = new Date();
         $scope.minDate = new Date(
