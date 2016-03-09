@@ -14,6 +14,20 @@
     <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
     <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
     <script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+	<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+    <script>
+        var pusher = new Pusher('6ddefb4dd81db7c72a0d', {
+            encrypted: true
+        });
+
+        var channel = pusher.subscribe('test_channel');
+        channel.bind('my_event', function(data) {
+            var json = JSON.parse(data);
+            for (var key in json) {
+                var item = json[key];
+            }
+        });
+    </script>
 </head>
 <body>
     <div ng-controller="AppCtrl" ng-cloak="" class="tabsdemoStaticTabs" ng-app="MyApp">
@@ -85,6 +99,8 @@
     <!-- Angular Material Library -->
     <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
 
+	<script src="/path/to/jszip.js"></script>
+	<script src="/path/to/xlsx.js"></script>
     <script src="libraries/jquery-1.12.0.min.js"></script>
     <script src="libraries/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
     <script src="libraries/ui-bootstrap-tpls-1.1.2.min.js"></script>
