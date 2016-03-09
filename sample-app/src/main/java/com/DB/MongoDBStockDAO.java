@@ -16,7 +16,7 @@ public class MongoDBStockDAO {
     private DBCollection col;
 
     public MongoDBStockDAO(MongoClient mongo) {
-        this.col = mongo.getDB("adtmdb").getCollection("maof");
+        this.col = mongo.getDB("maof").getCollection("history");
     }
 
     public Stock createStock(Stock stock) {
@@ -36,10 +36,13 @@ public class MongoDBStockDAO {
     public List<Stock> readAllStocks() {
         List<Stock> data = new ArrayList<Stock>();
         DBCursor cursor = col.find();
-        while (cursor.hasNext()) {
+        int i = 0;
+
+        while (cursor.hasNext() && (i < 10)) {
             DBObject doc = cursor.next();
             Stock stock = StockConvertor.toStock(doc);
             data.add(stock);
+            i++;
         }
         return data;
     }
