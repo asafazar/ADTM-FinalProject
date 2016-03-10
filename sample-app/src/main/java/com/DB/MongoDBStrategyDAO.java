@@ -1,7 +1,7 @@
 package com.DB;
 
-import com.model.strategy.Strategy;
-import com.model.strategy.StrategyConvertor;
+import com.model.Strategy.Strategy;
+import com.model.Strategy.StrategyConvertor;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
 
@@ -54,5 +54,18 @@ public class MongoDBStrategyDAO {
                 .append("_id", new ObjectId(strategy.getId())).get();
         DBObject data = this.col.findOne(query);
         return StrategyConvertor.toStrategy(data);
+    }
+
+    public List<Strategy> getUserStrategies(String userId)
+    {
+        List<Strategy> data = new ArrayList<Strategy>();
+        DBObject query = BasicDBObjectBuilder.start()
+                .append("userId", userId).get();
+        DBCursor cursor = col.find(query);
+        while (cursor.hasNext()) {
+            DBObject doc = cursor.next();
+            data.add(StrategyConvertor.toStrategy(doc));
+        }
+        return data;
     }
 }

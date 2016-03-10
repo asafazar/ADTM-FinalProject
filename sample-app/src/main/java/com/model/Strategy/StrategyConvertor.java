@@ -1,4 +1,4 @@
-package com.model.strategy;
+package com.model.Strategy;
 
 import com.DB.MongoDBActionDAO;
 import com.model.actions.AbstractAction;
@@ -24,7 +24,8 @@ public class StrategyConvertor {
                 .append("Description", strategy.getDescription())
                 .append("Comment", strategy.getComment())
                 .append("Date", strategy.getDate())
-                .append("ExpirationDate", strategy.getDate());
+                .append("ExpirationDate", strategy.getDate())
+                .append("userId", strategy.getUserId());
         if (strategy.getId() != null)
             builder = builder.append("_id", new ObjectId(strategy.getId()));
         return builder.get();
@@ -57,6 +58,7 @@ public class StrategyConvertor {
                 Integer.valueOf(doc.get("Date").toString().substring(4,5)),
                 Integer.valueOf(doc.get("Date").toString().substring(5,6)));
         strategy.setDate(date);
+        strategy.setUserId((String) doc.get("userId"));
         ObjectId id = (ObjectId) doc.get("_id");
         strategy.setId(id.toString());
         return strategy;

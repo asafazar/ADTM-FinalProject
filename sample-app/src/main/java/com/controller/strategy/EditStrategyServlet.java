@@ -2,7 +2,7 @@ package com.controller.strategy;
 
 import com.DB.MongoDBStrategyDAO;
 import com.google.gson.Gson;
-import com.model.strategy.Strategy;
+import com.model.Strategy.Strategy;
 import com.mongodb.MongoClient;
 
 import javax.servlet.ServletException;

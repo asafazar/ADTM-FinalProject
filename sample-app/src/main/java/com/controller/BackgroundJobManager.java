@@ -47,7 +47,19 @@ public class BackgroundJobManager implements ServletContextListener {
                         columnNumbers.add(31);
                         columnNumbers.add(33);
 
-
+                        String[] columnHeadlines = {
+                                "מספר נייר", "", "", "", "", "", "", "", "", "", "", "", "",
+                                "P מחיר תיאורטי", "",
+                                "P כמות ביקוש",
+                            "P מחיר ביקוש",
+                            "P מחיר היצע",
+                            "P כמות היצע", "", "", "", "",
+                            "מחיר מימוש", "", "", "", "",
+                            "C כמות היצע",
+                            "C מחיר היצע",
+                            "C מחיר ביקוש",
+                            "C כמות ביקוש", "",
+                                "C מחיר תיאורטי"};
                         try {
                             FileInputStream file = new FileInputStream(new File("C:/Book2.xlsx"));
 
@@ -78,49 +90,50 @@ public class BackgroundJobManager implements ServletContextListener {
                                 while (cellIterator.hasNext())
                                 {
                                     Cell cell = cellIterator.next();
+                                    int cellColumn = cell.getColumnIndex();
                                     //Check the cell type and format accordingly
-                                    if (columnNumbers.contains(cell.getColumnIndex()))
+                                    if (columnNumbers.contains(cellColumn))
                                     {
                                         switch (cell.getCellType())
                                         {
                                             case Cell.CELL_TYPE_NUMERIC:
                                                 if (cell.getColumnIndex() == 0)
                                                 {
-                                                    jsonObj.put(Integer.toString(cell.getColumnIndex()),(long) cell.getNumericCellValue());
+                                                    jsonObj.put(columnHeadlines[cellColumn],(long) cell.getNumericCellValue());
                                                 }
                                                 else
                                                 {
-                                                    jsonObj.put(Integer.toString(cell.getColumnIndex()), cell.getNumericCellValue());
+                                                    jsonObj.put(columnHeadlines[cellColumn], cell.getNumericCellValue());
                                                 }
                                                 break;
                                             case Cell.CELL_TYPE_STRING:
-                                                jsonObj.put(Integer.toString(cell.getColumnIndex()),cell.getStringCellValue());
+                                                jsonObj.put(columnHeadlines[cellColumn],cell.getStringCellValue());
                                                 break;
                                             case Cell.CELL_TYPE_FORMULA:
                                                 switch(cell.getCachedFormulaResultType()) {
                                                     case Cell.CELL_TYPE_NUMERIC:
-                                                        if (cell.getColumnIndex() == 0)
+                                                        if (cellColumn == 0)
                                                         {
-                                                            jsonObj.put(Integer.toString(cell.getColumnIndex()),(long) cell.getNumericCellValue());
+                                                            jsonObj.put(columnHeadlines[cellColumn],(long) cell.getNumericCellValue());
                                                         }
                                                         else
                                                         {
-                                                            jsonObj.put(Integer.toString(cell.getColumnIndex()),cell.getNumericCellValue());
+                                                            jsonObj.put(columnHeadlines[cellColumn],cell.getNumericCellValue());
                                                         }
                                                         break;
                                                     case Cell.CELL_TYPE_STRING:
-                                                        jsonObj.put(Integer.toString(cell.getColumnIndex()),cell.getRichStringCellValue());
+                                                        jsonObj.put(columnHeadlines[cellColumn],cell.getRichStringCellValue());
                                                         break;
                                                     case Cell.CELL_TYPE_ERROR:
-                                                        jsonObj.put(Integer.toString(cell.getColumnIndex()),0);
+                                                        jsonObj.put(columnHeadlines[cellColumn],0);
                                                         break;
                                                 }
                                                 break;
                                             case Cell.CELL_TYPE_BLANK:
-                                                jsonObj.put(Integer.toString(cell.getColumnIndex()),0);
+                                                jsonObj.put(columnHeadlines[cellColumn],0);
                                                 break;
                                             case Cell.CELL_TYPE_ERROR:
-                                                jsonObj.put(Integer.toString(cell.getColumnIndex()),0);
+                                                jsonObj.put(columnHeadlines[cellColumn],0);
                                                 break;
                                         }
                                     }
@@ -132,14 +145,19 @@ public class BackgroundJobManager implements ServletContextListener {
                             e.printStackTrace();
                         }
 
+                        String allDataAsJson = "[";
 
+                        for (JSONObject currJson : jsonList) {
+                            allDataAsJson += currJson;
+                            allDataAsJson += ",";
+                        }
 
-                        Pusher pusher = new Pusher("185377", "6ddefb4dd81db7c72a0d", "3f69261d7626161b410e");
+                        String finalJson = allDataAsJson.substring(0, allDataAsJson.length() - 1);
+                        finalJson += "]";
 
                         try {
-                            for (JSONObject currJson : jsonList) {
-                                pusher.trigger("test_channel", "my_event", currJson.toString());
-                            }
+                            Pusher pusher = new Pusher("185377", "6ddefb4dd81db7c72a0d", "3f69261d7626161b410e");
+                            pusher.trigger("test_channel", "my_event", finalJson);
                         }
                         catch (Exception e)
                         {

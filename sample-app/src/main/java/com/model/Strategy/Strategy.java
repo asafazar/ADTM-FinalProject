@@ -1,4 +1,4 @@
-package com.model.strategy;
+package com.model.Strategy;
 
 import com.model.actions.AbstractAction;
 import com.model.utils.TimeCalculator;
@@ -18,6 +18,7 @@ public class Strategy {
     private String comment;
     private Date date;
     private Date expirationDate;
+    private String userId;
 
     public String getId() {
         return id;
@@ -85,5 +86,13 @@ public class Strategy {
         {
             this.expirationDate = new TimeCalculator().getMonthlyExpirationDate(creationStrategyDate);
         }
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
