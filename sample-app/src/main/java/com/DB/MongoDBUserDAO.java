@@ -85,4 +85,10 @@ public class MongoDBUserDAO {
             return "0";
         }
     }
+
+    public void deleteUser(String userId) {
+        DBObject query = BasicDBObjectBuilder.start()
+                .append("_id", new ObjectId(userId)).get();
+        this.col.remove(query);
+    }
 }

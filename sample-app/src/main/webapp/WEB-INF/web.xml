@@ -118,14 +118,23 @@
         <url-pattern>/editStrategy</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>createUser</servlet-name>
+        <servlet-class>com.controller.users.CreateUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>createUser</servlet-name>
+        <url-pattern>/createUser</url-pattern>
+    </servlet-mapping>
+
 
     <servlet>
-        <servlet-name>ExcelReaderServlet</servlet-name>
+        <servlet-name>getLiveData</servlet-name>
         <servlet-class>com.controller.ExcelReaderServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ExcelReaderServlet</servlet-name>
-        <url-pattern>/ExcelReaderServlet</url-pattern>
+        <servlet-name>getLiveData</servlet-name>
+        <url-pattern>/getLiveData</url-pattern>
     </servlet-mapping>
 
     <context-param>

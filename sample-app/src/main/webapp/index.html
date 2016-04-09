@@ -15,19 +15,7 @@
     <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
     <script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
 	<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
-    <script>
-        var pusher = new Pusher('6ddefb4dd81db7c72a0d', {
-            encrypted: true
-        });
 
-        var channel = pusher.subscribe('test_channel');
-        channel.bind('my_event', function(data) {
-            var json = JSON.parse(data);
-            for (var key in json) {
-                var item = json[key];
-            }
-        });
-    </script>
 </head>
 <body>
     <div ng-controller="AppCtrl" ng-cloak="" class="tabsdemoStaticTabs" ng-app="MyApp">
@@ -44,7 +32,7 @@
                                         <uib-accordion close-others="oneAtATime">
                                             <uib-accordion-group is-open="status.open" ng-repeat="item in stocks">
                                                 <md-list-item class="md-line">
-                                                    <div class="md-list-item-text" layout="column">
+                                                      <div class="md-list-item-text" layout="column">
                                                         <uib-accordion-heading>
                                                             <p>{{item.assetName}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></p>
                                                             <p> amount:{{item.amount}} price:{{item.price}} </p>
@@ -85,6 +73,29 @@
                         </div>
                     </md-tab-body>
                 </md-tab>
+
+
+                <md-tab id="tab5" >
+                    <md-tab-label> live data</md-tab-label>
+                    <md-tab-body>
+                        <div ng-controller="MainCtrl">
+                            <li ng-repeat="data in liveData">
+                                {{ data }}
+                            </li>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+
+                <md-tab id="tab6">
+                    <md-tab-label> Login </md-tab-label>
+                    <md-tab-body>
+                        <a href='#' onClick='login();' id="loginText"> Click here to login </a>
+                        <a href="#" style="display:none" id="logoutText" target='myIFrame' onclick="myIFrame.location='https://www.google.com/accounts/Logout'; startLogoutPolling();return false;"> Click here to logout </a>
+                        <iframe name='myIFrame' id="myIFrame" style='display:none'></iframe>
+                        <div id='uName'></div>
+                        <img src='' id='imgHolder'/>
+                    </md-tab-body>
+                </md-tab>
             </md-tabs>
         </md-content>
     </div>
@@ -98,14 +109,11 @@
 
     <!-- Angular Material Library -->
     <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
-
-	<script src="/path/to/jszip.js"></script>
-	<script src="/path/to/xlsx.js"></script>
     <script src="libraries/jquery-1.12.0.min.js"></script>
     <script src="libraries/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
     <script src="libraries/ui-bootstrap-tpls-1.1.2.min.js"></script>
     <script src="libraries/ui-grid/ui-grid.min.js"></script>
-
+    <script src="js/LoginScript.js"></script>
     <script type="text/javascript" src="js/tabs.js"></script>
     <script type="text/javascript" src="tabs/market/market.js"></script>
 

@@ -7,7 +7,20 @@
     angular
         .module('MyApp',['ngMaterial', 'ngMessages', 'ui.bootstrap','ngTouch', 'ui.grid'])
 
-        .controller('MainCtrl', ['$scope', '$http', 'uiGridConstants', function ($scope, $http, uiGridConstants) {
+        .controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridConstants', function ($scope, $http, $interval, uiGridConstants) {
+
+            $scope.liveData = [];
+            $interval(function(){
+                $http({
+                    method : 'GET',
+                    url : 'getLiveData'
+                }).success(function(data, status, headers, config) {
+                    $scope.liveData = data;
+                }).error(function(data, status, headers, config) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                });
+            }, 3000);
 
             $scope.highlightFilteredHeader = function( row, rowRenderIndex, col, colRenderIndex ) {
                 if( col.filters[0].term ){

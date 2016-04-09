@@ -1,20 +1,8 @@
 /**
  * Created by asaf on 14/03/2016.
  */
-/**
- *
- <md-tab id="tab5">
- <md-tab-label> Login </md-tab-label>
- <md-tab-body>
- <a href='#' onClick='login();' id="loginText"> Click here to login </a>
- <a href="#" style="display:none" id="logoutText" target='myIFrame' onclick="myIFrame.location='https://www.google.com/accounts/Logout'; startLogoutPolling();return false;"> Click here to logout </a>
- <iframe name='myIFrame' id="myIFrame" style='display:none'></iframe>
- <div id='uName'></div>
- <img src='' id='imgHolder'/>
- </md-tab-body>
- </md-tab>
- * @type {string}
- */
+
+
     var OAUTHURL    =   'https://accounts.google.com/o/oauth2/auth?';
     var VALIDURL    =   'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=';
     var SCOPE       =   'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
@@ -71,7 +59,6 @@
             success: function(resp) {
                 user    =   resp;
                 console.log(user);
-                alert(user.email);
                 $('#uName').text('Welcome ' + user.name);
                 $('#imgHolder').attr('src', user.picture);
             },
