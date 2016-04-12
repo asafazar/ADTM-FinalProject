@@ -91,4 +91,15 @@ public class MongoDBUserDAO {
                 .append("_id", new ObjectId(userId)).get();
         this.col.remove(query);
     }
+
+    public void saveUser(String id, String userName, String mail, String pictureLink)
+    {
+        BasicDBObjectBuilder builder = new BasicDBObjectBuilder();
+        builder.append("_id", id)
+                .append("userName", userName)
+                .append("mail", mail)
+                .append("pictureLink", pictureLink);
+        DBObject doc = builder.get();
+        this.col.insert(doc);
+    }
 }

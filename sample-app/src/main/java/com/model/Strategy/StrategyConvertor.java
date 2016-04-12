@@ -40,8 +40,8 @@ public class StrategyConvertor {
         int dbPort = 0;
         try {
             env = (Context)new InitialContext().lookup("java:comp/env");
-            dbHost = (String)env.lookup("DB_IP");
-            dbPort = Integer.parseInt((String)env.lookup("DB_PORT"));
+            dbHost = (String)env.lookup("MONGODB_IP");
+            dbPort = Integer.parseInt((String)env.lookup("MONGODB_PORT"));
         } catch (NamingException e) {
             e.printStackTrace();
         }

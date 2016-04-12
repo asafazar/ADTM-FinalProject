@@ -58,6 +58,7 @@
             data: null,
             success: function(resp) {
                 user    =   resp;
+                saveUser(user);
                 console.log(user);
                 $('#uName').text('Welcome ' + user.name);
                 $('#imgHolder').attr('src', user.picture);
@@ -77,6 +78,27 @@
         else
             return results[1];
     }
+
+
+    function saveUser(user) {
+
+        $.ajax({
+            type: 'POST',
+            url: 'saveUser',
+            dataType: 'json',
+            data : {
+                name : user.name,
+                mail : user.email,
+                id : user.id,
+                pictureLink : user.picture
+            },
+            success: function (data){
+                
+            },
+            error: function () {
+            }
+    })
+    };
 
     function startLogoutPolling() {
         $('#loginText').show();

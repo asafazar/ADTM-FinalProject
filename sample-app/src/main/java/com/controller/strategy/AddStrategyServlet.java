@@ -22,6 +22,7 @@ public class AddStrategyServlet extends HttpServlet {
         boolean isWeekly = ((String)request.getParameter("isWeekly")).equals("1");
         String description = request.getParameter("description");
         String comment = request.getParameter("comment");
+        String userId = request.getParameter("userId");
         String dateStr = request.getParameter("Date");
         Date date = new Date(Integer.valueOf(dateStr.substring(0, 3)),
                 Integer.valueOf(dateStr.substring(4, 5)), Integer.valueOf(dateStr.substring(6, 7)));
@@ -30,6 +31,7 @@ public class AddStrategyServlet extends HttpServlet {
         strategy.setDescription(description);
         strategy.setComment(comment);
         strategy.setDate(date);
+        strategy.setUserId(userId);
 
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
