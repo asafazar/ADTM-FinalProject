@@ -1,12 +1,14 @@
 /**
  * Created by OrlyGB on 10/02/2016.
  */
-(function () {
-    'use strict';
 
+var app = angular.module("MyApp", ['ngMaterial', 'ngMessages', 'ui.bootstrap', 'ngTouch', 'ui.grid']);
+
+/*
     angular
         .module('MyApp',['ngMaterial', 'ngMessages', 'ui.bootstrap','ngTouch', 'ui.grid'])
-
+        */
+/*
         .controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridConstants', function ($scope, $http, $interval, uiGridConstants) {
 
             $scope.liveData = [];
@@ -62,7 +64,9 @@
                 $scope.gridApi.core.notifyDataChange( uiGridConstants.dataChange.COLUMN );
             };
         }])
+        */
 
+/*
         .controller('market', ['$scope', function ($scope) {
 
         $scope.myData = [
@@ -106,7 +110,9 @@
                 "C כמות ביקוש": "3"
             }
         ];
-    }])
+    }])*/
+
+/*
         .controller('AppCtrl', AppCtrl).controller('AppCtrl', function($scope) {
         $scope.myDate = new Date();
         $scope.minDate = new Date(
@@ -121,11 +127,12 @@
             var day = date.getDay();
             return day === 0 || day === 6;
         }
-    })
+    })*/
+        /*
     .controller('AccordionDemoCtrl', function ($scope) {
         $scope.oneAtATime = true;
 
-        $scope.groups = [
+       $scope.groups = [
             {
                 title: 'Dynamic Group Header - 1',
                 content: 'Dynamic Group Body - 1'
@@ -134,7 +141,7 @@
                 title: 'Dynamic Group Header - 2',
                 content: 'Dynamic Group Body - 2'
             }
-        ];
+         ];
 
         $scope.items = ['Item 1', 'Item 2', 'Item 3'];
 
@@ -148,6 +155,8 @@
             isFirstDisabled: false
         };
     })
+        */
+        /*
     .controller('stockController', ['$scope','$http',function($scope, $http) {
         $scope.getStockDataFromServer = function() {
             $http({
@@ -161,7 +170,8 @@
             });
         };
     }]);
-
+*/
+/*
     function AppCtrl ( $scope ) {
         $scope.data = {
             selectedIndex: 0,
@@ -176,4 +186,4 @@
             $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
         };
     }
-})();
+})();*/
