@@ -1,7 +1,4 @@
-/**
- * Created by OrlyGB on 01/02/2016.
-
-MyApp.controller('stockController', ['$scope','$http',function($scope, $http) {
+app.controller('stockController', ['$scope','$http',function($scope, $http) {
     $scope.getStockDataFromServer = function() {
         $http({
             method : 'GET',
@@ -14,4 +11,3 @@ MyApp.controller('stockController', ['$scope','$http',function($scope, $http) {
         });
     };
 }]);
- */

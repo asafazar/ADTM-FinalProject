@@ -25,9 +25,7 @@ public class DeleteStrategyServlet extends HttpServlet {
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBStrategyDAO strategyDAO = new MongoDBStrategyDAO(mongo);
-        Strategy strategy = new Strategy();
-        strategy.setId(id);
-        strategyDAO.deleteStrategy(strategyDAO.readStrategy(strategy));
+        strategyDAO.deleteStrategy(id);
         System.out.println("strategy deleted successfully with id = " + id);
         request.setAttribute("success", "strategy deleted successfully");
         List<Strategy> strategies = strategyDAO.readAllStrategies();

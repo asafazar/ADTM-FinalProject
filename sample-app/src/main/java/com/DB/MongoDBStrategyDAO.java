@@ -43,9 +43,9 @@ public class MongoDBStrategyDAO {
         return data;
     }
 
-    public void deleteStrategy(Strategy strategy) {
+    public void deleteStrategy(String strategyId) {
         DBObject query = BasicDBObjectBuilder.start()
-                .append("_id", new ObjectId(strategy.getId())).get();
+                .append("_id", new ObjectId(strategyId)).get();
         this.col.remove(query);
     }
 
