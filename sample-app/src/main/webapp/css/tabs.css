@@ -1,13 +1,10 @@
+md-tabs.md-default-theme.md-accent > md-tabs-wrapper, md-tabs.md-accent > md-tabs-wrapper {
+    background-color: #ec9310;
+}
 .tabsdemoStaticTabs md-tab-content {
     padding: 25px; }
-.tabsdemoStaticTabs md-tab-content:nth-child(1) {
-    background-color: #42A5F5; }
-.tabsdemoStaticTabs md-tab-content:nth-child(2) {
-    background-color: #689F38; }
-.tabsdemoStaticTabs md-tab-content:nth-child(3) {
-    background-color: #26C6DA; }
-.tabsdemoStaticTabs md-tab-content:nth-child(4) {
-    background-color: #9f7c84; }
+.tabsdemoStaticTabs md-tab-content {
+    background-color: #d1cfb4; }
 
 .tabsdemoStaticTabs .after-tabs-area > span {
     margin-top: 25px;
@@ -31,7 +28,7 @@
 .datepickerdemoBasicUsage {
     /** Demo styles for mdCalendar. */ }
 .datepickerdemoBasicUsage md-content {
-    padding-bottom: 200px; }
+    padding-bottom: 200px;}
 .datepickerdemoBasicUsage .validation-messages {
     font-size: 11px;
     color: darkred;

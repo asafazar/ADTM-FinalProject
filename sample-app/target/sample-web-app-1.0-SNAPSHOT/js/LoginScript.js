@@ -1,6 +1,8 @@
 /**
  * Created by asaf on 14/03/2016.
  */
+
+
     var OAUTHURL    =   'https://accounts.google.com/o/oauth2/auth?';
     var VALIDURL    =   'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=';
     var SCOPE       =   'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
@@ -56,8 +58,8 @@
             data: null,
             success: function(resp) {
                 user    =   resp;
+                saveUser(user);
                 console.log(user);
-                alert(user.email);
                 $('#uName').text('Welcome ' + user.name);
                 $('#imgHolder').attr('src', user.picture);
             },
@@ -76,6 +78,27 @@
         else
             return results[1];
     }
+
+
+    function saveUser(user) {
+
+        $.ajax({
+            type: 'POST',
+            url: 'saveUser',
+            dataType: 'json',
+            data : {
+                name : user.name,
+                mail : user.email,
+                id : user.id,
+                pictureLink : user.picture
+            },
+            success: function (data){
+                
+            },
+            error: function () {
+            }
+    })
+    };
 
     function startLogoutPolling() {
         $('#loginText').show();
