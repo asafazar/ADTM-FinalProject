@@ -33,3 +33,7 @@ md-tabs.md-default-theme.md-accent > md-tabs-wrapper, md-tabs.md-accent > md-tab
     font-size: 11px;
     color: darkred;
     margin: 10px 0 0 25px; }
+
+.grid{
+    height: 550px;
+}

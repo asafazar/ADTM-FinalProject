@@ -3,16 +3,6 @@
  */
 app.controller('LiveData', ['$scope', '$http', '$interval', 'uiGridConstants', function ($scope, $http, $interval, uiGridConstants) {
 
-    $scope.liveData = $interval(function(){
-        $http({
-            method : 'GET',
-            url : 'getLiveData'
-        }).success(function(data, status, headers, config) {
-            $scope.liveData = data;
-        }).error(function(data, status, headers, config) {
-        });
-    }, 3000);
-
     $scope.highlightFilteredHeader = function( row, rowRenderIndex, col, colRenderIndex ) {
         if( col.filters[0].term ){
             return 'header-filtered';
@@ -24,32 +14,42 @@ app.controller('LiveData', ['$scope', '$http', '$interval', 'uiGridConstants', f
     $scope.gridOptions = {
         enableFiltering: true,
         onRegisterApi: function(gridApi){
-            $scope.gridApi = $scope.liveData;
+            $scope.gridApi = gridApi;
         },
         columnDefs: [
             // default
-            { field: 'שם נייר', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'כמות היצע ל1', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'היצע ל1', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'כמות ביקוש ל1', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'ביקוש ל1', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'מספר נייר', headerCellClass: $scope.highlightFilteredHeader }
+            { field: 'Bid Amount 1 C', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Bid 1 C', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Ask Amount 1 C', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Ask 1 C', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Daily Change C', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Current Price C', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Base Price C', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Strike Price C', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Current Price P', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Daily Change P', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Ask 1 P', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Ask Amount 1 P', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Bid 1 P', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'Bid Amount 1 P', headerCellClass: $scope.highlightFilteredHeader }
         ]
-        /*columnDefs: [
-            // default
-            { field: 'P כמות ביקוש', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'P מחיר ביקוש', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'P מחיר תיאורטי', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'P מחיר היצע', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'P כמות היצע', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'מחיר מימוש', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'C כמות היצע', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'C מחיר היצע', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'C מחיר תיאורטי', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'C מחיר ביקוש', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'C כמות ביקוש', headerCellClass: $scope.highlightFilteredHeader }
-        ]*/
     };
+
+    $http.get('/js/data/liveData.json')
+        .success(function(data) {
+            $scope.gridOptions.data = data;
+        });
+
+
+    $scope.gridOptions.data = $interval(function(){
+        $http({
+            method : 'GET',
+            url : 'getLiveData'
+        }).success(function(data, status, headers, config) {
+                $scope.gridOptions.data = data;
+        }).error(function(data, status, headers, config) {
+        });
+    }, 30000);
 
     $scope.toggleFiltering = function(){
         $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;

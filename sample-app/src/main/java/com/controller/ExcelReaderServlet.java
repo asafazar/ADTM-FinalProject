@@ -75,7 +75,6 @@ public class ExcelReaderServlet  extends HttpServlet {
                                     //Check the cell type and format accordingly
                                     insertCellToJson(callJsonObj, callCell, cellColumn, " C");
                                     insertCellToJson(putJsonObj, putCell, cellColumn, " P");
-
                                 }
 
                                 callJsonList.add(callJsonObj);
