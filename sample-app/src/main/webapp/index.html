@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="MyApp">
 <head>
     <meta charset="UTF-8">
     <title>ADTM</title>
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="favicon.png" rel="shortcut icon">
+    <link href="//fonts.googleapis.com/css?family=Roboto|Montserrat:400,700|Open+Sans:400,300,600" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/animatecss/3.2.0/animate.css" rel="stylesheet">
+    <link href="/stylesheets/angular-toastr.css" rel="stylesheet">
+    <link href="/stylesheets/styles.css" rel="stylesheet">
     <!-- Angular Material style sheet -->
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
     <link rel="stylesheet" href="css/tabs.css">
@@ -15,115 +23,90 @@
     <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
     <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
     <script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
-	<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+    <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
 
 </head>
 
 <body>
-    <div ng-controller="Date" ng-cloak="" class="tabsdemoStaticTabs" ng-app="MyApp">
-        <md-content class="md-padding">
-                <md-tabs class="md-accent" md-selected="data.selectedIndex" md-align-tabs="{{data.bottom ? 'bottom' : 'top'}}">
-                    <!--
-                <md-tab id="tab1">
-                    <md-tab-label>Stocks</md-tab-label>
-                        <md-tab-body>
-                            <div ng-controller="stockController" ng-cloak>
-                                <button ng-click="getStockDataFromServer()">Fetch data from server</button>
-                                <button ng-click="getStockRangeDataFromServer()">Fetch data date from server</button>
-                                <md-content>
-                                    <md-list>
-                                        <uib-accordion close-others="oneAtATime">
-                                            <uib-accordion-group is-open="status.open" ng-repeat="item in stocks">
-                                                <md-list-item class="md-line">
-                                                      <div class="md-list-item-text" layout="column">
-                                                        <uib-accordion-heading>
-                                                            <p>{{item.assetName}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></p>
-                                                            <p> amount:{{item.amount}} price:{{item.price}} </p>
-                                                            <p>  {{item.date}} {{item.time}}</p>
-                                                        </uib-accordion-heading>
-                                                        <p> {{item.contractNumber}} </p>
-                                                    </div>
-                                                </md-list-item>
-                                            </uib-accordion-group>
-                                        </uib-accordion>
-                                    </md-list>
-                                </md-content>
-                            </div>
-                    </md-tab-body>
-                </md-tab>
-                <md-tab id="tab2">
-                    <md-tab-label>Actions</md-tab-label>
-                    <md-tab-body>
-                    </md-tab-body>
-                </md-tab>
-                <md-tab id="tab3">
-                    <md-tab-label>  בורסת ת"א - אופציות ת"א 25</md-tab-label>
-                    <md-tab-body>
-                        <div ng-controller="market">
-                            <div id="grid1" ui-grid="{ data: myData }" class="myGrid" dir="rtl" ui-grid-pinning ui-grid-resize-columns></div>
-                        </div>
-                    </md-tab-body>
-                </md-tab>
-                -->
-                <md-tab id="tab4">
-                    <md-tab-label> Live Options </md-tab-label>
-                    <md-tab-body>
-                        <div ng-controller="LiveData">
-
-                            <button id='toggleFiltering' ng-click="toggleFiltering()" class="btn btn-success">Toggle Filtering</button>
-                            <div id="grid2" ui-grid="gridOptions" class="grid"  ui-grid-pinning ui-grid-resize-columns></div>
-
-                        </div>
-                    </md-tab-body>
-                </md-tab>
-                    <!--
-                <md-tab id="tab5" >
-                    <md-tab-label> live data</md-tab-label>
-                    <md-tab-body>
-                        <div ng-controller="LiveData">
-                            <li ng-repeat="data in liveData">
-                                {{ data }}
-                            </li>
-                        </div>
-                    </md-tab-body>
-                </md-tab>
-                <md-tab id="tab6">
-                    <md-tab-label> Login </md-tab-label>
-                    <md-tab-body>
-                        <a href='#' onClick='login();' id="loginText"> Click here to login </a>
-                        <a href="#" style="display:none" id="logoutText" target='myIFrame' onclick="myIFrame.location='https://www.google.com/accounts/Logout'; startLogoutPolling();return false;"> Click here to logout </a>
-                        <iframe name='myIFrame' id="myIFrame" style='display:none'></iframe>
-                        <div id='uName'></div>
-                        <img src='' id='imgHolder'/>
-                    </md-tab-body>
-                </md-tab>
-                -->
-            </md-tabs>
-        </md-content>
+<div ng-controller="NavbarCtrl" class="navbar navbar-default navbar-static-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/"><i class="ion-ios7-pulse-strong"></i> Adtm</a>
     </div>
+    <ul class="nav navbar-nav">
+        <li><a href="/#/">Home</a></li>
+        <li ng-if="isAuthenticated()"><a href="/#/profile">Profile</a></li>
+    </ul>
+    <ul ng-if="!isAuthenticated()" class="nav navbar-nav pull-right">
+        <li><a href="/#/login">Login</a></li>
+        <li><a href="/#/signup">Sign up</a></li>
+    </ul>
+    <ul ng-if="isAuthenticated()" class="nav navbar-nav pull-right">
+        <li><a href="/#/logout">Logout</a></li>
+    </ul>
+</div>
 
-    <!-- Angular Material requires Angular.js Libraries -->
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-touch.min.js"></script>
+<div ui-view></div>
 
-    <!-- Angular Material Library -->
-    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
-    <script src="libraries/jquery-1.12.0.min.js"></script>
-    <script src="libraries/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
-    <script src="libraries/ui-bootstrap-tpls-1.1.2.min.js"></script>
-    <script src="libraries/ui-grid/ui-grid.min.js"></script>
+<!-- Third-party Libraries -->
+<script src="/vendor/angular.js"></script>
+<script src="/vendor/angular-animate.js"></script>
+<script src="/vendor/angular-messages.js"></script>
+<script src="/vendor/angular-resource.js"></script>
+<script src="/vendor/angular-sanitize.js"></script>
+<script src="/vendor/angular-ui-router.js"></script>
+<script src="/vendor/angular-toastr.tpls.js"></script>
+<script src="/vendor/satellizer.js"></script>
+
+<!-- Application Code -->
+<script type="text/javascript" src="app.js"></script>
+<script src="/js/directives/passwordStrength.js"></script>
+<script src="/js/directives/passwordMatch.js"></script>
+<script src="/js/controllers/home.js"></script>
+<script src="/js/controllers/login.js"></script>
+<script src="/js/controllers/signup.js"></script>
+<script src="/js/controllers/logout.js"></script>
+<script src="/js/controllers/profile.js"></script>
+<script src="/js/controllers/navbar.js"></script>
+<script src="/js/services/account.js"></script>
+
+<!-- Angular Material requires Angular.js Libraries -->
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-touch.min.js"></script>
+
+<!-- Angular Material Library -->
+<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+<script src="libraries/jquery-1.12.0.min.js"></script>
+<script src="libraries/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+<script src="libraries/ui-bootstrap-tpls-1.1.2.min.js"></script>
+<script src="libraries/ui-grid/ui-grid.min.js"></script>
 
 
-    <script src="js/LoginScript.js"></script>
-    <script type="text/javascript" src="js/tabs.js"></script>
-    <script type="text/javascript" src="js/tabs/market/market.js"></script>
-    <script type="text/javascript" src="js/Accordion.js"></script>
-    <script type="text/javascript" src="js/date.js"></script>
-    <script type="text/javascript" src="js/LiveData.js"></script>
-    <script type="text/javascript" src="js/controllers/stockController.js"></script>
 
-    </body>
+<script type="text/javascript" src="js/tabs/market/market.js"></script>
+<script type="text/javascript" src="js/Accordion.js"></script>
+<script type="text/javascript" src="js/date.js"></script>
+<script type="text/javascript" src="js/LiveData.js"></script>
+<script type="text/javascript" src="js/controllers/stockController.js"></script>
+<script type="text/javascript" src="js/LoginScript.js"></script>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '226445171070422',
+            xfbml      : true,
+            version    : 'v2.6'
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+</body>
 </html>

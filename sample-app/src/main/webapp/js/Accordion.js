@@ -1,7 +1,8 @@
 /**
  * Created by OrlyGB on 12/04/2016.
  */
-app.controller('AccordionDemoCtrl', function ($scope) {
+angular.module('MyApp')
+    .controller('AccordionDemoCtrl', function ($scope) {
     $scope.oneAtATime = true;
 
     $scope.groups = [

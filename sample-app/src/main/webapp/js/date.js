@@ -1,7 +1,8 @@
 /**
  * Created by OrlyGB on 12/04/2016.
  */
-app.controller('Date', Date).controller('Date', function($scope) {
+angular.module('MyApp')
+    .controller('Date', Date).controller('Date', function($scope) {
     $scope.myDate = new Date();
     $scope.minDate = new Date(
         $scope.myDate.getFullYear(),

@@ -1,11 +1,14 @@
 package com.DB;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.util.Arrays;
 
 @WebListener
 public class MongoDBContextListener implements ServletContextListener {
@@ -22,9 +25,11 @@ public class MongoDBContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         try {
             ServletContext ctx = sce.getServletContext();
-            MongoClient mongo = new MongoClient(
-                    ctx.getInitParameter("DB_IP"),
-                    Integer.parseInt(ctx.getInitParameter("DB_PORT")));
+            ServerAddress serverAddress = new ServerAddress(ctx.getInitParameter("DB_IP"));
+            MongoCredential credential = MongoCredential.createCredential(
+                    ctx.getInitParameter("MONGODB_USERNAME"), "admin",
+                    ctx.getInitParameter("MONGODB_PASSWORD").toCharArray());
+            MongoClient mongo = new MongoClient(serverAddress, Arrays.asList(credential));
             System.out.println("MongoClient initialized successfully");
             sce.getServletContext().setAttribute("MONGO_CLIENT", mongo);
         } catch (Exception e) {

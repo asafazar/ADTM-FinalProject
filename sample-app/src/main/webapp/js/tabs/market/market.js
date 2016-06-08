@@ -1,4 +1,5 @@
-app.controller('market', ['$scope', function ($scope) {
+angular.module('MyApp')
+    .controller('market', ['$scope', function ($scope) {
 
     $scope.myData = [
         {

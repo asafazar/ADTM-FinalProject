@@ -1,4 +1,5 @@
-app.controller('stockController', ['$scope','$http',function($scope, $http) {
+angular.module('MyApp')
+    .controller('stockController', ['$scope','$http',function($scope, $http) {
     $scope.getStockDataFromServer = function() {
         $http({
             method : 'GET',
