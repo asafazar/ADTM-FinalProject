@@ -2,6 +2,7 @@ package com.controller.users;
 
 import com.DB.MongoDBUserDAO;
 import com.controller.auth.AuthUtils;
+import com.mongodb.MongoClient;
 import com.nimbusds.jose.JOSEException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +18,8 @@ import java.text.ParseException;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserResource {
-	
-	private final MongoDBUserDAO dao;
-	
-	public UserResource(MongoDBUserDAO userDAO) {
-		this.dao = userDAO;
+
+	public UserResource() {
 	}
 
 	@GET
@@ -33,13 +31,6 @@ public class UserResource {
 		}
 		return Response.ok().entity(foundUser).build();
 	}
-	
-	// for testing
-	@GET
-	@Path("/all")
-	public Response getAllUsers() {
-		return Response.ok().entity(dao.getAllUsers()).build();
-	}
 
 	@PUT
 	public Response updateUser(@Valid User user, @Context HttpServletRequest request) throws ParseException, JOSEException {
@@ -50,21 +41,24 @@ public class UserResource {
 					.status(Status.NOT_FOUND)
 					.entity(new Error(AuthResource.NOT_FOUND_MSG)).build();
 		}
-		
+
+        MongoClient mongo = (MongoClient) request.getServletContext()
+                .getAttribute("MONGO_CLIENT");
+        MongoDBUserDAO mongoDBUserDAO = new MongoDBUserDAO(mongo);
 		User userToUpdate = foundUser;
 		userToUpdate.setDisplayName(user.getDisplayName());
 		userToUpdate.setEmail(user.getEmail());
-		dao.save(userToUpdate);
+        mongoDBUserDAO.save(userToUpdate);
 
 		return Response.ok().build();
 	}
-	
-	/*
-	 * Helper methods
-	 */	
+
 	private User getAuthUser(HttpServletRequest request) throws ParseException, JOSEException {
-		String subject = AuthUtils.getSubject(request.getHeader(AuthUtils.AUTH_HEADER_KEY));
-		return dao.getUserByMail(subject);
+        MongoClient mongo = (MongoClient) request.getServletContext()
+                .getAttribute("MONGO_CLIENT");
+        MongoDBUserDAO mongoDBUserDAO = new MongoDBUserDAO(mongo);
+        String subject = AuthUtils.getSubject(request.getHeader(AuthUtils.AUTH_HEADER_KEY));
+		return mongoDBUserDAO.getUserByMail(subject);
 	}
 
 }

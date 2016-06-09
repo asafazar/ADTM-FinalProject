@@ -1,6 +1,7 @@
 package com.controller.strategy;
 
 import com.DB.MongoDBStrategyDAO;
+import com.controller.users.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.model.Strategy.Strategy;
@@ -15,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/strategy")
 public class StrategyResource {
@@ -66,6 +68,22 @@ public class StrategyResource {
         MongoDBStrategyDAO mongoDBStrategyDAO = new MongoDBStrategyDAO(mongo);
         mongoDBStrategyDAO.updateStrategy(currStrategy);
         return Response.status(Response.Status.OK).build();
+    }
+
+
+    @POST
+    @Path("/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response all(String user, @Context final HttpServletRequest request)
+            throws JOSEException {
+        Gson gson = new GsonBuilder().create();
+        User currUser = gson.fromJson(user, User.class);
+        MongoClient mongo = (MongoClient) request.getServletContext()
+                .getAttribute("MONGO_CLIENT");
+        MongoDBStrategyDAO mongoDBStrategyDAO = new MongoDBStrategyDAO(mongo);
+        List<Strategy> strategies = mongoDBStrategyDAO.getUserStrategies(currUser.getId());
+        return Response.status(Response.Status.OK).entity(strategies).build();
     }
 }
 

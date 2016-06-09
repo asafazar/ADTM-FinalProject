@@ -46,15 +46,15 @@
 
     <!-- this need same with resteasy servlet url-pattern -->
     <context-param>
+        <param-name>resteasy.scan</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>resteasy.servlet.mapping.prefix</param-name>
         <param-value>/rest</param-value>
     </context-param>
 
-    <listener>
-        <listener-class>
-            org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
-        </listener-class>
-    </listener>
 
     <servlet>
         <servlet-name>resteasy-servlet</servlet-name>
@@ -76,6 +76,12 @@
         <servlet-name>getLiveData</servlet-name>
         <url-pattern>/getLiveData</url-pattern>
     </servlet-mapping>
+
+    <listener>
+        <listener-class>
+            org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+        </listener-class>
+    </listener>
 
     <listener>
         <listener-class>
