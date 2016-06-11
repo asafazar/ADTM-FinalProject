@@ -24,7 +24,7 @@ public class MongoDBUserDAO {
             new byte[] { 'T', 'h', 'i', 's', 'I', 's', 'A', 'S', 'e', 'c', 'r', 'e', 't', 'K', 'e', 'y' };
 
     public MongoDBUserDAO(MongoClient mongo) {
-        this.col = mongo.getDB("admin").getCollection("users");
+        this.col = mongo.getDB("adtmdb").getCollection("users");
     }
 
     private static Key generateKey() throws Exception {

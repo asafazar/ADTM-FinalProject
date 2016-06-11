@@ -2,10 +2,7 @@ package com.controller.actions;
 
 import com.DB.MongoDBActionDAO;
 import com.google.gson.Gson;
-import com.model.actions.AbstractAction;
-import com.model.actions.ActionCallOption;
-import com.model.actions.ActionCallWrite;
-import com.model.actions.ActionPutOption;
+import com.model.actions.Action;
 import com.model.utils.Constants;
 import com.mongodb.MongoClient;
 
@@ -33,10 +30,10 @@ public class EditActionServlet extends HttpServlet {
                 .getAttribute("MONGO_CLIENT");
         MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
 
-        AbstractAction action;
+        Action action;
         action = actionDAO.readAction(id);
         request.setAttribute("action", action);
-        List<AbstractAction> actions = actionDAO.readAllActions();
+        List<Action> actions = actionDAO.readAllActions();
         request.setAttribute("actions", actions);
 
         String json = new Gson().toJson(actions);
@@ -76,44 +73,10 @@ public class EditActionServlet extends HttpServlet {
             MongoClient mongo = (MongoClient) request.getServletContext()
                     .getAttribute("MONGO_CLIENT");
             MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
-            AbstractAction action;
-            switch (actionNumber)
-            {
-                case ACTION_CALL_OPTION:
-                    action = new ActionCallOption();
-                    break;
-                case ACTION_CALL_WRITE:
-                    action = new ActionCallWrite();
-                    break;
-                case ACTION_PUT_OPTION:
-                    action = new ActionPutOption();
-                    break;
-                case ACTION_PUT_WRITE:
-                    action = new ActionCallWrite();
-                    break;
-                default:
-                    action = new ActionCallOption();
-            }
-
-            action.setContractName(contractName);
-            action.setActionNumber();
-            action.setMaofValue(maofValue);
-            action.setActionValue(actionValue);
-            action.setName(name);
-            action.setAmount(amount);
-            action.setActionPrice(actionPrice);
-            action.setTotalPrice(totalPrice);
+            Action action = new Action();
             action.setWeekly(isWeekly);
-            action.setTime(time);
-            action.setDate(date);
-            action.setIsExecuted(isExecuted);
-            action.setStrategyId(strategyId);
-            action.setActionExecutingPrice(actionExecutingPrice);
-            action.setTotalExecutingPrice(totalExecutingPrice);
-            actionDAO.updateAction(action);
-            System.out.println("Action edited Successfully with id = "+action.getId());
             request.setAttribute("success", "Stock edited Successfully");
-            List<AbstractAction> actions = actionDAO.readAllActions();
+            List<Action> actions = actionDAO.readAllActions();
             request.setAttribute("actions", actions);
 
             String json = new Gson().toJson(actions);

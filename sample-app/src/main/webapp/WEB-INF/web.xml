@@ -68,9 +68,18 @@
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
+  <!--  <servlet>
+        <servlet-name>getLiveData</servlet-name>
+        <servlet-class>com.controller.live.ExcelReaderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getLiveData</servlet-name>
+        <url-pattern>/getLiveData</url-pattern>
+    </servlet-mapping>
+-->
     <servlet>
         <servlet-name>getLiveData</servlet-name>
-        <servlet-class>com.controller.ExcelReaderServlet</servlet-class>
+        <servlet-class>com.controller.live.ActionsReaderServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>getLiveData</servlet-name>

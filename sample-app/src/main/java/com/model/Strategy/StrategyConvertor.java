@@ -1,7 +1,7 @@
 package com.model.Strategy;
 
 import com.DB.MongoDBActionDAO;
-import com.model.actions.AbstractAction;
+import com.model.actions.Action;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
@@ -48,7 +48,7 @@ public class StrategyConvertor {
         Strategy strategy = new Strategy();
         MongoClient mongo = new MongoClient(dbHost, dbPort);
         MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
-        List<AbstractAction> actions = actionDAO.getActionsByStrategyId
+        List<Action> actions = actionDAO.getActionsByStrategyId
                 (((ObjectId) doc.get("_id")).toString());
         strategy.setActions(actions);
         strategy.setWeekly(((String)doc.get("IsWeekly")).equals("1"));

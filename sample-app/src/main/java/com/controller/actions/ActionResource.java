@@ -3,7 +3,7 @@ package com.controller.actions;
 import com.DB.MongoDBActionDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.model.actions.AbstractAction;
+import com.model.actions.Action;
 import com.mongodb.MongoClient;
 import com.nimbusds.jose.JOSEException;
 
@@ -29,11 +29,11 @@ public class ActionResource {
     public Response add(String action, @Context final HttpServletRequest request)
             throws JOSEException {
         Gson gson = new GsonBuilder().create();
-        AbstractAction abstractAction = gson.fromJson(action, AbstractAction.class);
+        Action abstractAction = gson.fromJson(action, Action.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBActionDAO mongoDBActionDAO = new MongoDBActionDAO(mongo);
-        AbstractAction newAction = mongoDBActionDAO.createAction(abstractAction);
+        Action newAction = mongoDBActionDAO.createAction(abstractAction);
         return Response.status(Response.Status.CREATED).entity(newAction).build();
     }
 
@@ -44,7 +44,7 @@ public class ActionResource {
     public Response delete(String action, @Context final HttpServletRequest request)
             throws JOSEException {
         Gson gson = new GsonBuilder().create();
-        AbstractAction abstractAction = gson.fromJson(action, AbstractAction.class);
+        Action abstractAction = gson.fromJson(action, Action.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBActionDAO mongoDBActionDAO = new MongoDBActionDAO(mongo);
@@ -60,7 +60,7 @@ public class ActionResource {
     public Response update(String action, @Context final HttpServletRequest request)
             throws JOSEException {
         Gson gson = new GsonBuilder().create();
-        AbstractAction abstractAction = gson.fromJson(action , AbstractAction.class);
+        Action abstractAction = gson.fromJson(action , Action.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBActionDAO mongoDBActionDAO= new MongoDBActionDAO(mongo);

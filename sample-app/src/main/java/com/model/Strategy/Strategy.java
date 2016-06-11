@@ -1,6 +1,6 @@
 package com.model.Strategy;
 
-import com.model.actions.AbstractAction;
+import com.model.actions.Action;
 import com.model.utils.TimeCalculator;
 
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.List;
 public class Strategy {
 
     private String id;
-    public List<AbstractAction> actions;
+    public List<Action> actions;
     private boolean isWeekly;
     private String description;
     private String comment;
@@ -28,11 +28,11 @@ public class Strategy {
         this.id = id;
     }
 
-    public List<AbstractAction> getActions() {
+    public List<Action> getActions() {
         return actions;
     }
 
-    public void setActions(List<AbstractAction> actions) {
+    public void setActions(List<Action> actions) {
         this.actions = actions;
     }
 
