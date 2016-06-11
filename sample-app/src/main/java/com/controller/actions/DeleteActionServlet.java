@@ -2,7 +2,7 @@ package com.controller.actions;
 
 import com.DB.MongoDBActionDAO;
 import com.google.gson.Gson;
-import com.model.actions.Action;
+import com.model.actions.Strike;
 import com.mongodb.MongoClient;
 
 import javax.servlet.ServletException;
@@ -25,14 +25,14 @@ public class DeleteActionServlet extends HttpServlet {
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
-        Action action = actionDAO.readAction(id);
-        actionDAO.deleteAction(action);
-        System.out.println("Action deleted successfully with id = " + id);
+        Strike strike = actionDAO.readAction(id);
+        actionDAO.deleteAction(strike);
+        System.out.println("Strike deleted successfully with id = " + id);
         request.setAttribute("success", "Stock deleted successfully");
-        List<Action> actions = actionDAO.readAllActions();
-        request.setAttribute("actions", actions);
+        List<Strike> strikes = actionDAO.readAllActions();
+        request.setAttribute("strikes", strikes);
 
-        String json = new Gson().toJson(actions);
+        String json = new Gson().toJson(strikes);
         response.setContentType("application/json");
         response.getWriter().write(json);
     }

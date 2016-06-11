@@ -2,7 +2,7 @@ package com.DB;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.model.actions.Action;
+import com.model.actions.Strike;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 import org.bson.types.ObjectId;
@@ -21,20 +21,20 @@ public class MongoDBActionDAO {
         this.col = mongo.getDB("adtmdb").getCollection("actions");
     }
 
-    public Action createAction(Action action) {
+    public Strike createAction(Strike strike) {
         Gson gson = new GsonBuilder().create();
-        DBObject doc = (DBObject) JSON.parse(gson.toJson(action, Action.class));
+        DBObject doc = (DBObject) JSON.parse(gson.toJson(strike, Strike.class));
         this.col.insert(doc);
         ObjectId id = (ObjectId) doc.get("_id");
-        return action;
+        return strike;
     }
 
-    public void updateAction(Action action) {
+    public void updateAction(Strike strike) {
     }
 
-    public List<Action> readAllActions() {
+    public List<Strike> readAllActions() {
         Gson gson = new GsonBuilder().create();
-        List<Action> data = new ArrayList<Action>();
+        List<Strike> data = new ArrayList<Strike>();
         DBCursor cursor = col.find();
         while (cursor.hasNext()) {
             DBObject doc = cursor.next();
@@ -42,33 +42,32 @@ public class MongoDBActionDAO {
         return data;
     }
 
-    public void deleteAction(Action action) {
+    public void deleteAction(Strike strike) {
     }
 
-    public Action readAction(String actionId) {
+    public Strike readAction(String actionId) {
         Gson gson = new GsonBuilder().create();
-        Action action = new Action();
+        Strike strike = new Strike();
         BasicDBObject query = new BasicDBObject();
         query.put("_id", new BasicDBObject("$eq", actionId));
         DBCursor cursor = (DBCursor) col.findOne(query);
-        DBObject doc = cursor.next();/*
-        action = gson.fromJson(JSON.);*/
-        return action;
+        DBObject doc = cursor.next();
+        return strike;
     }
 
-    public List<Action> getActionsByStrategyId(String strategyId)
+    public List<Strike> getActionsByStrategyId(String strategyId)
     {
-        List<Action> actions = new ArrayList<Action>();
+        List<Strike> strikes = new ArrayList<Strike>();
 
         BasicDBObject query = new BasicDBObject();
         query.put("StraegyId", new BasicDBObject("$eq", strategyId));
         DBCursor cursor = col.find(query);
-        return actions;
+        return strikes;
     }
 
-    public List<Action> getActionsByActionNumAndValue(int actionNum, int value)
+    public List<Strike> getActionsByActionNumAndValue(int actionNum, int value)
     {
-        List<Action> actions = new ArrayList<Action>();
+        List<Strike> strikes = new ArrayList<Strike>();
         BasicDBObject query = new BasicDBObject();
         List<BasicDBObject> queriesList = new ArrayList<BasicDBObject>();
         queriesList.add(new BasicDBObject("actionNumber", actionNum));
@@ -76,6 +75,6 @@ public class MongoDBActionDAO {
         query.put("$and", queriesList);
         DBCursor cursor = col.find(query);
 
-        return actions;
+        return strikes;
     }
 }

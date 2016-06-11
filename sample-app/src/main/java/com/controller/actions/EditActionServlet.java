@@ -2,7 +2,7 @@ package com.controller.actions;
 
 import com.DB.MongoDBActionDAO;
 import com.google.gson.Gson;
-import com.model.actions.Action;
+import com.model.actions.Strike;
 import com.model.utils.Constants;
 import com.mongodb.MongoClient;
 
@@ -23,20 +23,20 @@ public class EditActionServlet extends HttpServlet {
                          HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         if (id == null || "".equals(id)) {
-            throw new ServletException("id missing for edit action operation");
+            throw new ServletException("id missing for edit strike operation");
         }
-        System.out.println("Action edit requested with id=" + id);
+        System.out.println("Strike edit requested with id=" + id);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
 
-        Action action;
-        action = actionDAO.readAction(id);
-        request.setAttribute("action", action);
-        List<Action> actions = actionDAO.readAllActions();
-        request.setAttribute("actions", actions);
+        Strike strike;
+        strike = actionDAO.readAction(id);
+        request.setAttribute("strike", strike);
+        List<Strike> strikes = actionDAO.readAllActions();
+        request.setAttribute("strikes", strikes);
 
-        String json = new Gson().toJson(actions);
+        String json = new Gson().toJson(strikes);
         response.setContentType("application/json");
         response.getWriter().write(json);
     }
@@ -73,13 +73,13 @@ public class EditActionServlet extends HttpServlet {
             MongoClient mongo = (MongoClient) request.getServletContext()
                     .getAttribute("MONGO_CLIENT");
             MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
-            Action action = new Action();
-            action.setWeekly(isWeekly);
+            Strike strike = new Strike();
+            strike.setWeekly(isWeekly);
             request.setAttribute("success", "Stock edited Successfully");
-            List<Action> actions = actionDAO.readAllActions();
-            request.setAttribute("actions", actions);
+            List<Strike> strikes = actionDAO.readAllActions();
+            request.setAttribute("strikes", strikes);
 
-            String json = new Gson().toJson(actions);
+            String json = new Gson().toJson(strikes);
             response.setContentType("application/json");
             response.getWriter().write(json);
         }

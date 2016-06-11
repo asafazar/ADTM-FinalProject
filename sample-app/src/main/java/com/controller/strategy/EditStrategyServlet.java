@@ -54,7 +54,7 @@ public class EditStrategyServlet extends HttpServlet {
                 Integer.valueOf(dateStr.substring(4, 5)), Integer.valueOf(dateStr.substring(6, 7)));
         Strategy strategy = new Strategy();
         strategy.setWeekly(isWeekly);
-        strategy.setDescription(description);
+        strategy.setName(description);
         strategy.setComment(comment);
         strategy.setDate(date);
         MongoClient mongo = (MongoClient) request.getServletContext()

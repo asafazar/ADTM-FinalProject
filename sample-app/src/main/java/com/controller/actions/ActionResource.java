@@ -3,7 +3,7 @@ package com.controller.actions;
 import com.DB.MongoDBActionDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.model.actions.Action;
+import com.model.actions.Strike;
 import com.mongodb.MongoClient;
 import com.nimbusds.jose.JOSEException;
 
@@ -29,12 +29,12 @@ public class ActionResource {
     public Response add(String action, @Context final HttpServletRequest request)
             throws JOSEException {
         Gson gson = new GsonBuilder().create();
-        Action abstractAction = gson.fromJson(action, Action.class);
+        Strike abstractStrike = gson.fromJson(action, Strike.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBActionDAO mongoDBActionDAO = new MongoDBActionDAO(mongo);
-        Action newAction = mongoDBActionDAO.createAction(abstractAction);
-        return Response.status(Response.Status.CREATED).entity(newAction).build();
+        Strike newStrike = mongoDBActionDAO.createAction(abstractStrike);
+        return Response.status(Response.Status.CREATED).entity(newStrike).build();
     }
 
     @POST
@@ -44,11 +44,11 @@ public class ActionResource {
     public Response delete(String action, @Context final HttpServletRequest request)
             throws JOSEException {
         Gson gson = new GsonBuilder().create();
-        Action abstractAction = gson.fromJson(action, Action.class);
+        Strike abstractStrike = gson.fromJson(action, Strike.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBActionDAO mongoDBActionDAO = new MongoDBActionDAO(mongo);
-        mongoDBActionDAO.deleteAction(abstractAction);
+        mongoDBActionDAO.deleteAction(abstractStrike);
         return Response.status(Response.Status.OK).build();
     }
 
@@ -60,11 +60,11 @@ public class ActionResource {
     public Response update(String action, @Context final HttpServletRequest request)
             throws JOSEException {
         Gson gson = new GsonBuilder().create();
-        Action abstractAction = gson.fromJson(action , Action.class);
+        Strike abstractStrike = gson.fromJson(action , Strike.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBActionDAO mongoDBActionDAO= new MongoDBActionDAO(mongo);
-        mongoDBActionDAO.updateAction(abstractAction);
+        mongoDBActionDAO.updateAction(abstractStrike);
         return Response.status(Response.Status.OK).build();
     }
 }

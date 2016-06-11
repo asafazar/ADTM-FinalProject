@@ -1,10 +1,12 @@
 package com.model.Strategy;
 
-import com.model.actions.Action;
+import com.model.actions.Strike;
+import com.model.actions.Purchase;
 import com.model.utils.TimeCalculator;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asaf on 04/02/2016.
@@ -12,13 +14,30 @@ import java.util.List;
 public class Strategy {
 
     private String id;
-    public List<Action> actions;
+    public List<Purchase> strikes;
     private boolean isWeekly;
-    private String description;
+    private String name;
     private String comment;
     private Date date;
     private Date expirationDate;
     private String userId;
+    private Map<Strike, Double> pl;
+
+    public Map<Strike, Double> getPl() {
+        return pl;
+    }
+
+    public void setPl(Map<Strike, Double> pl) {
+        this.pl = pl;
+    }
+
+    public List<Purchase> getStrikes() {
+        return strikes;
+    }
+
+    public void setStrikes(List<Purchase> strikes) {
+        this.strikes = strikes;
+    }
 
     public String getId() {
         return id;
@@ -28,12 +47,12 @@ public class Strategy {
         this.id = id;
     }
 
-    public List<Action> getActions() {
-        return actions;
+    public List<Purchase> getActions() {
+        return strikes;
     }
 
-    public void setActions(List<Action> actions) {
-        this.actions = actions;
+    public void setActions(List<Purchase> actions) {
+        this.strikes = actions;
     }
 
     public boolean isWeekly() {
@@ -44,12 +63,12 @@ public class Strategy {
         isWeekly = weekly;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String descr) {
-        this.description = descr;
+    public void setName(String descr) {
+        this.name = descr;
     }
 
     public String getComment() {

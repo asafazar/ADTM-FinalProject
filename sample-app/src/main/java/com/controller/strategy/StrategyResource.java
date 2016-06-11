@@ -5,6 +5,8 @@ import com.controller.users.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.model.Strategy.Strategy;
+import com.model.actions.Strike;
+import com.model.utils.Constants;
 import com.mongodb.MongoClient;
 import com.nimbusds.jose.JOSEException;
 
@@ -16,6 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 import java.util.List;
 
 @Path("/strategy")
@@ -34,6 +37,15 @@ public class StrategyResource {
         Strategy newStrategy = gson.fromJson(strategy, Strategy.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
+        for (Strike strike : Constants.lastStrikes)
+        {
+            if (strike.getDescription().contains("W") ||
+                    strike.getDescription().contains(Constants.MONTHES_MAP.get(new Date().getMonth())))
+            {
+                newStrategy.getPl().put(strike, 0.0);
+            }
+        }
+
         MongoDBStrategyDAO mongoDBStrategyDAO = new MongoDBStrategyDAO(mongo);
         Strategy completeStrategy = mongoDBStrategyDAO.createStrategy(newStrategy);
         return Response.status(Response.Status.CREATED).entity(completeStrategy).build();

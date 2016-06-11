@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by asaf on 02/02/2016.
  */
-public class Action {
+public class Strike {
     private int strikePrice;
     private String trade;
     private int basePrice;
@@ -36,9 +36,9 @@ public class Action {
     private Date expirationDate;
     private String description;
     private boolean isWeekly;
-        private boolean isCall;
+    private boolean isCall;
 
-    public Action()
+    public Strike()
     {
 
     }

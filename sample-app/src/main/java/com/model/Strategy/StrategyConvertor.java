@@ -1,7 +1,7 @@
 package com.model.Strategy;
 
 import com.DB.MongoDBActionDAO;
-import com.model.actions.Action;
+import com.model.actions.Strike;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
@@ -21,7 +21,7 @@ public class StrategyConvertor {
     public static DBObject toDBObject(Strategy strategy) {
         BasicDBObjectBuilder builder = new BasicDBObjectBuilder();
         builder.append("IsWeekly", strategy.isWeekly())
-                .append("Description", strategy.getDescription())
+                .append("Description", strategy.getName())
                 .append("Comment", strategy.getComment())
                 .append("Date", strategy.getDate())
                 .append("ExpirationDate", strategy.getDate())
@@ -48,11 +48,10 @@ public class StrategyConvertor {
         Strategy strategy = new Strategy();
         MongoClient mongo = new MongoClient(dbHost, dbPort);
         MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
-        List<Action> actions = actionDAO.getActionsByStrategyId
+        List<Strike> strikes = actionDAO.getActionsByStrategyId
                 (((ObjectId) doc.get("_id")).toString());
-        strategy.setActions(actions);
         strategy.setWeekly(((String)doc.get("IsWeekly")).equals("1"));
-        strategy.setDescription((String) doc.get("Description"));
+        strategy.setName((String) doc.get("Description"));
         strategy.setComment((String)doc.get("Comment"));
         Date date = new Date(Integer.valueOf(doc.get("Date").toString().substring(0,3)),
                 Integer.valueOf(doc.get("Date").toString().substring(4,5)),

@@ -1,6 +1,9 @@
 package com.model.utils;
 
+import com.model.actions.Strike;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,4 +63,6 @@ public class Constants {
         temp.put(11, "DEC");
         MONTHES_MAP = temp;
     }
+
+    public static List<Strike> lastStrikes;
 }

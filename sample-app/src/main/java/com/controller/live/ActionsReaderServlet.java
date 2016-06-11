@@ -3,7 +3,7 @@ package com.controller.live;
 import com.DB.MongoDBStrikesDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.model.actions.Action;
+import com.model.actions.Strike;
 import com.model.utils.Constants;
 import com.mongodb.MongoClient;
 import org.apache.poi.ss.usermodel.Cell;
@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,79 @@ public class ActionsReaderServlet extends HttpServlet {
     private static final String KEY_VALUE_SEPARATOR = '"' + ":" + '"';
     private static final String FIELD_SEPARATOR = '"' + "," + '"';
     public static String finalString = "";
-    List<Action> liveActions = new ArrayList<>();
+    List<Strike> liveStrikes;
+
+
+    public void init(final ServletConfig sc) throws ServletException {
+
+        Timer t = new Timer();
+
+        t.scheduleAtFixedRate(
+                new TimerTask()
+                {
+                    public void run()
+                    {
+                        liveStrikes = new ArrayList<>();
+                        String allDataAsJson = "[";
+
+                        try {
+                            FileInputStream file = new FileInputStream(new File("C:/asaf/data-old.xlsx"));
+
+                            //Create Workbook instance holding reference to .xlsx file
+                            XSSFWorkbook workbook = new XSSFWorkbook(file);
+
+                            //Get first/desired sheet from the workbook
+                            XSSFSheet sheet = workbook.getSheetAt(0);
+
+                            //Iterate through each rows one by one
+                            Iterator<Row> rowIterator = sheet.iterator();
+                            rowIterator.next();
+
+                            while (rowIterator.hasNext())
+                            {
+                                String currActionString = "{";
+                                Row currRaw = rowIterator.next();
+                                //For each row, iterate through all the columns
+                                Iterator<Cell> callCellIterator = currRaw.cellIterator();
+
+                                while (callCellIterator.hasNext())
+                                {
+                                    Cell currCell = callCellIterator.next();
+                                    int cellColumn = currCell.getColumnIndex();
+                                    //Check the cell type and format accordingly
+                                    currActionString += '"' + Constants.ACTION_FIELDS[cellColumn]
+                                            + KEY_VALUE_SEPARATOR +
+                                            getCellValue(currCell) + '"' +  ",";
+                                }
+                                currActionString = currActionString.substring(0, currActionString.length() - 1);
+                                currActionString += "}";
+
+                                if (!currActionString.contains("NA") &&
+                                        !currActionString.contains("strikePrice" + KEY_VALUE_SEPARATOR + '"')) {
+                                    Gson gson = new GsonBuilder().create();
+                                    Strike curr = gson.fromJson(currActionString, Strike.class);
+                                    liveStrikes.add(curr);
+                                    allDataAsJson += currActionString + ",";
+                                }
+                            }
+                            file.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        allDataAsJson = allDataAsJson.substring(0, allDataAsJson.length() -1);
+                        allDataAsJson += "]";
+                        finalString = allDataAsJson;
+                        MongoClient mongo = (MongoClient) sc.getServletContext()
+                                .getAttribute("MONGO_CLIENT");
+                        MongoDBStrikesDAO actionDAO = new MongoDBStrikesDAO(mongo);
+                        actionDAO.saveStrikes(liveStrikes);
+                        Constants.lastStrikes = liveStrikes;
+                    }
+                },
+                0,      // run first occurrence immediately
+                30000);
+    }
 
     private Object getCellValue(Cell cell) {
         if (cell.getColumnIndex() == 0 && (!cell.getStringCellValue().equals("")) && (!cell.getStringCellValue().equals("NA")))
@@ -101,61 +174,6 @@ public class ActionsReaderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
 
-        String allDataAsJson = "[";
-
-        try {
-            FileInputStream file = new FileInputStream(new File("C:/asaf/data-old.xlsx"));
-
-            //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
-
-            //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
-
-            //Iterate through each rows one by one
-            Iterator<Row> rowIterator = sheet.iterator();
-            rowIterator.next();
-
-            while (rowIterator.hasNext())
-            {
-                String currActionString = "{";
-                Row currRaw = rowIterator.next();
-                //For each row, iterate through all the columns
-                Iterator<Cell> callCellIterator = currRaw.cellIterator();
-
-                while (callCellIterator.hasNext())
-                {
-                    Cell currCell = callCellIterator.next();
-                    int cellColumn = currCell.getColumnIndex();
-                    //Check the cell type and format accordingly
-                    currActionString += '"' + Constants.ACTION_FIELDS[cellColumn]
-                            + KEY_VALUE_SEPARATOR +
-                            getCellValue(currCell) + '"' +  ",";
-                }
-                currActionString = currActionString.substring(0, currActionString.length() - 1);
-                currActionString += "}";
-
-                if (!currActionString.contains("NA") &&
-                        !currActionString.contains("strikePrice" + KEY_VALUE_SEPARATOR + '"')) {
-                    Gson gson = new GsonBuilder().create();
-                    Action curr = gson.fromJson(currActionString, Action.class);
-                    liveActions.add(curr);
-                    allDataAsJson += currActionString + ",";
-                }
-            }
-            file.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        allDataAsJson = allDataAsJson.substring(0, allDataAsJson.length() -1);
-        allDataAsJson += "]";
-        finalString = allDataAsJson;
-        MongoClient mongo = (MongoClient) request.getServletContext()
-                .getAttribute("MONGO_CLIENT");
-        MongoDBStrikesDAO actionDAO = new MongoDBStrikesDAO(mongo);
-        actionDAO.saveStrikes(liveActions);
-        liveActions = new ArrayList<>();
         response.setContentType("application/json");
         response.getWriter().write(finalString);
     }

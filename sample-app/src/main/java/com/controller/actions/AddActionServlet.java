@@ -2,7 +2,7 @@ package com.controller.actions;
 
 import com.DB.MongoDBActionDAO;
 import com.google.gson.Gson;
-import com.model.actions.Action;
+import com.model.actions.Strike;
 import com.model.utils.Constants;
 import com.mongodb.MongoClient;
 
@@ -45,19 +45,19 @@ public class AddActionServlet extends HttpServlet {
         }
         else
         {
-            Action action = new Action();
+            Strike strike = new Strike();
 
-            action.setWeekly(isWeekly);
+            strike.setWeekly(isWeekly);
 
             MongoClient mongo = (MongoClient) request.getServletContext()
                     .getAttribute("MONGO_CLIENT");
             MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
-            actionDAO.createAction(action);
-            System.out.println("Action added requested with contract name = " + contractName);
-            request.setAttribute("action", action);
-            List<Action> actions = actionDAO.readAllActions();
-            request.setAttribute("actions", actions);
-            String json = new Gson().toJson(actions);
+            actionDAO.createAction(strike);
+            System.out.println("Strike added requested with contract name = " + contractName);
+            request.setAttribute("strike", strike);
+            List<Strike> strikes = actionDAO.readAllActions();
+            request.setAttribute("strikes", strikes);
+            String json = new Gson().toJson(strikes);
             response.setContentType("application/json");
             response.getWriter().write(json);
 

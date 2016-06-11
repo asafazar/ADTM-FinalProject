@@ -1,8 +1,8 @@
 package com.model.actions;
 
 public class Purchase {
-    private Action purchaseStrike;
-    private Action executeStrike;
+    private Strike purchaseStrike;
+    private Strike executeStrike;
     private int buyNumber;
     private int writeNumber;
     private boolean isExecuted;
@@ -11,8 +11,17 @@ public class Purchase {
     private int writePurchasePremium;
     private int buyExecutePremium;
     private int writeExecutePremium;
+    private boolean isCall;
 
-    public Action getExecuteStrike() {
+    public boolean isCall() {
+        return isCall;
+    }
+
+    public void setCall(boolean call) {
+        isCall = call;
+    }
+
+    public Strike getExecuteStrike() {
         return executeStrike;
     }
 
@@ -32,15 +41,15 @@ public class Purchase {
         this.writeExecutePremium = writeExecutePremium;
     }
 
-    public void setExecuteStrike(Action executeStrike) {
+    public void setExecuteStrike(Strike executeStrike) {
         this.executeStrike = executeStrike;
     }
 
-    public Action getPurchaseStrike() {
+    public Strike getPurchaseStrike() {
         return purchaseStrike;
     }
 
-    public void setPurchaseStrike(Action purchaseStrike) {
+    public void setPurchaseStrike(Strike purchaseStrike) {
         this.purchaseStrike = purchaseStrike;
     }
 
