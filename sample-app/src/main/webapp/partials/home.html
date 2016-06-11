@@ -70,15 +70,13 @@
                  k-data-source="gridData"
                  k-columns="gridColumns"
                  k-selectable="true"
-                 k-on-change="selected = data"></div>
-            <p ng-show="selected">
-              <label>Contract Id C: <input ng-model="selected.ContractIdC" /></label>
-              <br />
-              <label>Theoretical Value C: <input ng-model="selected.TheoreticalValueC" /></label>
-            </p>
-            <button kendo-button ng-click="update()">
-              Update from code
-            </button>
+                 k-on-change="selected = data"
+                 k-sortable="true"
+                 k-pageable="true"
+                 k-column-menu="true"
+                 k-filterable="true"
+                 k-groupable="true">
+            </div>
           </div>
         </md-tab-body>
       </md-tab>

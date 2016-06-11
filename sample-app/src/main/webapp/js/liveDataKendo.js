@@ -3,14 +3,14 @@
  */
 angular.module('MyApp')
     .controller('liveDataKendo', ['$scope', '$http', '$interval', function($scope, $http, $interval){
-        $scope.data = {};
     $scope.liveDataGridOptions = {
         dataSource: {
             type: "odata",
             transport: {
                 read: {
-                    url: "/js/data/liveData.json",
-                    dataType: "json"
+                    url: "/getLiveData",
+                    type: "GET",
+                    dataType: "application/json"
                 }
             },
             pageSize: 10,
@@ -33,20 +33,13 @@ angular.module('MyApp')
         pageable: true,
         columnMenu: true,
         columns: [
-            { field: "BidAmount1C", title: "Bid Amount 1 C" },
-            { field: "Bid1C", title: "Bid 1 C" },
-            { field: "AskAmount1C", title: "Ask Amount 1 C" },
-            { field: "Ask1C", title: "Ask 1 C" },
-            { field: "DailyChangeC", title: "Daily Change C" },
-            { field: "CurrentPriceC", title: "Current Price C" },
-            { field: "BasePriceC", title: "Base Price C" },
-            { field: "StrikePriceP", title: "Strike Price C" },
-            { field: "CurrentPriceP", title: "Current Price P" },
-            { field: "DailyChangeP", title: "Daily Change P" },
-            { field: "Ask1P", title: "Ask 1 P" },
-            { field: "AskAmount1P", title: "Ask Amount 1 P" },
-            { field: "Bid1P", title: "Bid 1 P" },
-            { field: "BidAmount1P", title: "Bid Amount 1 P" }
+            { field: "bidAmount1", title: "Bid Amount 1" },
+            { field: "bid1", title: "Bid 1 C" },
+            { field: "askAmount1", title: "Ask Amount 1" },
+            { field: "ask1", title: "Ask 1 C" },
+            { field: "dailyChange", title: "Daily Change" },
+            { field: "currentPrice", title: "Current Price" },
+            { field: "basePrice", title: "Base Price" }
         ]
     };
 /*

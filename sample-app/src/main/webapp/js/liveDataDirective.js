@@ -3,13 +3,15 @@
  */
 angular.module('MyApp')
     .controller('liveDataDirective',['$scope', '$http', '$interval', function($scope, $http, $interval) {
-    $scope.gridData = new kendo.data.ObservableArray([
-        { ContractIdC: "1234", TheoreticalValueC: "5" },
-        { ContractIdC: "5678", TheoreticalValueC: "3" }
-    ]);
+    $scope.gridData ={};
     $scope.gridColumns = [
-        { field: "ContractId C", title: "Contract Id C" },
-        { field: "TheoreticalValueC", title: "Theoretical Value C" }
+        { field: "bidAmount1", title: "Bid Amount 1" },
+        { field: "bid1", title: "Bid 1" },
+        { field: "askAmount1", title: "Ask Amount 1" },
+        { field: "ask1", title: "Ask 1" },
+        { field: "dailyChange", title: "Daily Change" },
+        { field: "currentPrice", title: "Current Price" },
+        { field: "basePrice", title: "Base Price" }
     ];
 
     $scope.liveData = $interval(function(){
@@ -23,10 +25,4 @@ angular.module('MyApp')
         });
     }, 30000);
 
-    $scope.update = function() {
-        $scope.gridData=[
-            { ContractIdC: "1", TheoreticalValueC: "8" },
-            { ContractIdC: "2", TheoreticalValueC: "0" }];
-        console.log($scope.gridData);
-    };
 }]);
