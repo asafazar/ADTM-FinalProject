@@ -1,4 +1,4 @@
-package com.controller;
+package com.controller.live;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,7 +25,6 @@ public class ExcelReaderServlet  extends HttpServlet {
             "unknown","Theoretical value","Daily Value","Daily cycle","Deal time","Open positions","s.t. stock market",
             "s.t. skew","s.t. glume","Deals number","Predicted","Contracts for sale","Contracts for buy",
             "Contracts number", "ContractId"
-
     };
     public static String finalString = "";
     public void init() throws ServletException {

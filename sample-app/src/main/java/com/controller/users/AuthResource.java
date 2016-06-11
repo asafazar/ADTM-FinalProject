@@ -18,6 +18,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.util.Random;
+
 @Path("/auth")
 public class AuthResource {
 
@@ -27,7 +29,8 @@ public class AuthResource {
 
     public static final String CONFLICT_MSG = "There is already a %s account that belongs to you",
             NOT_FOUND_MSG = "User not found", LOGING_ERROR_MSG = "Wrong email and/or password",
-            UNLINK_ERROR_MSG = "Could not unlink %s account because it is your only sign-in method";
+            UNLINK_ERROR_MSG = "Could not unlink %s account because it is your only sign-in method",
+            SIGN_UP_MSG = "Email already exist";
 
     public static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -53,14 +56,14 @@ public class AuthResource {
             if (checkUser != null
                     && PasswordService.checkPassword(loginUser.getPassword(), checkUser.getPassword())) {
                 try {
-                    final Token token = AuthUtils.createToken(request.getRemoteHost(), checkUser.getId());
+                    final Token token = AuthUtils.createToken(request.getRemoteHost(), new Random().nextLong());
                     return Response.ok().entity(token).build();
                 } catch (JOSEException e) {
                     e.printStackTrace();
-                    return Response.status(Response.Status.UNAUTHORIZED).entity(new Error(LOGING_ERROR_MSG)).build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity(LOGING_ERROR_MSG).build();
                 }
             } else {
-                return Response.status(Status.UNAUTHORIZED).entity(null).build();
+                return Response.status(Status.UNAUTHORIZED).entity(new Error(LOGING_ERROR_MSG)).build();
             }
         }
     }
@@ -75,10 +78,17 @@ public class AuthResource {
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBUserDAO mongoDBUserDAO = new MongoDBUserDAO(mongo);
-        signUpUser.setPassword(PasswordService.hashPassword(signUpUser.getPassword()));
-        final User savedUser = mongoDBUserDAO.save(signUpUser);
-        final Token token = AuthUtils.createToken(request.getRemoteHost(), savedUser.getId());
-        return Response.status(Status.CREATED).type(MediaType.APPLICATION_JSON_TYPE).entity(token).build();
+
+        if (mongoDBUserDAO.getUserByMail(signUpUser.getEmail()) == null) {
+            signUpUser.setPassword(PasswordService.hashPassword(signUpUser.getPassword()));
+            final User savedUser = mongoDBUserDAO.save(signUpUser);
+            final Token token = AuthUtils.createToken(request.getRemoteHost(), new Random().nextLong());
+            return Response.status(Status.CREATED).entity(token).build();
+        }
+        else
+        {
+            return Response.status(Status.UNAUTHORIZED).entity(SIGN_UP_MSG).build();
+        }
     }
 }
 /*

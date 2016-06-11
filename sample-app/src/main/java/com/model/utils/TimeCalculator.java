@@ -7,9 +7,9 @@ import java.util.Date;
  * Created by asaf on 02/02/2016.
  */
 public class TimeCalculator {
-    Calendar calendar = Calendar.getInstance();
+    static Calendar calendar = Calendar.getInstance();
 
-    public Date getMonthlyExpirationDate(Date actionDate)
+    public static Date getMonthlyExpirationDate(Date actionDate)
     {
         calendar.set( actionDate.getYear(), actionDate.getMonth() + 1, 1 );
         calendar.add( Calendar.DAY_OF_MONTH, -( calendar.get( Calendar.DAY_OF_WEEK ) % 7 + 1 ) );
@@ -25,7 +25,7 @@ public class TimeCalculator {
         return calendar.getTime();
     }
 
-    public Date getWeeklyExpirationDate(Date actionDate)
+    public static Date getWeeklyExpirationDate(Date actionDate)
     {
         Calendar actionCal = Calendar.getInstance();
         actionCal.setTime(actionDate);

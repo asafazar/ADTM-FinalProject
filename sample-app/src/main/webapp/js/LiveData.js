@@ -19,20 +19,14 @@ angular.module('MyApp')
         },
         columnDefs: [
             // default
-            { field: 'Bid Amount 1 C', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Bid 1 C', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Ask Amount 1 C', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Ask 1 C', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Daily Change C', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Current Price C', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Base Price C', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Strike Price C', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Current Price P', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Daily Change P', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Ask 1 P', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Ask Amount 1 P', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Bid 1 P', headerCellClass: $scope.highlightFilteredHeader },
-            { field: 'Bid Amount 1 P', headerCellClass: $scope.highlightFilteredHeader }
+            { field: 'bidAmount1', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'bid1', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'askAmount1', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'ask1', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'dailyChange', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'predicted', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'basePrice', headerCellClass: $scope.highlightFilteredHeader },
+            { field: 'strikePrice', headerCellClass: $scope.highlightFilteredHeader }
         ]
     };
 
@@ -50,7 +44,7 @@ angular.module('MyApp')
                 $scope.gridOptions.data = data;
         }).error(function(data, status, headers, config) {
         });
-    }, 30000);
+    }, 10000);
 
     $scope.toggleFiltering = function(){
         $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
