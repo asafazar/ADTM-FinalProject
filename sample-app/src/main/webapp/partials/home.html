@@ -1,73 +1,87 @@
-
 <body>
-<div ng-controller="Date" ng-cloak="" class="tabsdemoStaticTabs" ng-app="MyApp">
+
+<div ng-app="MyApp" ng-cloak>
   <md-content class="md-padding">
     <md-tabs class="md-accent" md-selected="data.selectedIndex" md-align-tabs="{{data.bottom ? 'bottom' : 'top'}}">
-      <!--
-  <md-tab id="tab1">
-      <md-tab-label>Stocks</md-tab-label>
-          <md-tab-body>
-              <div ng-controller="stockController" ng-cloak>
-                  <button ng-click="getStockDataFromServer()">Fetch data from server</button>
-                  <button ng-click="getStockRangeDataFromServer()">Fetch data date from server</button>
-                  <md-content>
-                      <md-list>
-                          <uib-accordion close-others="oneAtATime">
-                              <uib-accordion-group is-open="status.open" ng-repeat="item in stocks">
-                                  <md-list-item class="md-line">
-                                        <div class="md-list-item-text" layout="column">
-                                          <uib-accordion-heading>
-                                              <p>{{item.assetName}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></p>
-                                              <p> amount:{{item.amount}} price:{{item.price}} </p>
-                                              <p>  {{item.date}} {{item.time}}</p>
-                                          </uib-accordion-heading>
-                                          <p> {{item.contractNumber}} </p>
-                                      </div>
-                                  </md-list-item>
-                              </uib-accordion-group>
-                          </uib-accordion>
-                      </md-list>
-                  </md-content>
-              </div>
-      </md-tab-body>
-  </md-tab>
-  <md-tab id="tab2">
-      <md-tab-label>Actions</md-tab-label>
-      <md-tab-body>
-      </md-tab-body>
-  </md-tab>
-  <md-tab id="tab3">
-      <md-tab-label>  בורסת ת"א - אופציות ת"א 25</md-tab-label>
-      <md-tab-body>
-          <div ng-controller="market">
-              <div id="grid1" ui-grid="{ data: myData }" class="myGrid" dir="rtl" ui-grid-pinning ui-grid-resize-columns></div>
-          </div>
-      </md-tab-body>
-  </md-tab>
-  -->
-      <md-tab id="tab4">
-        <md-tab-label> Live Options </md-tab-label>
+      <md-tab id="tab1">
+        <md-tab-label>Live Data</md-tab-label>
         <md-tab-body>
-          <div ng-controller="LiveData">
-
-            <button id='toggleFiltering' ng-click="toggleFiltering()" class="btn btn-success">Toggle Filtering</button>
-            <div id="grid2" ui-grid="gridOptions" class="grid"  ui-grid-pinning ui-grid-resize-columns></div>
-
+          <div ng-controller="liveDataKendo">
+            <kendo-grid options="liveDataGridOptions">
+            </kendo-grid>
           </div>
         </md-tab-body>
       </md-tab>
-      <!--
-  <md-tab id="tab6">
-      <md-tab-label> Login </md-tab-label>
-      <md-tab-body>
-          <a href='#' onClick='login();' id="loginText"> Click here to login </a>
-          <a href="#" style="display:none" id="logoutText" target='myIFrame' onclick="myIFrame.location='https://www.google.com/accounts/Logout'; startLogoutPolling();return false;"> Click here to logout </a>
-          <iframe name='myIFrame' id="myIFrame" style='display:none'></iframe>
-          <div id='uName'></div>
-          <img src='' id='imgHolder'/>
-      </md-tab-body>
-  </md-tab>
-  -->
+      <md-tab id="tab2">
+        <md-tab-label>Strategies</md-tab-label>
+        <md-tab-body>
+          <div ng-controller="strategyKendo">
+            <kendo-grid options="strategyGridOptions">
+              <div k-detail-template>
+                <kendo-tabstrip>
+                  <ul>
+                    <li class="k-state-active">Actions</li>
+                    <li>Strategy information</li>
+                  </ul>
+                  <div>
+                    <div kendo-grid k-options="actionsGridOptions(dataItem)"></div>
+                  </div>
+                  <div>
+                    <ul>
+                      <li>Strategy ID: {{dataItem.StrategyID}}</li>
+                    </ul>
+                  </div>
+                </kendo-tabstrip>
+              </div>
+            </kendo-grid>
+          </div>
+        </md-tab-body>
+      </md-tab>
+      <md-tab id="tab3">
+        <md-tab-label>Data Science</md-tab-label>
+        <md-tab-body>
+          <div ng-controller="dataScienceCtrl">
+            <linechart data="data" options="options"></linechart>
+          </div>
+        </md-tab-body>
+      </md-tab>
+      <md-tab id="tab4">
+        <md-tab-label>TA25</md-tab-label>
+        <md-tab-body>
+          <div ng-controller="dataScienceCtrl">
+            <linechart data="data" options="options"></linechart>
+          </div>
+        </md-tab-body>
+      </md-tab>
+      <!--<md-tab id="tab5">
+        <md-tab-label>Data</md-tab-label>
+        <md-tab-body>
+          <div ng-controller="dataCtrl">
+            <kendo-grid options="dataGridOptions">
+            </kendo-grid>
+          </div>
+        </md-tab-body>
+      </md-tab>-->
+      <md-tab id="tab6">
+        <md-tab-label>Data</md-tab-label>
+        <md-tab-body>
+          <div ng-controller="liveDataDirective">
+            <div kendo-grid
+                 k-data-source="gridData"
+                 k-columns="gridColumns"
+                 k-selectable="true"
+                 k-on-change="selected = data"></div>
+            <p ng-show="selected">
+              <label>Contract Id C: <input ng-model="selected.ContractIdC" /></label>
+              <br />
+              <label>Theoretical Value C: <input ng-model="selected.TheoreticalValueC" /></label>
+            </p>
+            <button kendo-button ng-click="update()">
+              Update from code
+            </button>
+          </div>
+        </md-tab-body>
+      </md-tab>
     </md-tabs>
   </md-content>
 </div>

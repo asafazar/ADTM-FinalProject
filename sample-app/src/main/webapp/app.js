@@ -2,7 +2,18 @@
  * Created by OrlyGB on 10/02/2016.
  */
 
-angular.module('MyApp', ['ngMaterial', 'ngMessages', 'ui.bootstrap', 'ngTouch', 'ui.grid', 'satellizer', 'ngResource', 'ngAnimate', 'toastr', 'ui.router'])
+angular.module('MyApp', ['ngMaterial',
+                         'ngMessages',
+                         'ui.bootstrap',
+                         'ngTouch',
+                         'ui.grid',
+                         'satellizer',
+                         'ngResource',
+                         'ngAnimate',
+                         'toastr',
+                         'ui.router',
+                         'kendo.directives',
+                         'n3-line-chart'])
 .config(function($stateProvider, $urlRouterProvider, $authProvider) {
     $stateProvider
         .state('home', {

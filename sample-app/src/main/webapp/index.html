@@ -18,7 +18,12 @@
     <link rel="stylesheet" href="libraries/bootstrap-3.3.6-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <link rel="styleSheet" href="css/ui-grid.min.css"/>
-    <link rel="styleSheet" href="js/tabs/market/market.css"/>
+    <link rel="stylesheet" href="libraries/kendo/styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="libraries/kendo/styles/kendo.default.min.css" />
+    <link rel="styleSheet" href="css/style.css"/>
+    <link rel="styleSheet" href="css/styles.css"/>
+    <link rel="styleSheet" href="css/dataScience.css"/>
+    <link rel="stylesheet" href="libraries/line-Chart/style/LineChart.min.css" />
 
     <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
     <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
@@ -47,6 +52,9 @@
 
 <div ui-view></div>
 
+<script type="text/javascript" src="libraries/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="libraries/kendo/js/jquery.min.js"></script>
+
 <!-- Third-party Libraries -->
 <script src="/vendor/angular.js"></script>
 <script src="/vendor/angular-animate.js"></script>
@@ -70,6 +78,7 @@
 <script src="/js/services/account.js"></script>
 
 <!-- Angular Material requires Angular.js Libraries -->
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
@@ -77,19 +86,28 @@
 
 <!-- Angular Material Library -->
 <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
-<script src="libraries/jquery-1.12.0.min.js"></script>
 <script src="libraries/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
 <script src="libraries/ui-bootstrap-tpls-1.1.2.min.js"></script>
 <script src="libraries/ui-grid/ui-grid.min.js"></script>
 
+<script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+<script type="text/javascript" src="libraries/kendo/js/kendo.all.min.js"></script>
 
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/line-chart/2.0.26/LineChart.min.js"></script>
+<script type="text/javascript" src="libraries/require.js"></script>
 
-<script type="text/javascript" src="js/tabs/market/market.js"></script>
 <script type="text/javascript" src="js/Accordion.js"></script>
 <script type="text/javascript" src="js/date.js"></script>
-<script type="text/javascript" src="js/LiveData.js"></script>
-<script type="text/javascript" src="js/controllers/stockController.js"></script>
 <script type="text/javascript" src="js/LoginScript.js"></script>
+<script type="text/javascript" src="js/strategyKendo.js"></script>
+<script type="text/javascript" src="js/liveDataKendo.js"></script>
+<script type="text/javascript" src="js/dataScience.js"></script>
+<script type="text/javascript" src="js/liveDataDirective.js"></script>
+
 <script>
     window.fbAsyncInit = function() {
         FB.init({
