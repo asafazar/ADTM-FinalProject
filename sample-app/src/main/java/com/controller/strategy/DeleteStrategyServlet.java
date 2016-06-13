@@ -18,15 +18,13 @@ public class DeleteStrategyServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("id");
-        if (id == null || "".equals(id)) {
-            throw new ServletException("id missing for delete operation");
-        }
+
+        String strategyId = request.getParameter("id").toString();
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBStrategyDAO strategyDAO = new MongoDBStrategyDAO(mongo);
-        strategyDAO.deleteStrategy(id);
-        System.out.println("strategy deleted successfully with id = " + id);
+        strategyDAO.deleteStrategy(strategyId);
+        System.out.println("strategy deleted successfully with id = " + strategyId);
         request.setAttribute("success", "strategy deleted successfully");
         List<Strategy> strategies = strategyDAO.readAllStrategies();
         request.setAttribute("strategies", strategies);
