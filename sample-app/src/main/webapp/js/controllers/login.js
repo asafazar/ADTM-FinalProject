@@ -1,9 +1,11 @@
 angular.module('MyApp')
-    .controller('LoginCtrl', function($scope, $location, $auth, toastr) {
+    .controller('LoginCtrl', function($scope, $location, $auth,$http, toastr, email, $rootScope) {
+    $scope.strategies = {};
     $scope.login = function() {
       $auth.login($scope.user)
         .then(function() {
           toastr.success('You have successfully signed in!');
+            $rootScope.email = $scope.user.email;
           $location.path('/');
         })
         .catch(function(error) {

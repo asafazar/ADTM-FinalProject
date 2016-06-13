@@ -31,7 +31,7 @@ public class Strike {
     private Double contractsForSale;
     private Double contractsForBuy;
     private int contractsNumber;
-    private long contractsId;
+    private long contractId;
     private Date strikeDate;
     private Date expirationDate;
     private String description;
@@ -69,12 +69,12 @@ public class Strike {
         this.strikeDate = strikeDate;
     }
 
-    public long getContractsId() {
-        return contractsId;
+    public long getContractId() {
+        return contractId;
     }
 
-    public void setContractsId(long contractsId) {
-        this.contractsId = contractsId;
+    public void setContractId(long contractId) {
+        this.contractId = contractId;
     }
 
     public boolean isWeekly()

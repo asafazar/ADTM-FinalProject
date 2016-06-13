@@ -14,7 +14,8 @@ angular.module('MyApp', ['ngMaterial',
                          'ui.router',
                          'kendo.directives',
                          'n3-line-chart'])
-.config(function($stateProvider, $urlRouterProvider, $authProvider) {
+    .value('email', '')
+    .config(function($stateProvider, $urlRouterProvider, $authProvider) {
     $stateProvider
         .state('home', {
             url: '/',
@@ -99,8 +100,7 @@ angular.module('MyApp', ['ngMaterial',
         clientId: 'MTCEJ3NGW2PNNB31WOSBFDSAD4MTHYVAZ1UKIULXZ2CVFC2K',
         redirectUri: window.location.origin || window.location.protocol + '//' + window.location.host,
         authorizationEndpoint: 'https://foursquare.com/oauth2/authenticate'
-    });
-
+    })
     function skipIfLoggedIn($q, $auth) {
         var deferred = $q.defer();
         if ($auth.isAuthenticated()) {

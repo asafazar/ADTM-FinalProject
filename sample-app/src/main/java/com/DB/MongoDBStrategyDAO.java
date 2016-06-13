@@ -1,8 +1,11 @@
 package com.DB;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.model.Strategy.Strategy;
 import com.model.Strategy.StrategyConvertor;
 import com.mongodb.*;
+import com.mongodb.util.JSON;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
@@ -16,11 +19,12 @@ public class MongoDBStrategyDAO {
     private DBCollection col;
 
     public MongoDBStrategyDAO(MongoClient mongo) {
-        this.col = mongo.getDB("adtmdb").getCollection("strategy");
+        this.col = mongo.getDB("adtmdb").getCollection("strategies");
     }
 
     public Strategy createStrategy(Strategy strategy) {
-        DBObject doc = StrategyConvertor.toDBObject(strategy);
+        Gson gson = new Gson();
+        BasicDBObject doc = (BasicDBObject) JSON.parse(gson.toJson(strategy, Strategy.class));
         this.col.insert(doc);
         ObjectId id = (ObjectId) doc.get("_id");
         strategy.setId(id.toString());
@@ -56,15 +60,18 @@ public class MongoDBStrategyDAO {
         return StrategyConvertor.toStrategy(data);
     }
 
-    public List<Strategy> getUserStrategies(String userId)
+    public List<Strategy> getUserStrategies(String userEmail)
     {
-        List<Strategy> data = new ArrayList<Strategy>();
+        List<Strategy> data = new ArrayList<>();
         DBObject query = BasicDBObjectBuilder.start()
-                .append("userId", userId).get();
+                .append("userId", userEmail).get();
         DBCursor cursor = col.find(query);
         while (cursor.hasNext()) {
             DBObject doc = cursor.next();
-            data.add(StrategyConvertor.toStrategy(doc));
+            Gson gson = new GsonBuilder().create();
+            Strategy currStrategy = gson.fromJson(JSON.serialize(doc), Strategy.class);
+            currStrategy.setId(doc.get("_id").toString());
+            data.add(currStrategy);
         }
         return data;
     }
