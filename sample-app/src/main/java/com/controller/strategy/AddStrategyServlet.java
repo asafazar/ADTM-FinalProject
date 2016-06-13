@@ -2,7 +2,10 @@ package com.controller.strategy;
 
 import com.DB.MongoDBStrategyDAO;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.model.Strategy.Strategy;
+import com.model.actions.Strike;
+import com.model.utils.Constants;
 import com.mongodb.MongoClient;
 
 import javax.servlet.ServletException;
@@ -11,39 +14,63 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 public class AddStrategyServlet extends HttpServlet {
 
     private static final long serialVersionUID = 6L;
 
-    protected void doPost(HttpServletRequest request,
+    protected void doGet(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
-        boolean isWeekly = ((String)request.getParameter("isWeekly")).equals("1");
-        String description = request.getParameter("description");
-        String comment = request.getParameter("comment");
-        String userId = request.getParameter("userId");
-        String dateStr = request.getParameter("Date");
-        Date date = new Date(Integer.valueOf(dateStr.substring(0, 3)),
-                Integer.valueOf(dateStr.substring(4, 5)), Integer.valueOf(dateStr.substring(6, 7)));
-        Strategy strategy = new Strategy();
-        strategy.setWeekly(isWeekly);
-        strategy.setName(description);
-        strategy.setComment(comment);
-        strategy.setDate(date);
-        strategy.setUserId(userId);
 
+        Gson gson = new GsonBuilder().create();
+        Strategy newStrategy = new Strategy();
+        Map<String, String[]> parameters = request.getParameterMap();
+        try {
+            /*
+            JSONObject jsonObject = new JSONObject(request.getAttribute("name").toString());
+            jsonObject.remove("id");
+            jsonObject.remove("expirationDate");*/
+            newStrategy.setUserId(parameters.get("userId")[0]);
+            String dateStr = parameters.get("date")[0];
+            Date date = new Date(Integer.valueOf(dateStr.substring(0, 4)),
+                    Integer.valueOf(dateStr.substring(5, 7)), Integer.valueOf(dateStr.substring(8, 10)));
+            newStrategy.setName(parameters.get("name")[0]);
+            newStrategy.setComment(parameters.get("comment")[0]);
+            newStrategy.setWeekly((parameters.get("isWeekly")[0]).equals("true"));
+            newStrategy.setDate(date);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
-        MongoDBStrategyDAO strategyDAO = new MongoDBStrategyDAO(mongo);
-        strategyDAO.createStrategy(strategy);
-        System.out.println("strategy added requested with description = " + description);
-        request.setAttribute("strategy", strategy);
-        List<Strategy> strategies = strategyDAO.readAllStrategies();
-        request.setAttribute("strategies", strategies);
-        String json = new Gson().toJson(strategies);
-        response.setContentType("application/json");
-        response.getWriter().write(json);
+        if (!newStrategy.isWeekly())
+        {
+            for (Strike strike : Constants.lastStrikes)
+            {
+                // just for testing
+                //if (strike.getDescription().contains("APR"))
+                if (strike.getDescription().contains(Constants.MONTHES_MAP.get(new Date().getMonth())))
+                {
+                    newStrategy.getPl().put(strike.getContractId(), 0.0);
+                }
+            }
+        }
+        else {
+            for (Strike strike : Constants.lastStrikes)
+            {
+                if (strike.getDescription().contains("W"))
+                {
+                    newStrategy.getPl().put(strike.getContractId(), (double)strike.getAsk1());
+                }
+            }
+        }
 
+        MongoDBStrategyDAO mongoDBStrategyDAO = new MongoDBStrategyDAO(mongo);
+        Strategy strategy = mongoDBStrategyDAO.createStrategy(newStrategy);
+        response.setContentType("application/json");
+        response.getWriter().write(gson.toJson(strategy, Strategy.class));
     }
 }

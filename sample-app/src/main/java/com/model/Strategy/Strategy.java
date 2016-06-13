@@ -1,10 +1,10 @@
 package com.model.Strategy;
 
-import com.model.actions.Strike;
 import com.model.actions.Purchase;
 import com.model.utils.TimeCalculator;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,13 +21,13 @@ public class Strategy {
     private Date date;
     private Date expirationDate;
     private String userId;
-    private Map<Strike, Double> pl;
+    private Map<Long, Double> pl = new HashMap<>();
 
-    public Map<Strike, Double> getPl() {
+    public Map<Long, Double> getPl() {
         return pl;
     }
 
-    public void setPl(Map<Strike, Double> pl) {
+    public void setPl(Map<Long, Double> pl) {
         this.pl = pl;
     }
 

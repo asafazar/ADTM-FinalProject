@@ -11,7 +11,7 @@ angular.module('MyApp')
         { field: "ask1", title: "Ask 1" },
         { field: "dailyChange", title: "Daily Change" },
         { field: "currentPrice", title: "Current Price" },
-        { field: "basePrice", title: "Base Price" }
+        { field: "strikePrice", title: "Strike Price" }
     ];
 
     $scope.liveData = $interval(function(){
@@ -23,6 +23,6 @@ angular.module('MyApp')
             console.log($scope.gridData);
         }).error(function(data, status, headers, config) {
         });
-    }, 30000);
+    }, 10000);
 
 }]);

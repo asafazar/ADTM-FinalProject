@@ -38,7 +38,7 @@ public class Constants {
     };
 
     public static final String[] ACTION_FIELDS = {
-            "strikePrice", "trade","basePrice","currentPrice","dailyChange", "ask1", "askAmount1", "bid1","bidAmount1",
+            "strikePrice", "trade","basePrice","currentPrice","dailyChange", "askAmount1", "ask1", "bidAmount1", "bid1",
             "unknown","theoreticalValue","dailyValue","dailyCycle","dealTime","openPositions","stStockMarket",
             "stSkew","stGlume","dealsNumber","predicted","contractsForSale","contractsForBuy",
             "contractsNumber", "contractId"};

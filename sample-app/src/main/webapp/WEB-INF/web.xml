@@ -86,6 +86,28 @@
         <url-pattern>/getLiveData</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>userStrategies</servlet-name>
+        <servlet-class>com.controller.strategy.UserStrategyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userStrategies</servlet-name>
+        <url-pattern>/userStrategies</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>AddStrategyServlet</servlet-name>
+        <servlet-class>com.controller.strategy.AddStrategyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddStrategyServlet</servlet-name>
+        <url-pattern>/AddStrategyServlet</url-pattern>
+    </servlet-mapping>
+
+
+
     <listener>
         <listener-class>
             org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap

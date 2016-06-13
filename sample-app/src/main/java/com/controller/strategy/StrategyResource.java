@@ -1,6 +1,8 @@
 package com.controller.strategy;
 
 import com.DB.MongoDBStrategyDAO;
+import com.DB.MongoDBUserDAO;
+import com.controller.auth.AuthUtils;
 import com.controller.users.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,7 +20,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Date;
+import java.text.ParseException;
 import java.util.List;
 
 @Path("/strategy")
@@ -31,18 +33,31 @@ public class StrategyResource {
     @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(String strategy, @Context final HttpServletRequest request)
+    public Response add(String strategy,String userId, @Context final HttpServletRequest request)
             throws JOSEException {
         Gson gson = new GsonBuilder().create();
         Strategy newStrategy = gson.fromJson(strategy, Strategy.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
-        for (Strike strike : Constants.lastStrikes)
+        if (!newStrategy.isWeekly())
         {
-            if (strike.getDescription().contains("W") ||
-                    strike.getDescription().contains(Constants.MONTHES_MAP.get(new Date().getMonth())))
+            for (Strike strike : Constants.lastStrikes)
             {
-                newStrategy.getPl().put(strike, 0.0);
+                // just for testing
+                if (strike.getDescription().contains("APR"))
+                //if (strike.getDescription().contains(Constants.MONTHES_MAP.get(new Date().getMonth())))
+                {
+                    newStrategy.getPl().put(strike.getContractId(), 0.0);
+                }
+            }
+        }
+        else {
+            for (Strike strike : Constants.lastStrikes)
+            {
+                if (strike.getDescription().contains("W"))
+                {
+                    newStrategy.getPl().put(strike.getContractId(), 0.0);
+                }
             }
         }
 
@@ -87,15 +102,21 @@ public class StrategyResource {
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response all(String user, @Context final HttpServletRequest request)
-            throws JOSEException {
-        Gson gson = new GsonBuilder().create();
-        User currUser = gson.fromJson(user, User.class);
+    public Response all(@Context HttpServletRequest request)  throws ParseException, JOSEException {
+        User currUser = getAuthUser(request);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBStrategyDAO mongoDBStrategyDAO = new MongoDBStrategyDAO(mongo);
         List<Strategy> strategies = mongoDBStrategyDAO.getUserStrategies(currUser.getId());
         return Response.status(Response.Status.OK).entity(strategies).build();
+    }
+
+    private User getAuthUser(HttpServletRequest request) throws ParseException, JOSEException {
+        MongoClient mongo = (MongoClient) request.getServletContext()
+                .getAttribute("MONGO_CLIENT");
+        MongoDBUserDAO mongoDBUserDAO = new MongoDBUserDAO(mongo);
+        String subject = AuthUtils.getSubject(request.getHeader(AuthUtils.AUTH_HEADER_KEY));
+        return mongoDBUserDAO.getUserByMail(subject);
     }
 }
 

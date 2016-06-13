@@ -21,10 +21,10 @@
                 </div>
             </md-tab-body>
         </md-tab>
+        <div ng-controller="strategyKendo">
         <md-tab id="tab2">
         <md-tab-label>Strategies</md-tab-label>
         <md-tab-body>
-          <div ng-controller="strategyKendo">
             <kendo-grid options="strategyGridOptions">
               <div k-detail-template>
                 <kendo-tabstrip>
@@ -43,19 +43,8 @@
                 </kendo-tabstrip>
               </div>
             </kendo-grid>
-          </div>
         </md-tab-body>
       </md-tab>
-        <!--
-      <md-tab id="tab3">
-        <md-tab-label>Data Science</md-tab-label>
-        <md-tab-body>
-          <div ng-controller="dataScienceCtrl">
-            <linechart data="data" options="options"></linechart>
-          </div>
-        </md-tab-body>
-      </md-tab>
-      -->
       <md-tab id="tab4">
         <md-tab-label>Time Chart</md-tab-label>
         <md-tab-body>

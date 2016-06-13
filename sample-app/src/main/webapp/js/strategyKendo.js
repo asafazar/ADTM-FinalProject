@@ -2,20 +2,37 @@
  * Created by OrlyGB on 27/05/2016.
  */
 angular.module('MyApp')
-    .controller('strategyKendo', function($scope){
+    .controller('strategyKendo', function($scope, $http, $rootScope){
     $scope.strategyGridOptions = {
     dataSource: {
         type: "odata",
         transport: {
-            read: {
-                url: "/js/data/strategy.json",
-                dataType: "json"
+            read: function(e) {
+                    if ($rootScope.email) {
+                        $http({
+                            method: 'GET',
+                            url: '/userStrategies',
+                            params: {userid: $rootScope.email}
+                        }).success(function (data, status, headers, config) {
+                            e.success(data);
+                        }).error(function (data, status, headers, config) {
+                        });
+                    }
             },
-            create: {
-                url: '/OFB/PostMijnUrenOpAct',
-                dataType: "json",
-                type: "POST"
-            },
+            create:
+                function(e) {
+                    if ($rootScope.email) {
+                        $http({
+                            method: 'GET',
+                            url: '/AddStrategyServlet',
+                            params: {name: e.data.name, isWeekly: e.data.isWeekly, comment: e.data.comment,
+                                date: e.data.date, userId: $rootScope.email}
+                        }).success(function (data, status, headers, config) {
+                            e.success(data);
+                        }).error(function (data, status, headers, config) {
+                        });
+                    }
+                },
         },
         pageSize: 10,
         schema: {
@@ -26,14 +43,14 @@ angular.module('MyApp')
                 return data['odata.count'];
             },
             model: {
-                id: "StrategyID",
+                id: "id",
                 fields: {
-                    StrategyID: { editable: false },
-                    Description: { nullable: false },
-                    Weekly: { type: "boolean", nullable: false},
-                    Comment: { nullable: false },
-                    Date: { nullable: false },
-                    ExpirationDate: { nullable: false }
+                    id: { editable: false },
+                    name: { nullable: false },
+                    isWeekly: { type: "boolean", nullable: false},
+                    comment: { nullable: false },
+                    date: { nullable: false },
+                    expirationDate: { editable: false, visible: false }
                 }
             }
         },
@@ -52,12 +69,11 @@ angular.module('MyApp')
     },*/
     toolbar: ["create"],
     columns: [
-        { field: "StrategyID", title: "Strategy ID",  width: 120 },
-        { field: "Description", title: "Description",  width: 140 },
-        { field: "Weekly", title: "Weekly", width: 100 },
-        { field: "Comment", title: "Comment",  width: 120 },
-        { field: "Date", format: "{0: yyyy-MM-dd HH:mm:ss}" , title: "Date", width: 190 },
-        { field: "ExpirationDate", title: "Expiration Date", width: 190, format: "{0: yyyy-MM-dd HH:mm:ss}" },
+        { field: "name", title: "Name",  width: 140 },
+        { field: "isWeekly", title: "Weekly", width: 100 },
+        { field: "comment", title: "Comment",  width: 120 },
+        { field: "date", format: "{0: yyyy-MM-dd HH:mm:ss}" , title: "Date", width: 190 },
+        { field: "expirationDate", title: "Expiration Date", width: 190, format: "{0: yyyy-MM-dd HH:mm:ss}" },
         { command: ["edit", "destroy"], title: "&nbsp;", width: "200px" }
     ],
     editable: "popup"
@@ -71,18 +87,18 @@ angular.module('MyApp')
                     read: {
                         url: "/js/data/actions.json",
                         dataType: "json"
-                    },
+                    }
                 },
                 serverPaging: true,
                 serverSorting: true,
                 serverFiltering: true,
                 pageSize: 5,
-                filter: { field: "StrategyID", operator: "eq", value: dataItem.StrategyID },
+                filter: { field: "id", operator: "eq", value: dataItem.id },
                 schema: {
 
                     data: function (data) {
                         return data.filter(function (strategy) {
-                            return (strategy.StrategyID === dataItem.StrategyID);
+                            return (strategy.id === dataItem.id);
                         });
                     },
                     total: function (data) {

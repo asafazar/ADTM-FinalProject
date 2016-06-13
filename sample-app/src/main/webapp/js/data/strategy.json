@@ -1,6 +1,6 @@
-[ { "StrategyID": 1, "Description":"1", "Weekly":false, "Comment":1 , "Date":"2014-01-01T23:28:56.782Z" , "ExpirationDate":"2014-01-01T23:28:56.782Z"},
-  { "StrategyID": 2, "Description":"2", "Weekly":false, "Comment":1 , "Date":"2014-01-01T23:28:56.782Z" , "ExpirationDate":"2014-01-01T23:28:56.782Z"},
-  { "StrategyID": 3, "Description":"3", "Weekly":false, "Comment":1 , "Date":"2014-01-01T23:28:56.782Z" , "ExpirationDate":"2014-01-01T23:28:56.782Z"},
-  { "StrategyID": 4, "Description":"4", "Weekly":false, "Comment":1 , "Date":"2014-01-01T23:28:56.782Z" , "ExpirationDate":"2014-01-01T23:28:56.782Z"},
-  { "StrategyID": 5, "Description":"5", "Weekly":false, "Comment":1 , "Date":"2014-01-01T23:28:56.782Z" , "ExpirationDate":"2014-01-01T23:28:56.782Z"}
+[ {"name":"1", "isWeekly":false, "comment":1 , "date":"2014-01-01T23:28:56.782Z" , "expirationDate":"2014-01-01T23:28:56.782Z"},
+  {"name":"2", "isWeekly":false, "comment":1 , "date":"2014-01-01T23:28:56.782Z" , "expirationDate":"2014-01-01T23:28:56.782Z"},
+  {"name":"3", "isWeekly":false, "comment":1 , "date":"2014-01-01T23:28:56.782Z" , "expirationDate":"2014-01-01T23:28:56.782Z"},
+  {"name":"4", "isWeekly":false, "comment":1 , "date":"2014-01-01T23:28:56.782Z" , "expirationDate":"2014-01-01T23:28:56.782Z"},
+  {"name":"5", "isWeekly":false, "comment":1 , "date":"2014-01-01T23:28:56.782Z" , "expirationDate":"2014-01-01T23:28:56.782Z"}
 ]
