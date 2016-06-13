@@ -27,3 +27,7 @@ html {
 .chart{
     height: 400px;
 }
+
+.timeChart{
+    margin: auto;
+}

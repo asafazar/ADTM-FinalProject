@@ -46,6 +46,7 @@
           </div>
         </md-tab-body>
       </md-tab>
+        <!--
       <md-tab id="tab3">
         <md-tab-label>Data Science</md-tab-label>
         <md-tab-body>
@@ -54,32 +55,15 @@
           </div>
         </md-tab-body>
       </md-tab>
+      -->
       <md-tab id="tab4">
-        <md-tab-label>TA25</md-tab-label>
+        <md-tab-label>Time Chart</md-tab-label>
         <md-tab-body>
-          <div ng-controller="dataScienceCtrl">
-            <linechart data="data" options="options"></linechart>
+          <div ng-controller="TimeChartCtrl">
+              <hc-chart id="timeChart" options="chartOptions">Placeholder for generic chart</hc-chart>
           </div>
         </md-tab-body>
       </md-tab>
-        <md-tab id="tab5">
-            <md-tab-label>Strategy </md-tab-label>
-            <md-tab-body>
-                <div ng-controller="dataCtrl">
-                    <div kendo-grid
-                         k-data-source="gridData"
-                         k-columns="gridColumns"
-                         k-selectable="true"
-                         k-on-change="selected = data"
-                         k-sortable="true"
-                         k-pageable="true"
-                         k-column-menu="true"
-                         k-filterable="true"
-                         k-groupable="true">
-                    </div>
-                </div>
-            </md-tab-body>
-        </md-tab>
     </md-tabs>
   </md-content>
 </div>
