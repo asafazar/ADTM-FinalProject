@@ -27,11 +27,7 @@ public class AddStrategyServlet extends HttpServlet {
         Strategy newStrategy = new Strategy();
         Map<String, String[]> parameters = request.getParameterMap();
         try {
-            /*
-            JSONObject jsonObject = new JSONObject(request.getAttribute("name").toString());
-            jsonObject.remove("id");
-            jsonObject.remove("expirationDate");*/
-            newStrategy.setUserId(parameters.get("userId")[0]);
+           newStrategy.setUserId(parameters.get("userId")[0]);
             String dateStr = parameters.get("date")[0];
             Date date = new Date(Integer.valueOf(dateStr.substring(0, 4)),
                     Integer.valueOf(dateStr.substring(5, 7)), Integer.valueOf(dateStr.substring(8, 10)));

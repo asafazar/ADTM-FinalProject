@@ -68,15 +68,15 @@
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
-  <!--  <servlet>
-        <servlet-name>getLiveData</servlet-name>
-        <servlet-class>com.controller.live.ExcelReaderServlet</servlet-class>
+    <servlet>
+        <servlet-name>DeleteStrategyServlet</servlet-name>
+        <servlet-class>com.controller.strategy.DeleteStrategyServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>getLiveData</servlet-name>
-        <url-pattern>/getLiveData</url-pattern>
+        <servlet-name>DeleteStrategyServlet</servlet-name>
+        <url-pattern>/DeleteStrategyServlet</url-pattern>
     </servlet-mapping>
--->
+
     <servlet>
         <servlet-name>getLiveData</servlet-name>
         <servlet-class>com.controller.live.ActionsReaderServlet</servlet-class>

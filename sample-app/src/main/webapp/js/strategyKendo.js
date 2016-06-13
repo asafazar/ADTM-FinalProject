@@ -33,6 +33,17 @@ angular.module('MyApp')
                         });
                     }
                 },
+            destroy:
+            function(e) {
+                $http({
+                    method: 'GET',
+                    url: '/DeleteStrategyServlet',
+                    params: {id: e.data.id}
+                }).success(function (data, status, headers, config) {
+                    e.success(data);
+                }).error(function (data, status, headers, config) {
+                });
+            }
         },
         pageSize: 10,
         schema: {
