@@ -226,14 +226,14 @@ angular.module('MyApp')
         };
 
         // Sample options for first chart
-            $scope.chartOptions = {
+        $scope.chartPCOptions = {
             tooltip:{
                 shared: true,
                 formatter: function() {
                     var result = '<b>' + 'day ' +  this.x + '</b>';
                         $.each(this.points, function(i, datum) {
                             result += '<br />' + this.series.name;
-                            if (this.series.name != 'Estimated Precent Change'){
+                            if (this.series.name != 'Estimated Percent Change'){
                                 result += ' day: ' +
                                 Highcharts.dateFormat('%A, %b %e, %Y', datum.point.date);
                                 result += ', PC: ';
@@ -245,7 +245,7 @@ angular.module('MyApp')
                 }
             },
             title: {
-                text: 'TA25.TA Result'
+                text: 'Pattern Recognition - Percent Change'
             },
             xAxis:{
                 title: {
@@ -254,8 +254,11 @@ angular.module('MyApp')
             },
             yAxis: {
                 title: {
-                    text: 'Precent Change (%)'
+                    text: 'Percent Change (%)'
                 }
+            },
+            subtitle: {
+                text: 'Based on 5 days'
             },
             series:  [
                 {
@@ -298,7 +301,7 @@ angular.module('MyApp')
                          {x: 6, y: 3.168, date: Date.UTC(2007,04,09)}]
                 },
                 {
-                    'name': 'Pattern 6',
+                    'name': 'Pattern 5',
                     data:
                     [{x: 1, y: 0.837, date: Date.UTC(2016,05,25)},
                      {x: 2, y: 0.067, date: Date.UTC(2016,05,26)},
@@ -308,7 +311,7 @@ angular.module('MyApp')
                      {x: 6, y: -0.797, date: Date.UTC(2016,06,09)}]
                 },
                 {
-                    'name': 'Pattern 7',
+                    'name': 'Pattern 6',
                     data:
                         [{x: 1, y: 0.837, date: Date.UTC(2016,05,25)},
                          {x: 2, y: 0.067, date: Date.UTC(2016,05,26)},
@@ -318,9 +321,118 @@ angular.module('MyApp')
                          {x: 6, y: -0.797, date: Date.UTC(2016,06,09)}]
                 },
                 {
-                    'name': 'Estimated Precent Change',
+                    'name': 'Estimated Percent Change',
                     data:
                         [{x: 6, y: -0.392, date:Date.UTC(2016,06,09)}]
+                }
+            ]
+
+        };
+
+        $scope.chartPriceOptions = {
+            tooltip:{
+                shared: true,
+                formatter: function() {
+                    var result = '<b>' + 'day ' +  this.x + '</b>';
+                    $.each(this.points, function(i, datum) {
+                        result += '<br />' + this.series.name+': ';
+                        if (this.series.name != 'Estimated Price'){
+                            result += ' day: ' +
+                                Highcharts.dateFormat('%A, %b %e, %Y', datum.point.date);
+                            result += ', Price: ';
+                        }
+                        result += datum.point.y +'NIS';
+                        result += '<br />';
+                    });
+                    return result;
+                }
+            },
+            title: {
+                text: 'Pattern Recognition - Price'
+            },
+            subtitle: {
+                text: 'Based on 5 days'
+            },
+            xAxis:{
+                title: {
+                    text: 'Patterns'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Price (NIS)'
+                }
+            },
+            series:  [
+                {
+                    name: 'Pattern 1',
+                    data: [
+                        {date: Date.UTC(2004,08,17), x: 1, y: 514},
+                        {date: Date.UTC(2004,08,18), x: 2, y: 507},
+                        {date: Date.UTC(2004,08,19), x: 3, y: 512},
+                        {date: Date.UTC(2004,08,20), x: 4, y: 512},
+                        {date: Date.UTC(2004,08,23), x: 5, y: 522},
+                        {date: Date.UTC(2004,08,30), x: 6, y: 527}]
+                },
+                {
+                    name: 'Pattern 2',
+                    data:
+                        [
+                            {date: Date.UTC(2005,05,26), x: 1, y: 680},
+                            {date: Date.UTC(2005,05,27), x: 2, y: 680},
+                            {date: Date.UTC(2005,05,30), x: 3, y: 681},
+                            {date: Date.UTC(2005,05,31), x: 4, y: 679},
+                            {date: Date.UTC(2005,06,01), x: 5, y: 679},
+                            {date: Date.UTC(2005,06,08), x: 6, y: 690}]
+                },
+                {
+                    name: 'Pattern 3',
+                    data:
+                        [
+                            {date: Date.UTC(2006,12,07), x: 1, y: 934},
+                            {date: Date.UTC(2006,12,08), x: 2, y: 934},
+                            {date: Date.UTC(2006,12,11), x: 3, y: 939},
+                            {date: Date.UTC(2006,12,12), x: 4, y: 937},
+                            {date: Date.UTC(2006,12,13), x: 5, y: 938},
+                            {date: Date.UTC(2006,12,20), x: 6, y: 948}]
+                },
+                {
+                    'name': 'Pattern 4',
+                    data:
+                        [
+                            {date: Date.UTC(2007,03,27), x: 1, y: 988},
+                            {date: Date.UTC(2007,03,28), x: 2, y: 982},
+                            {date: Date.UTC(2007,03,29), x: 3, y: 997},
+                            {date: Date.UTC(2007,03,30), x: 4, y: 997},
+                            {date: Date.UTC(2007,04,02), x: 5, y: 997},
+                            {date: Date.UTC(2007,04,09), x: 6, y: 1028}]
+                },
+                {
+                    'name': 'Pattern 5',
+                    data:
+                        [
+                            {x: 1, date: Date.UTC(2016,05,25), y: 1439},
+                            {x: 2, date: Date.UTC(2016,05,26), y: 1428},
+                            {x: 3, date: Date.UTC(2016,05,30), y: 1447},
+                            {x: 4, date: Date.UTC(2016,05,31), y: 1443},
+                            {x: 5, date: Date.UTC(2016,05,31), y: 1430},
+                            {date: Date.UTC(2016,06,09), x: 6, y: 1428}]
+                },
+                {
+                    'name': 'Pattern 6',
+                    data:
+                        [
+                            {x: 1, date: Date.UTC(2016,05,25), y: 1439},
+                            {x: 2, date: Date.UTC(2016,05,26), y: 1428},
+                            {x: 3, date: Date.UTC(2016,05,30), y: 1447},
+                            {x: 4, date: Date.UTC(2016,05,31), y: 1443},
+                            {x: 5, date: Date.UTC(2016,06,01), y: 1440},
+                            {date: Date.UTC(2016,06,09), x: 6, y: 1428}]
+                },
+                {
+                    'name': 'Estimated Price',
+                    data:
+                        [{x: 6, y: 1415, date:Date.UTC(2016,06,09)}]
                 }
             ]
 
