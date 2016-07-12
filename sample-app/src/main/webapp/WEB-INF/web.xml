@@ -106,7 +106,23 @@
         <url-pattern>/AddStrategyServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>getPurchaseServlet</servlet-name>
+        <servlet-class>com.controller.actions.getPurchaseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getPurchaseServlet</servlet-name>
+        <url-pattern>/getPurchaseServlet</url-pattern>
+    </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UpdatePurchaseServlet</servlet-name>
+        <servlet-class>com.controller.actions.UpdatePurchaseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdatePurchaseServlet</servlet-name>
+        <url-pattern>/UpdatePurchaseServlet</url-pattern>
+    </servlet-mapping>
 
     <listener>
         <listener-class>

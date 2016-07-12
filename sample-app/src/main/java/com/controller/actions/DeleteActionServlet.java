@@ -1,6 +1,6 @@
 package com.controller.actions;
 
-import com.DB.MongoDBActionDAO;
+import com.DB.MongoDBStrikesDAO;
 import com.google.gson.Gson;
 import com.model.actions.Strike;
 import com.mongodb.MongoClient;
@@ -27,7 +27,7 @@ public class DeleteActionServlet extends HttpServlet {
 
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
-        MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
+        MongoDBStrikesDAO actionDAO = new MongoDBStrikesDAO(mongo);
         Strike strike = actionDAO.readAction(id);
         actionDAO.deleteAction(strike);
         System.out.println("Strike deleted successfully with id = " + id);

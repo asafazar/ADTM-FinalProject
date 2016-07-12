@@ -50,6 +50,7 @@ public class MongoDBPurchaseDAO {
         DBObject query = BasicDBObjectBuilder.start()
                 .append("strategyId", strategyId).get();
         DBCursor cursor = col.find(query);
+
         while (cursor.hasNext())
         {
             DBObject doc = cursor.next();

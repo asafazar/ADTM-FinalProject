@@ -1,6 +1,6 @@
 package com.controller.actions;
 
-import com.DB.MongoDBActionDAO;
+import com.DB.MongoDBStrikesDAO;
 import com.google.gson.Gson;
 import com.model.actions.Strike;
 import com.mongodb.MongoClient;
@@ -32,7 +32,7 @@ public class AddActionServlet extends HttpServlet {
             strike.setWeekly(isWeekly);
             MongoClient mongo = (MongoClient) request.getServletContext()
                     .getAttribute("MONGO_CLIENT");
-            MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
+            MongoDBStrikesDAO actionDAO = new MongoDBStrikesDAO(mongo);
             actionDAO.createAction(strike);
             System.out.println("Strike added requested with contract name = " + contractName);
             request.setAttribute("strike", strike);

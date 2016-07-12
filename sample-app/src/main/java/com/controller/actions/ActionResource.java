@@ -1,6 +1,6 @@
 package com.controller.actions;
 
-import com.DB.MongoDBActionDAO;
+import com.DB.MongoDBStrikesDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.model.actions.Strike;
@@ -33,8 +33,8 @@ public class ActionResource {
         Strike abstractStrike = gson.fromJson(action, Strike.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
-        MongoDBActionDAO mongoDBActionDAO = new MongoDBActionDAO(mongo);
-        Strike newStrike = mongoDBActionDAO.createAction(abstractStrike);
+        MongoDBStrikesDAO mongoDBStrikesDAO = new MongoDBStrikesDAO(mongo);
+        Strike newStrike = mongoDBStrikesDAO.createAction(abstractStrike);
         return Response.status(Response.Status.CREATED).entity(newStrike).build();
     }
 
@@ -48,8 +48,8 @@ public class ActionResource {
         Strike abstractStrike = gson.fromJson(action, Strike.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
-        MongoDBActionDAO mongoDBActionDAO = new MongoDBActionDAO(mongo);
-        mongoDBActionDAO.deleteAction(abstractStrike);
+        MongoDBStrikesDAO mongoDBStrikesDAO = new MongoDBStrikesDAO(mongo);
+        mongoDBStrikesDAO.deleteAction(abstractStrike);
         return Response.status(Response.Status.OK).build();
     }
 
@@ -63,8 +63,8 @@ public class ActionResource {
         Strike abstractStrike = gson.fromJson(action , Strike.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
-        MongoDBActionDAO mongoDBActionDAO = new MongoDBActionDAO(mongo);
-        mongoDBActionDAO.updateAction(abstractStrike);
+        MongoDBStrikesDAO mongoDBStrikesDAO = new MongoDBStrikesDAO(mongo);
+        mongoDBStrikesDAO.updateAction(abstractStrike);
         return Response.status(Response.Status.OK).build();
     }
 }

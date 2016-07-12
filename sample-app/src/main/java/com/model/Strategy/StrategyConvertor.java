@@ -1,6 +1,6 @@
 package com.model.Strategy;
 
-import com.DB.MongoDBActionDAO;
+import com.DB.MongoDBStrikesDAO;
 import com.model.actions.Strike;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
@@ -50,7 +50,7 @@ public class StrategyConvertor {
 
         Strategy strategy = new Strategy();
         MongoClient mongo = new MongoClient(dbHost, dbPort);
-        MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
+        MongoDBStrikesDAO actionDAO = new MongoDBStrikesDAO(mongo);
         List<Strike> strikes = actionDAO.getActionsByStrategyId
                 (((ObjectId) doc.get("_id")).toString());
         strategy.setWeekly(((String)doc.get("IsWeekly")).equals("1"));

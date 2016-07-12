@@ -1,6 +1,6 @@
 package com.controller.actions;
 
-import com.DB.MongoDBActionDAO;
+import com.DB.MongoDBStrikesDAO;
 import com.google.gson.Gson;
 import com.model.actions.Strike;
 import com.mongodb.MongoClient;
@@ -29,7 +29,7 @@ public class EditActionServlet extends HttpServlet {
         System.out.println("Strike edit requested with id=" + id);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
-        MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
+        MongoDBStrikesDAO actionDAO = new MongoDBStrikesDAO(mongo);
         Strike strike;
         strike = actionDAO.readAction(id);
         request.setAttribute("strike", strike);
@@ -61,7 +61,7 @@ public class EditActionServlet extends HttpServlet {
         {
             MongoClient mongo = (MongoClient) request.getServletContext()
                     .getAttribute("MONGO_CLIENT");
-            MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
+            MongoDBStrikesDAO actionDAO = new MongoDBStrikesDAO(mongo);
             Strike strike = new Strike();
             strike.setWeekly(isWeekly);
             request.setAttribute("success", "Stock edited Successfully");
