@@ -18,11 +18,15 @@ public class EditStrategyServlet extends HttpServlet {
     private static final long serialVersionUID = -6554920927964049383L;
 
     protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
+                         HttpServletResponse response) throws ServletException, IOException
+    {
         String id = request.getParameter("id");
-        if (id == null || "".equals(id)) {
+
+        if (id == null || "".equals(id))
+        {
             throw new ServletException("id missing for edit action operation");
         }
+
         System.out.println("strategy edit requested with id = " + id);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
@@ -33,20 +37,22 @@ public class EditStrategyServlet extends HttpServlet {
         request.setAttribute("strategy", strategy);
         List<Strategy> strategies = strategyDAO.readAllStrategies();
         request.setAttribute("strategies", strategies);
-
         String json = new Gson().toJson(strategies);
         response.setContentType("application/json");
         response.getWriter().write(json);
     }
 
     protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("id"); // keep it non-editable in UI
-        if (id == null || "".equals(id)) {
+                          HttpServletResponse response) throws ServletException, IOException
+    {
+        String id = request.getParameter("id");
+
+        if (id == null || "".equals(id))
+        {
             throw new ServletException("id missing for edit operation");
         }
 
-        boolean isWeekly = ((String)request.getParameter("isWeekly")).equals("1");
+        boolean isWeekly = request.getParameter("isWeekly").equals("1");
         String description = request.getParameter("description");
         String comment = request.getParameter("comment");
         String dateStr = request.getParameter("Date");
@@ -65,10 +71,8 @@ public class EditStrategyServlet extends HttpServlet {
         request.setAttribute("success", "strategy edited Successfully");
         List<Strategy> strategies = strategyDAO.readAllStrategies();
         request.setAttribute("strategies", strategies);
-
         String json = new Gson().toJson(strategies);
         response.setContentType("application/json");
         response.getWriter().write(json);
     }
-
 }

@@ -19,15 +19,16 @@ import javax.ws.rs.core.Response;
 @Path("/action")
 public class ActionResource {
 
-    public ActionResource() {
+    public ActionResource()
+    {
     }
 
     @POST
     @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(String action, @Context final HttpServletRequest request)
-            throws JOSEException {
+    public Response add(String action, @Context final HttpServletRequest request) throws JOSEException
+    {
         Gson gson = new GsonBuilder().create();
         Strike abstractStrike = gson.fromJson(action, Strike.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
@@ -41,8 +42,8 @@ public class ActionResource {
     @Path("/delete")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(String action, @Context final HttpServletRequest request)
-            throws JOSEException {
+    public Response delete(String action, @Context final HttpServletRequest request) throws JOSEException
+    {
         Gson gson = new GsonBuilder().create();
         Strike abstractStrike = gson.fromJson(action, Strike.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
@@ -52,18 +53,17 @@ public class ActionResource {
         return Response.status(Response.Status.OK).build();
     }
 
-
     @POST
     @Path("/update")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response update(String action, @Context final HttpServletRequest request)
-            throws JOSEException {
+    public Response update(String action, @Context final HttpServletRequest request) throws JOSEException
+    {
         Gson gson = new GsonBuilder().create();
         Strike abstractStrike = gson.fromJson(action , Strike.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
-        MongoDBActionDAO mongoDBActionDAO= new MongoDBActionDAO(mongo);
+        MongoDBActionDAO mongoDBActionDAO = new MongoDBActionDAO(mongo);
         mongoDBActionDAO.updateAction(abstractStrike);
         return Response.status(Response.Status.OK).build();
     }

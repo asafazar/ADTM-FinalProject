@@ -9,9 +9,8 @@ import java.util.Date;
 
 public class RiskArrayDerivativeConvertor {
 
-    // convert Stock Object to MongoDB DBObject
-    // take special note of converting id String to ObjectId
-    public static DBObject toDBObject(RiskArrayDerivative riskArrayDerivative) {
+    public static DBObject toDBObject(RiskArrayDerivative riskArrayDerivative)
+    {
         BasicDBObjectBuilder builder = BasicDBObjectBuilder.start()
                 .append("RECORD_TYPE", riskArrayDerivative.getRecordType())
                 .append("DERIVATIVE_ID", riskArrayDerivative.getDerivativeId())
@@ -36,19 +35,16 @@ public class RiskArrayDerivativeConvertor {
                 .append("FILLER", riskArrayDerivative.getFiller());
         if (riskArrayDerivative.getId() != null)
             builder = builder.append("_id", new ObjectId(riskArrayDerivative.getId()));
+
         return builder.get();
     }
 
-    // convert DBObject Object to Stock
-    // take special note of converting ObjectId to String
     public static RiskArrayDerivative toAction(DBObject doc)
     {
         RiskArrayDerivative riskArrayDerivative = new RiskArrayDerivative();
-
         riskArrayDerivative.setRecordType(Integer.parseInt((String)doc.get("RECORD_TYPE")));
         riskArrayDerivative.setDerivativeId(Integer.parseInt((String)doc.get("DERIVATIVE_ID")));
         riskArrayDerivative.setUnderlyingAssetCode(Integer.parseInt((String)doc.get("UNDERLYING_ASSET_CODE")));
-
         Date date = new Date(Integer.valueOf(doc.get("EXPIRATION_DATE").toString().substring(0,3)),
                 Integer.valueOf(doc.get("EXPIRATION_DATE").toString().substring(4,5)),
                 Integer.valueOf(doc.get("EXPIRATION_DATE").toString().substring(5,6)));
@@ -72,6 +68,7 @@ public class RiskArrayDerivativeConvertor {
         riskArrayDerivative.setFiller((String)doc.get("FILLER"));
         ObjectId id = (ObjectId) doc.get("_id");
         riskArrayDerivative.setId(id.toString());
+
         return riskArrayDerivative;
     }
 }

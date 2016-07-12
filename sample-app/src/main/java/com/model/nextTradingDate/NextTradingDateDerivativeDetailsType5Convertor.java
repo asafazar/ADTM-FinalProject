@@ -9,9 +9,8 @@ import java.util.Date;
 
 public class NextTradingDateDerivativeDetailsType5Convertor {
 
-    // convert Stock Object to MongoDB DBObject
-    // take special note of converting id String to ObjectId
-    public static DBObject toDBObject(NextTradingDateDerivativeDetailsType5 nextTradingDateDerivativeDetailsType5) {
+    public static DBObject toDBObject(NextTradingDateDerivativeDetailsType5 nextTradingDateDerivativeDetailsType5)
+    {
         BasicDBObjectBuilder builder = BasicDBObjectBuilder.start()
                 .append("RECORD_TYPE", nextTradingDateDerivativeDetailsType5.getRecordType())
                 .append("DERIVATIVE_ID", nextTradingDateDerivativeDetailsType5.getDerivativeId())
@@ -30,28 +29,23 @@ public class NextTradingDateDerivativeDetailsType5Convertor {
                 .append("FILLER", nextTradingDateDerivativeDetailsType5.getFiller());
         if (nextTradingDateDerivativeDetailsType5.getId() != null)
             builder = builder.append("_id", new ObjectId(nextTradingDateDerivativeDetailsType5.getId()));
+
         return builder.get();
     }
 
-    // convert DBObject Object to Stock
-    // take special note of converting ObjectId to String
     public static NextTradingDateDerivativeDetailsType5 toNextTradingDateDerivativeDetailsType5(DBObject doc)
     {
         NextTradingDateDerivativeDetailsType5 nextTradingDateDerivativeDetailsType5Convertor = new NextTradingDateDerivativeDetailsType5();
-
         nextTradingDateDerivativeDetailsType5Convertor.setRecordType(Integer.parseInt((String)doc.get("RECORD_TYPE")));
         nextTradingDateDerivativeDetailsType5Convertor.setDerivativeId(Integer.parseInt((String)doc.get("DERIVATIVE_ID")));
-
         Date exactExpirationDate = new Date(Integer.valueOf(doc.get("EXPIRATION_DATE").toString().substring(0,3)),
                 Integer.valueOf(doc.get("EXPIRATION_DATE").toString().substring(4,5)),
                 Integer.valueOf(doc.get("EXPIRATION_DATE").toString().substring(5,6)));
         nextTradingDateDerivativeDetailsType5Convertor.setExactExpirationDate(exactExpirationDate);
-
         Date settlementPriceDate = new Date(Integer.valueOf(doc.get("EXPIRATION_DATE").toString().substring(0,3)),
                 Integer.valueOf(doc.get("EXPIRATION_DATE").toString().substring(4,5)),
                 Integer.valueOf(doc.get("EXPIRATION_DATE").toString().substring(5,6)));
         nextTradingDateDerivativeDetailsType5Convertor.setSettlementPriceDate(settlementPriceDate);
-
         nextTradingDateDerivativeDetailsType5Convertor.setIsin((String)doc.get("STRIKE_PRICE"));
         nextTradingDateDerivativeDetailsType5Convertor.setUnderlyingAssetMultiplier(Integer.parseInt((String)doc.get("DERIVATIVE_TYPE")));
         nextTradingDateDerivativeDetailsType5Convertor.setUnderlyingAssetType(Integer.parseInt((String)doc.get("RISK_FREE_INTRST_RATE")));
@@ -64,6 +58,7 @@ public class NextTradingDateDerivativeDetailsType5Convertor {
         nextTradingDateDerivativeDetailsType5Convertor.setFiller((String)doc.get("FILLER"));
         ObjectId id = (ObjectId) doc.get("_id");
         nextTradingDateDerivativeDetailsType5Convertor.setId(id.toString());
+
         return nextTradingDateDerivativeDetailsType5Convertor;
     }
 }

@@ -4,10 +4,11 @@ package com.model.liveUpdates;
  * Created by asaf on 17/02/2016.
  */
 public class LiveDataValue {
-    String id;
-    Double madadValue;
-    Double callValue;
-    Double putValue;
+
+    private String id;
+    private Double madadValue;
+    private Double callValue;
+    private Double putValue;
 
     public LiveDataValue() {
     }

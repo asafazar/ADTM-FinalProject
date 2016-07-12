@@ -9,9 +9,8 @@ import java.util.Date;
 
 public class NextTradingDateDerivativeDetailsType2Convertor {
 
-    // convert Stock Object to MongoDB DBObject
-    // take special note of converting id String to ObjectId
-    public static DBObject toDBObject(NextTradingDateDerivativeDetailsType2 nextTradingDateDerivativeDetailsType2) {
+    public static DBObject toDBObject(NextTradingDateDerivativeDetailsType2 nextTradingDateDerivativeDetailsType2)
+    {
         BasicDBObjectBuilder builder = BasicDBObjectBuilder.start()
                 .append("RECORD_TYPE", nextTradingDateDerivativeDetailsType2.getRecordType())
                 .append("DERIVATIVE_ID", nextTradingDateDerivativeDetailsType2.getDerivativeId())
@@ -33,15 +32,13 @@ public class NextTradingDateDerivativeDetailsType2Convertor {
 
         if (nextTradingDateDerivativeDetailsType2.getId() != null)
             builder = builder.append("_id", new ObjectId(nextTradingDateDerivativeDetailsType2.getId()));
+
         return builder.get();
     }
 
-    // convert DBObject Object to Stock
-    // take special note of converting ObjectId to String
     public static NextTradingDateDerivativeDetailsType2 toNextTradingDateDerivativeDetailsType2(DBObject doc)
     {
         NextTradingDateDerivativeDetailsType2 nextTradingDateDerivativeDetailsType2= new NextTradingDateDerivativeDetailsType2();
-
         nextTradingDateDerivativeDetailsType2.setRecordType(Integer.valueOf((String) doc.get("")));
         nextTradingDateDerivativeDetailsType2.setDerivativeId(Integer.valueOf((String) doc.get("")));
         nextTradingDateDerivativeDetailsType2.setDerivativeType(Integer.valueOf((String) doc.get("")));
@@ -64,6 +61,7 @@ public class NextTradingDateDerivativeDetailsType2Convertor {
         nextTradingDateDerivativeDetailsType2.setDerivativeIssuedDuringTradeFlag(((String) doc.get("")).equals("1"));
         ObjectId id = (ObjectId) doc.get("_id");
         nextTradingDateDerivativeDetailsType2.setId(id.toString());
+
         return nextTradingDateDerivativeDetailsType2;
     }
 }

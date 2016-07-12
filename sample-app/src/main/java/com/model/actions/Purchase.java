@@ -1,8 +1,12 @@
 package com.model.actions;
 
 public class Purchase {
+    private String id;
     private Strike purchaseStrike;
     private Strike executeStrike;
+    private int strikePrice;
+    private int ask1;
+    private int bid1;
     private int buyNumber;
     private int writeNumber;
     private boolean isExecuted;
@@ -12,6 +16,38 @@ public class Purchase {
     private int buyExecutePremium;
     private int writeExecutePremium;
     private boolean isCall;
+
+    public int getStrikePrice() {
+        return strikePrice;
+    }
+
+    public void setStrikePrice(int strikePrice) {
+        this.strikePrice = strikePrice;
+    }
+
+    public int getAsk1() {
+        return ask1;
+    }
+
+    public void setAsk1(int ask1) {
+        this.ask1 = ask1;
+    }
+
+    public int getBid1() {
+        return bid1;
+    }
+
+    public void setBid1(int bid1) {
+        this.bid1 = bid1;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public boolean isCall() {
         return isCall;

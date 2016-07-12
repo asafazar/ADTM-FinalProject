@@ -60,7 +60,6 @@ public class Strike {
         this.description = description;
     }
 
-
     public Date getStrikeDate() {
         return strikeDate;
     }

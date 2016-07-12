@@ -6,7 +6,6 @@ import com.model.stocks.Stock;
 import com.mongodb.MongoClient;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,9 +21,12 @@ public class EditStockServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-        if (id == null || "".equals(id)) {
+
+        if (id == null || "".equals(id))
+        {
             throw new ServletException("id missing for edit operation");
         }
+
         System.out.println("Stock edit requested with id=" + id);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
@@ -35,16 +37,18 @@ public class EditStockServlet extends HttpServlet {
         request.setAttribute("stock", stock);
         List<Stock> stocks = stockDAO.readAllStocks();
         request.setAttribute("stocks", stocks);
-
         String json = new Gson().toJson(stocks);
         response.setContentType("application/json");
         response.getWriter().write(json);
     }
 
     protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("id"); // keep it non-editable in UI
-        if (id == null || "".equals(id)) {
+                          HttpServletResponse response) throws ServletException, IOException
+    {
+        String id = request.getParameter("id");
+
+        if (id == null || "".equals(id))
+        {
             throw new ServletException("id missing for edit operation");
         }
 
@@ -68,7 +72,9 @@ public class EditStockServlet extends HttpServlet {
                 || (assetName == null || assetName.equals("")))
         {
             throw new ServletException("id missing for edit action operation");
-        } else {
+        }
+        else
+        {
             MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
             MongoDBStockDAO stockDAO = new MongoDBStockDAO(mongo);
@@ -92,11 +98,9 @@ public class EditStockServlet extends HttpServlet {
             request.setAttribute("success", "Stock edited Successfully");
             List<Stock> stocks = stockDAO.readAllStocks();
             request.setAttribute("stocks", stocks);
-
             String json = new Gson().toJson(stocks);
             response.setContentType("application/json");
             response.getWriter().write(json);
         }
     }
-
 }

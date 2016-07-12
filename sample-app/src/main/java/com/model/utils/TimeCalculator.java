@@ -29,6 +29,7 @@ public class TimeCalculator {
     {
         Calendar actionCal = Calendar.getInstance();
         actionCal.setTime(actionDate);
+
         if (actionCal.get(Calendar.DAY_OF_WEEK) != Calendar.THURSDAY)
         {
             int dayOfWeek = actionCal.get(Calendar.DAY_OF_WEEK);
@@ -87,5 +88,4 @@ public class TimeCalculator {
 
         return weeks;
     }
-
 }

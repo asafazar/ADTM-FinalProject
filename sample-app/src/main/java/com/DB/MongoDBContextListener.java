@@ -14,7 +14,8 @@ import java.util.Arrays;
 public class MongoDBContextListener implements ServletContextListener {
 
     @Override
-    public void contextDestroyed(ServletContextEvent sce) {
+    public void contextDestroyed(ServletContextEvent sce)
+    {
         MongoClient mongo = (MongoClient) sce.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         mongo.close();
@@ -22,8 +23,10 @@ public class MongoDBContextListener implements ServletContextListener {
     }
 
     @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        try {
+    public void contextInitialized(ServletContextEvent sce)
+    {
+        try
+        {
             ServletContext ctx = sce.getServletContext();
             ServerAddress serverAddress = new ServerAddress(ctx.getInitParameter("DB_IP"));
             MongoCredential credential = MongoCredential.createCredential(
@@ -32,9 +35,10 @@ public class MongoDBContextListener implements ServletContextListener {
             MongoClient mongo = new MongoClient(serverAddress, Arrays.asList(credential));
             System.out.println("MongoClient initialized successfully");
             sce.getServletContext().setAttribute("MONGO_CLIENT", mongo);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException("MongoClient init failed");
         }
     }
-
 }

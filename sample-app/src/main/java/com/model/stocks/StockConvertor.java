@@ -10,10 +10,8 @@ import java.util.Date;
 
 public class StockConvertor {
 
-    // convert Stock Object to MongoDB DBObject
-    // take special note of converting id String to ObjectId
-    public static DBObject toDBObject(Stock stock) {
-
+    public static DBObject toDBObject(Stock stock)
+    {
         BasicDBObjectBuilder builder = BasicDBObjectBuilder.start()
                 .append("ContractNumber", stock.getContractNumber()).append("Amount", stock.getAmount())
                 .append("AssetCode", stock.getAssetCode()).append("BuyCodeNumber", stock.getBuyCodeNumber())
@@ -24,11 +22,10 @@ public class StockConvertor {
                 .append("Date", stock.getDate());
         if (stock.getID() != null)
             builder = builder.append("_id", new ObjectId(stock.getID()));
+
         return builder.get();
     }
 
-    // convert DBObject Object to Stock
-    // take special note of converting ObjectId to String
     public static Stock toStock(DBObject doc)
     {
         Stock stock = new Stock();
@@ -53,6 +50,7 @@ public class StockConvertor {
         stock.setDate(date);
         ObjectId id = (ObjectId) doc.get("_id");
         stock.setID(id.toString());
+
         return stock;
     }
 }

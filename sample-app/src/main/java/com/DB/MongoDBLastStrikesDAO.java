@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.model.actions.Strike;
 import com.model.utils.Constants;
 import com.model.utils.TimeCalculator;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
@@ -13,16 +14,20 @@ import com.mongodb.util.JSON;
 import java.util.Date;
 import java.util.List;
 
-public class MongoDBStrikesDAO {
+/**
+ * Created by asaf on 14/06/2016.
+ */
+public class MongoDBLastStrikesDAO {
 
     private DBCollection col;
 
-    public MongoDBStrikesDAO(MongoClient mongo) {
-        this.col = mongo.getDB("adtmdb").getCollection("strikes");
+    public MongoDBLastStrikesDAO(MongoClient mongo) {
+        this.col = mongo.getDB("adtmdb").getCollection("lastStrikes");
     }
 
     public void saveStrikes(List<Strike> strikeList)
     {
+        col.remove(new BasicDBObject());
         Date now = new Date();
 
         for (Strike strike : strikeList)

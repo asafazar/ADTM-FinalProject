@@ -8,9 +8,6 @@ import org.bson.types.ObjectId;
 import java.util.ArrayList;
 import java.util.List;
 
-//DAO class for different MongoDB CRUD operations
-//take special note of "id" String to ObjectId conversion and vice versa
-//also take note of "_id" key for primary key
 public class MongoDBStockDAO {
 
     private DBCollection col;

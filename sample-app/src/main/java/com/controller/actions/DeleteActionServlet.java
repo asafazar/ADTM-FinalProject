@@ -17,11 +17,14 @@ public class DeleteActionServlet extends HttpServlet {
     private static final long serialVersionUID = 3L;
 
     protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
+                         HttpServletResponse response) throws ServletException, IOException
+    {
         String id = request.getParameter("id");
-        if (id == null || "".equals(id)) {
+        if (id == null || "".equals(id))
+        {
             throw new ServletException("id missing for delete operation");
         }
+
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
@@ -31,10 +34,8 @@ public class DeleteActionServlet extends HttpServlet {
         request.setAttribute("success", "Stock deleted successfully");
         List<Strike> strikes = actionDAO.readAllActions();
         request.setAttribute("strikes", strikes);
-
         String json = new Gson().toJson(strikes);
         response.setContentType("application/json");
         response.getWriter().write(json);
     }
-
 }

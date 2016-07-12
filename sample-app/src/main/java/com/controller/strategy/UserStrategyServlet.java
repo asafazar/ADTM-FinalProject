@@ -21,7 +21,8 @@ public class UserStrategyServlet extends HttpServlet {
 
 
     protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
+                         HttpServletResponse response) throws ServletException, IOException
+    {
         Gson gson = new GsonBuilder().create();
         User loginUser = new User();
         loginUser.setEmail(request.getParameter("userid").toString());

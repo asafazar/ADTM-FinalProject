@@ -21,6 +21,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @Path("/strategy")
@@ -33,25 +34,25 @@ public class StrategyResource {
     @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(String strategy,String userId, @Context final HttpServletRequest request)
-            throws JOSEException {
+    public Response add(String strategy,String userId, @Context final HttpServletRequest request) throws JOSEException
+    {
         Gson gson = new GsonBuilder().create();
         Strategy newStrategy = gson.fromJson(strategy, Strategy.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
+
         if (!newStrategy.isWeekly())
         {
             for (Strike strike : Constants.lastStrikes)
             {
-                // just for testing
-                if (strike.getDescription().contains("APR"))
-                //if (strike.getDescription().contains(Constants.MONTHES_MAP.get(new Date().getMonth())))
+                if (strike.getDescription().contains(Constants.MONTHES_MAP.get(new Date().getMonth())))
                 {
                     newStrategy.getPl().put(strike.getContractId(), 0.0);
                 }
             }
         }
-        else {
+        else
+        {
             for (Strike strike : Constants.lastStrikes)
             {
                 if (strike.getDescription().contains("W"))
@@ -70,8 +71,8 @@ public class StrategyResource {
     @Path("/delete")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(String strategy, @Context final HttpServletRequest request)
-            throws JOSEException {
+    public Response delete(String strategy, @Context final HttpServletRequest request) throws JOSEException
+    {
         Gson gson = new GsonBuilder().create();
         Strategy deleteStrategy = gson.fromJson(strategy, Strategy.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
@@ -81,13 +82,12 @@ public class StrategyResource {
         return Response.status(Response.Status.OK).build();
     }
 
-
     @POST
     @Path("/update")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response update(String strategy, @Context final HttpServletRequest request)
-            throws JOSEException {
+    public Response update(String strategy, @Context final HttpServletRequest request) throws JOSEException
+    {
         Gson gson = new GsonBuilder().create();
         Strategy currStrategy = gson.fromJson(strategy, Strategy.class);
         MongoClient mongo = (MongoClient) request.getServletContext()
@@ -97,12 +97,12 @@ public class StrategyResource {
         return Response.status(Response.Status.OK).build();
     }
 
-
     @POST
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response all(@Context HttpServletRequest request)  throws ParseException, JOSEException {
+    public Response all(@Context HttpServletRequest request)  throws ParseException, JOSEException
+    {
         User currUser = getAuthUser(request);
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
@@ -111,7 +111,8 @@ public class StrategyResource {
         return Response.status(Response.Status.OK).entity(strategies).build();
     }
 
-    private User getAuthUser(HttpServletRequest request) throws ParseException, JOSEException {
+    private User getAuthUser(HttpServletRequest request) throws ParseException, JOSEException
+    {
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
         MongoDBUserDAO mongoDBUserDAO = new MongoDBUserDAO(mongo);

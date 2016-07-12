@@ -17,8 +17,8 @@ public class DeleteStrategyServlet extends HttpServlet {
     private static final long serialVersionUID = 7L;
 
     protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
-
+                         HttpServletResponse response) throws ServletException, IOException
+    {
         String strategyId = request.getParameter("id").toString();
         MongoClient mongo = (MongoClient) request.getServletContext()
                 .getAttribute("MONGO_CLIENT");
@@ -28,7 +28,6 @@ public class DeleteStrategyServlet extends HttpServlet {
         request.setAttribute("success", "strategy deleted successfully");
         List<Strategy> strategies = strategyDAO.readAllStrategies();
         request.setAttribute("strategies", strategies);
-
         String json = new Gson().toJson(strategies);
         response.setContentType("application/json");
         response.getWriter().write(json);

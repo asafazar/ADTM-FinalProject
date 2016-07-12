@@ -10,9 +10,8 @@ import java.util.Date;
 
 public class NextTradingDateDerivativeDetailsType3Convertor {
 
-    // convert Stock Object to MongoDB DBObject
-    // take special note of converting id String to ObjectId
-    public static DBObject toDBObject(NextTradingDateDerivativeDetailsType3 nextTradingDateDerivativeDetailsType3) {
+    public static DBObject toDBObject(NextTradingDateDerivativeDetailsType3 nextTradingDateDerivativeDetailsType3)
+    {
         BasicDBObjectBuilder builder = BasicDBObjectBuilder.start()
                 .append("RECORD_TYPE", nextTradingDateDerivativeDetailsType3.getRecordType())
                 .append("DERIVATIVE_ID", nextTradingDateDerivativeDetailsType3.getDerivativeId())
@@ -34,16 +33,14 @@ public class NextTradingDateDerivativeDetailsType3Convertor {
 
         if (nextTradingDateDerivativeDetailsType3.getId() != null)
             builder = builder.append("_id", new ObjectId(nextTradingDateDerivativeDetailsType3.getId()));
+
         return builder.get();
 
     }
 
-    // convert DBObject Object to Stock
-    // take special note of converting ObjectId to String
     public static NextTradingDateDerivativeDetailsType3 toNextTradingDateDerivativeDetailsType3(DBObject doc)
     {
         NextTradingDateDerivativeDetailsType3 nextTradingDateDerivativeDetailsType3 = new NextTradingDateDerivativeDetailsType3();
-
         nextTradingDateDerivativeDetailsType3.setRecordType(Integer.parseInt((String)doc.get("RECORD_TYPE")));
         nextTradingDateDerivativeDetailsType3.setDerivativeId(Integer.parseInt((String)doc.get("DERIVATIVE_ID")));
         nextTradingDateDerivativeDetailsType3.setFluctuationCoefficient(Integer.parseInt((String)doc.get("UNDERLYING_ASSET_CODE")));
@@ -75,6 +72,7 @@ public class NextTradingDateDerivativeDetailsType3Convertor {
         nextTradingDateDerivativeDetailsType3.setFiller((String)doc.get("FILLER"));
         ObjectId id = (ObjectId) doc.get("_id");
         nextTradingDateDerivativeDetailsType3.setId(id.toString());
+
         return nextTradingDateDerivativeDetailsType3;
     }
 }

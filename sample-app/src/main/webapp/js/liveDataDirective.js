@@ -23,6 +23,6 @@ angular.module('MyApp')
             console.log($scope.gridData);
         }).error(function(data, status, headers, config) {
         });
-    }, 10000);
+    }, 5000);
 
 }]);

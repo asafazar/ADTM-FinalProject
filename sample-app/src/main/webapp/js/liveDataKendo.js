@@ -51,7 +51,7 @@ angular.module('MyApp')
                 $scope.data.set(data);
             }).error(function(data, status, headers, config) {
             });
-        }, 30000);
+        }, 5000);
 
          $scope.liveData = $interval(function(){
                  $http({

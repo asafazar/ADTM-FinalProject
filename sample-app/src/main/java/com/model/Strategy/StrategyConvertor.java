@@ -16,9 +16,8 @@ import java.util.List;
 
 public class StrategyConvertor {
 
-    // convert Stock Object to MongoDB DBObject
-    // take special note of converting id String to ObjectId
-    public static DBObject toDBObject(Strategy strategy) {
+    public static DBObject toDBObject(Strategy strategy)
+    {
         BasicDBObjectBuilder builder = new BasicDBObjectBuilder();
         builder.append("IsWeekly", strategy.isWeekly())
                 .append("Description", strategy.getName())
@@ -28,23 +27,27 @@ public class StrategyConvertor {
                 .append("userId", strategy.getUserId());
         if (strategy.getId() != null)
             builder = builder.append("_id", new ObjectId(strategy.getId()));
+
         return builder.get();
     }
 
-    // convert DBObject Object to Stock
-    // take special note of converting ObjectId to String
     public static Strategy toStrategy(DBObject doc)
     {
         Context env = null;
         String dbHost = "";
         int dbPort = 0;
-        try {
+
+        try
+        {
             env = (Context)new InitialContext().lookup("java:comp/env");
             dbHost = (String)env.lookup("MONGODB_IP");
             dbPort = Integer.parseInt((String)env.lookup("MONGODB_PORT"));
-        } catch (NamingException e) {
+        }
+        catch (NamingException e)
+        {
             e.printStackTrace();
         }
+
         Strategy strategy = new Strategy();
         MongoClient mongo = new MongoClient(dbHost, dbPort);
         MongoDBActionDAO actionDAO = new MongoDBActionDAO(mongo);
@@ -60,6 +63,7 @@ public class StrategyConvertor {
         strategy.setUserId((String) doc.get("userId"));
         ObjectId id = (ObjectId) doc.get("_id");
         strategy.setId(id.toString());
+
         return strategy;
     }
 }

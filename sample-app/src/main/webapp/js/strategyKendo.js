@@ -2,7 +2,7 @@
  * Created by OrlyGB on 27/05/2016.
  */
 angular.module('MyApp')
-    .controller('strategyKendo', function($scope, $http, $rootScope){
+    .controller('strategyKendo', function($scope, $http, $rootScope, $interval){
     $scope.strategyGridOptions = {
     dataSource: {
         type: "odata",
@@ -68,6 +68,7 @@ angular.module('MyApp')
         serverPaging: true,
         serverSorting: true
     },
+    scrollable: false,
     batch: true,
     height: 550,
     filterable: true,
@@ -95,35 +96,53 @@ angular.module('MyApp')
             dataSource: {
                 type: "odata",
                 transport: {
-                    read: {
-                        url: "/js/data/actions.json",
-                        dataType: "json"
+                    read: function(e){
+                        $http({
+                            method: 'GET',
+                            url: '/getPurchaseServlet',
+                            params: {id: dataItem.id}
+                        }).success(function (data, status, headers, config) {
+                            refreshGrid();
+                            e.success(data);
+                        }).error(function (data, status, headers, config) {
+                        });
+                    },
+                    update: function(e){
+                        $http({
+                            method: 'GET',
+                            url: '/UpdatePurchaseServlet',
+                            params: {id: e.data}
+                        }).success(function (data, status, headers, config) {
+                            e.success(data);
+                        }).error(function (data, status, headers, config) {
+                        });
                     }
                 },
                 serverPaging: true,
                 serverSorting: true,
                 serverFiltering: true,
                 pageSize: 5,
-                filter: { field: "id", operator: "eq", value: dataItem.id },
+                filter: { field: "strategyId", operator: "eq", value: dataItem.id },
                 schema: {
-
                     data: function (data) {
-                        return data.filter(function (strategy) {
-                            return (strategy.id === dataItem.id);
-                        });
-                    },
+                        return data;
+                        },
                     total: function (data) {
                         return data['odata.count'];
                     },
 
                     model: {
-                        id: "ActionID",
                         fields: {
-                            StrategyID: { editable: false },
-                            ActionID: { editable: false },
-                            contractName: { nullable: false },
-                            name: { nullable: false}
-                        }
+                            strikePrice: { editable: false },
+                            pl: {editable:false},
+                            ask1: { editable: false },
+                            bid1: { editable: false },
+                            buyNumber: { editable: true },
+                            writeNumber: { editable: true },
+                            buyPurchasePremium: { editable: false },
+                            writePurchasePremium: { editable: false }
+                        },
+                        id: "id"
                     }
                 }
             },
@@ -134,11 +153,30 @@ angular.module('MyApp')
             pageable: true,
             toolbar: ["create"],
             columns: [
-                { field: "contractName", title:"Contract Name", width: 100 },
-                { field: "name", title:"Name", width: 100 },
-                { command: ["edit", "destroy"], title: "&nbsp;", width: "200px" }
+                {field: "strikePrice", title:"Strike Price", width: "50px"},
+                {field: "PL", title:"P&L", width: "50px"},
+                {field: "buyPurchasePremium", title:"Buy Premium", width: "50px", value: function(e){
+                    e.data.bid1 * e.data.buyNumber
+                }},
+                {field: "bid1", title:"Bid Price", width: "50px"},
+                {field: "buyNumber", title:"Buy number", width: "50px"},
+                {field: "writePurchasePremium", title:"Ask Premium", width: "50px", value: function(e){
+                    e.data.ask1 * e.data.writeNumber
+                }},
+                {field: "ask1", title:"Ask Price", width: "50px"},
+                {field: "writeNumber", title:"Ask number", width: "50px"},
+                { command: ["edit"], title: "&nbsp;", width: "200px" }
             ],
-            editable: "popup"
+
+            editable: "inline"
         };
+
     };
+
+    function refreshGrid() {
+        setInterval(function(){
+            $('#actionsGridOptions').data('kendoGrid').dataSource.read();
+        }, 5000)
+    }
+
 });

@@ -7,9 +7,8 @@ import org.bson.types.ObjectId;
 
 public class RiskArrayDerivativeScenariosConvertor {
 
-    // convert Stock Object to MongoDB DBObject
-    // take special note of converting id String to ObjectId
-    public static DBObject toDBObject(RiskArrayDerivativeScenarios riskArrayDerivativeScenarios) {
+    public static DBObject toDBObject(RiskArrayDerivativeScenarios riskArrayDerivativeScenarios)
+    {
         BasicDBObjectBuilder builder = BasicDBObjectBuilder.start()
                 .append("RECORD_TYPE", riskArrayDerivativeScenarios.getRecordType())
                 .append("DERIVATIVE_ID", riskArrayDerivativeScenarios.getDerivativeId())
@@ -32,15 +31,13 @@ public class RiskArrayDerivativeScenariosConvertor {
                 .append("FILLER", riskArrayDerivativeScenarios.getFiller());
         if (riskArrayDerivativeScenarios.getId() != null)
             builder = builder.append("_id", new ObjectId(riskArrayDerivativeScenarios.getId()));
+
         return builder.get();
     }
 
-    // convert DBObject Object to Stock
-    // take special note of converting ObjectId to String
     public static RiskArrayDerivativeScenarios toAction(DBObject doc)
     {
         RiskArrayDerivativeScenarios riskArrayDerivativeScenarios = new RiskArrayDerivativeScenarios();
-
         riskArrayDerivativeScenarios.setRecordType(Integer.parseInt((String)doc.get("RECORD_TYPE")));
         riskArrayDerivativeScenarios.setDerivativeId(Integer.parseInt((String)doc.get("DERIVATIVE_ID")));
         riskArrayDerivativeScenarios.setRecordNumber(Integer.parseInt((String)doc.get("RECORD_NUMBER")));
@@ -62,6 +59,7 @@ public class RiskArrayDerivativeScenariosConvertor {
         riskArrayDerivativeScenarios.setFiller((String)doc.get("RISK_ARRAY_NUMBER"));
         ObjectId id = (ObjectId) doc.get("_id");
         riskArrayDerivativeScenarios.setId(id.toString());
+
         return riskArrayDerivativeScenarios;
     }
 }

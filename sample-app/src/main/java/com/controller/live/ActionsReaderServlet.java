@@ -1,5 +1,6 @@
 package com.controller.live;
 
+import com.DB.MongoDBLastStrikesDAO;
 import com.DB.MongoDBStrikesDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,9 +35,7 @@ public class ActionsReaderServlet extends HttpServlet {
 
 
     public void init(final ServletConfig sc) throws ServletException {
-
         Timer t = new Timer();
-
         t.scheduleAtFixedRate(
                 new TimerTask()
                 {
@@ -45,16 +44,12 @@ public class ActionsReaderServlet extends HttpServlet {
                         liveStrikes = new ArrayList<>();
                         String allDataAsJson = "[";
 
-                        try {
-                            FileInputStream file = new FileInputStream(new File("C:/asaf/data-old.xlsx"));
-
-                            //Create Workbook instance holding reference to .xlsx file
+                        try
+                        {
+                            FileInputStream file = new FileInputStream(new File("C:/asaf/data.xlsx"));
                             XSSFWorkbook workbook = new XSSFWorkbook(file);
-
-                            //Get first/desired sheet from the workbook
                             XSSFSheet sheet = workbook.getSheetAt(0);
 
-                            //Iterate through each rows one by one
                             Iterator<Row> rowIterator = sheet.iterator();
                             rowIterator.next();
 
@@ -74,34 +69,85 @@ public class ActionsReaderServlet extends HttpServlet {
                                             + KEY_VALUE_SEPARATOR +
                                             getCellValue(currCell) + '"' +  ",";
                                 }
-                                currActionString = currActionString.substring(0, currActionString.length() - 1);
-                                currActionString += "}";
+
+                                currActionString = addCurrStrikeJsonSuffix(currActionString);
 
                                 if (!currActionString.contains("NA") &&
-                                        !currActionString.contains("strikePrice" + KEY_VALUE_SEPARATOR + '"')) {
+                                        !currActionString.contains("strikePrice" + KEY_VALUE_SEPARATOR + '"'))
+                                {
                                     Gson gson = new GsonBuilder().create();
                                     Strike curr = gson.fromJson(currActionString, Strike.class);
                                     liveStrikes.add(curr);
                                     allDataAsJson += currActionString + ",";
                                 }
                             }
+
                             file.close();
-                        } catch (Exception e) {
+                        }
+                        catch (Exception e)
+                        {
                             e.printStackTrace();
                         }
 
-                        allDataAsJson = allDataAsJson.substring(0, allDataAsJson.length() -1);
-                        allDataAsJson += "]";
-                        finalString = allDataAsJson;
-                        MongoClient mongo = (MongoClient) sc.getServletContext()
-                                .getAttribute("MONGO_CLIENT");
-                        MongoDBStrikesDAO actionDAO = new MongoDBStrikesDAO(mongo);
-                        actionDAO.saveStrikes(liveStrikes);
+                        setAllStrikeJson(allDataAsJson);
+
+                       if (isMarketIsOpen())
+                       {
+                           saveLastStrikesToDB(sc);
+                       }
+
                         Constants.lastStrikes = liveStrikes;
                     }
                 },
-                0,      // run first occurrence immediately
-                30000);
+                0,
+                10000);
+    }
+
+    private void setAllStrikeJson(String allDataAsJson) {
+        allDataAsJson = allDataAsJson.substring(0, allDataAsJson.length() -1);
+        allDataAsJson += "]";
+        finalString = allDataAsJson;
+    }
+
+    private String addCurrStrikeJsonSuffix(String currActionString) {
+        currActionString = currActionString.substring(0, currActionString.length() - 1);
+        currActionString += "}";
+        return currActionString;
+    }
+
+    private void saveLastStrikesToDB(ServletConfig sc) {
+        MongoClient mongo = (MongoClient) sc.getServletContext()
+                .getAttribute("MONGO_CLIENT");
+        MongoDBStrikesDAO actionDAO = new MongoDBStrikesDAO(mongo);
+        MongoDBLastStrikesDAO mongoDBLastStrikesDAO = new MongoDBLastStrikesDAO(mongo);
+        actionDAO.saveStrikes(liveStrikes);
+        mongoDBLastStrikesDAO.saveStrikes(liveStrikes);
+    }
+
+    private boolean isMarketIsOpen()
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        Date marketOpenHour = new Date();
+        marketOpenHour.setHours(9);
+        marketOpenHour.setMinutes(30);
+        Date sundayMarketCloseHour = new Date();
+        marketOpenHour.setHours(16);
+        marketOpenHour.setMinutes(35);
+        Date restOfWeekMarketCloseHour = new Date();
+        marketOpenHour.setHours(17);
+        marketOpenHour.setMinutes(35);
+
+        if (cal.DAY_OF_WEEK == Calendar.SUNDAY)
+        {
+            return (cal.getTime().after(marketOpenHour) && cal.getTime().before(sundayMarketCloseHour));
+        }
+        else if(cal.getTime().getDay() <= Calendar.THURSDAY)
+        {
+            return (cal.getTime().after(marketOpenHour) && cal.getTime().before(restOfWeekMarketCloseHour));
+        }
+
+        return false;
     }
 
     private Object getCellValue(Cell cell) {
@@ -111,6 +157,7 @@ public class ActionsReaderServlet extends HttpServlet {
             String strike = cell.getStringCellValue();
             String returnFields = cell.getStringCellValue().substring(4,8) + FIELD_SEPARATOR;
             returnFields += "isWeekly" + KEY_VALUE_SEPARATOR;
+
             if (strike.contains("W"))
             {
                 returnFields += "1";

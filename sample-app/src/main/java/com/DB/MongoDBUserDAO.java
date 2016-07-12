@@ -27,41 +27,43 @@ public class MongoDBUserDAO {
         this.col = mongo.getDB("adtmdb").getCollection("users");
     }
 
-    private static Key generateKey() throws Exception {
+    private static Key generateKey() throws Exception
+    {
         Key key = new SecretKeySpec(keyValue, ALGORITHM);
         return key;
     }
 
     public boolean createUser(String displayName, String password, String email)
     {
-        try {
-            // Create key and cipher
+        try
+        {
             Key key = generateKey();
             Cipher cipher = Cipher.getInstance(ALGORITHM);
-            // encrypt the text
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encrypted = cipher.doFinal(password.getBytes());
             String encryptedValue = new BASE64Encoder().encode(encrypted);
             DBObject query = BasicDBObjectBuilder.start()
                     .append("email", email).get();
             DBObject data = this.col.findOne(query);
-            if (data == null) {
+
+            if (data == null)
+            {
                 BasicDBObjectBuilder builder = new BasicDBObjectBuilder();
                 builder.append("displayName", displayName)
                         .append("password", encryptedValue)
                         .append("email", email);
                 DBObject doc = builder.get();
                 this.col.save(doc);
+
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
         catch(Exception e)
         {
             e.printStackTrace();
+
             return false;
         }
     }
@@ -79,6 +81,7 @@ public class MongoDBUserDAO {
             DBObject dbObject = cursor.next();
             User user = gson.fromJson(JSON.serialize(dbObject), User.class);
             user.setId(dbObject.get("_id").toString());
+
             return user;
         }
 
@@ -86,6 +89,8 @@ public class MongoDBUserDAO {
     }
     public List<User> getAllUsers()
     {
+        // TODO : implement method, need to think if this important
+
         return null;
     }
     public boolean getUserId(String email, String password)
@@ -110,10 +115,8 @@ public class MongoDBUserDAO {
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+
+                return false;
             }
 
             return false;
@@ -124,7 +127,8 @@ public class MongoDBUserDAO {
         }
     }
 
-    public void deleteUser(String userId) {
+    public void deleteUser(String userId)
+    {
         DBObject query = BasicDBObjectBuilder.start()
                 .append("_id", new ObjectId(userId)).get();
         this.col.remove(query);
@@ -146,6 +150,7 @@ public class MongoDBUserDAO {
         DBObject doc = (DBObject) JSON.parse(gson.toJson(user, User.class));
         this.col.save(doc);
         User newUser = getUserByMail(user.getEmail());
+
         return newUser;
     }
 }

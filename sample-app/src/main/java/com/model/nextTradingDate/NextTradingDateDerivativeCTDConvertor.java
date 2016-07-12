@@ -9,9 +9,8 @@ import org.bson.types.ObjectId;
  */
 public class NextTradingDateDerivativeCTDConvertor {
 
-    // convert Stock Object to MongoDB DBObject
-    // take special note of converting id String to ObjectId
-    public static DBObject toDBObject(NextTradingDateDerivativeCTD nextTradingDateDerivativeCTD) {
+    public static DBObject toDBObject(NextTradingDateDerivativeCTD nextTradingDateDerivativeCTD)
+    {
         BasicDBObjectBuilder builder = BasicDBObjectBuilder.start()
                 .append("RECORD_TYPE", nextTradingDateDerivativeCTD.getRecordType())
                 .append("DERIVATIVE_ID", nextTradingDateDerivativeCTD.getDerivativeId())
@@ -27,15 +26,13 @@ public class NextTradingDateDerivativeCTDConvertor {
                 .append("DERIVATIVE_TYPE", nextTradingDateDerivativeCTD.getAccruedInterest3());
         if (nextTradingDateDerivativeCTD.getId() != null)
             builder = builder.append("_id", new ObjectId(nextTradingDateDerivativeCTD.getId()));
+
         return builder.get();
     }
 
-    // convert DBObject Object to Stock
-    // take special note of converting ObjectId to String
     public static NextTradingDateDerivativeCTD toNextTradingDateDerivativeCTD(DBObject doc)
     {
         NextTradingDateDerivativeCTD nextTradingDateDerivativeCTD = new NextTradingDateDerivativeCTD();
-
         nextTradingDateDerivativeCTD.setRecordType(Integer.valueOf((String) doc.get("")));
         nextTradingDateDerivativeCTD.setDerivativeId(Integer.valueOf((String) doc.get("")));
         nextTradingDateDerivativeCTD.setRecordNumber(Integer.valueOf((String) doc.get("")));
@@ -50,6 +47,7 @@ public class NextTradingDateDerivativeCTDConvertor {
         nextTradingDateDerivativeCTD.setAccruedInterest3(Integer.valueOf((String) doc.get("")));
         ObjectId id = (ObjectId) doc.get("_id");
         nextTradingDateDerivativeCTD.setId(id.toString());
+
         return nextTradingDateDerivativeCTD;
     }
 }

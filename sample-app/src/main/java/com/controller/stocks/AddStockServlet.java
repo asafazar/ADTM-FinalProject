@@ -19,12 +19,9 @@ public class AddStockServlet extends HttpServlet {
 
     private static final long serialVersionUID = -7060758261496829905L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response) throws ServletException, IOException {
+                          HttpServletResponse response) throws ServletException, IOException
+    {
         int contractNumber = Integer.parseInt(request.getParameter("ContractNumber"));
         int amount = Integer.parseInt(request.getParameter("Amount"));
         String assetCode = request.getParameter("AssetCode");
@@ -47,7 +44,9 @@ public class AddStockServlet extends HttpServlet {
             RequestDispatcher rd = getServletContext().getRequestDispatcher(
                     "/stocks.jsp");
             rd.forward(request, response);
-        } else {
+        }
+        else
+        {
             Stock stock = new Stock();
             stock.setContractNumber(contractNumber);
             stock.setAmount(amount);
@@ -70,7 +69,6 @@ public class AddStockServlet extends HttpServlet {
             request.setAttribute("success", "Stock Added Successfully");
             List<Stock> stocks = stockDAO.readAllStocks();
             request.setAttribute("stocks", stocks);
-
             String json = new Gson().toJson(stocks);
             response.setContentType("application/json");
             response.getWriter().write(json);

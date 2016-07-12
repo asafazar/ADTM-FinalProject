@@ -5,30 +5,28 @@ package com.model.liveUpdates;
  */
 public class LiveSumData {
 
-        String id;
-        Double maofPL;
-        Double B;
-        Double primiumPL;
-        Double pricePL;
-        Double callPL;
-        Double F;
-        Double G;
-        Double maofStrike;
-        Double putStrike;
-        Double J;
-        Double K;
-        Double priceStrike;
-        Double primiumStrike;
-        Double N;
-        Double Butterfly1;
-        Double Butterfly2;
-        Double Butterfly3;
-        Double date;
-        Double cashFlow;
-        Double teoCall;
-        Double teoPut;
-
-
+    private String id;
+    private Double maofPL;
+    private Double B;
+    private Double primiumPL;
+    private Double pricePL;
+    private Double callPL;
+    private Double F;
+    private Double G;
+    private Double maofStrike;
+    private Double putStrike;
+    private Double J;
+    private Double K;
+    private Double priceStrike;
+    private Double primiumStrike;
+    private Double N;
+    private Double Butterfly1;
+    private Double Butterfly2;
+    private Double Butterfly3;
+    private Double date;
+    private Double cashFlow;
+    private Double teoCall;
+    private Double teoPut;
 
     public LiveSumData() {    }
 
