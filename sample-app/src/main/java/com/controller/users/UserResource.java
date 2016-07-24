@@ -2,6 +2,7 @@ package com.controller.users;
 
 import com.DB.MongoDBUserDAO;
 import com.controller.auth.AuthUtils;
+import com.model.user.User;
 import com.mongodb.MongoClient;
 import com.nimbusds.jose.JOSEException;
 

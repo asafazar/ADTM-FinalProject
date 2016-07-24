@@ -108,7 +108,7 @@
 
     <servlet>
         <servlet-name>getPurchaseServlet</servlet-name>
-        <servlet-class>com.controller.actions.getPurchaseServlet</servlet-class>
+        <servlet-class>com.controller.actions.GetPurchaseServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>getPurchaseServlet</servlet-name>

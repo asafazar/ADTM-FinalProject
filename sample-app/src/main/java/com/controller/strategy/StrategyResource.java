@@ -3,7 +3,7 @@ package com.controller.strategy;
 import com.DB.MongoDBStrategyDAO;
 import com.DB.MongoDBUserDAO;
 import com.controller.auth.AuthUtils;
-import com.controller.users.User;
+import com.model.user.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.model.Strategy.Strategy;

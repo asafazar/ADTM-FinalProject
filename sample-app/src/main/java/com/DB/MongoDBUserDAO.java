@@ -1,6 +1,6 @@
 package com.DB;
 
-import com.controller.users.User;
+import com.model.user.User;
 import com.google.gson.Gson;
 import com.mongodb.*;
 import com.mongodb.util.JSON;

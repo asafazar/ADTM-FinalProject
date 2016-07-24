@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by asaf on 13/06/2016.
  */
-public class getPurchaseServlet extends HttpServlet {
+public class GetPurchaseServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
